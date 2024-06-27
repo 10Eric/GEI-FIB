@@ -1,0 +1,264 @@
+\hypertarget{class_cluster}{}\doxysection{Referencia de la Clase Cluster}
+\label{class_cluster}\index{Cluster@{Cluster}}
+
+
+{\ttfamily \#include $<$Cluster.\+hh$>$}
+
+\doxysubsection*{Métodos públicos}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_cluster_a31fd3ea849b8bc18b8d59d0598930816}{modificar\+\_\+cluster}} (string id\+\_\+procesador, \mbox{\hyperlink{class_cluster}{Cluster}} \&cluster)
+\item 
+void \mbox{\hyperlink{class_cluster_a33d1d837ffecbfdaf44551d02fac54db}{alta\+\_\+proceso\+\_\+procesador}} ()
+\item 
+void \mbox{\hyperlink{class_cluster_a14a15a9e71a36c859accba9bc24a35a5}{baja\+\_\+proceso\+\_\+procesador}} ()
+\item 
+void \mbox{\hyperlink{class_cluster_a004039bb5c853c42885e4588efa9459b}{enviar\+\_\+procesos\+\_\+cluster}} ()
+\item 
+void \mbox{\hyperlink{class_cluster_a3b93301a46cfa8cadf8d0121e234c386}{avanzar\+\_\+tiempo}} (int t)
+\item 
+bool \mbox{\hyperlink{class_cluster_a6627449c589353de2e81d599ca8732a0}{auxiliares}} (string id\+\_\+procesador)
+\item 
+bool \mbox{\hyperlink{class_cluster_a8aa5e3ca55f5a6cc637b948d5ab191b5}{existeix}} (string id\+\_\+procesador)
+\item 
+void \mbox{\hyperlink{class_cluster_af8fe1f9f5bd5f998c3f1941bd04550f4}{leer\+\_\+procesadores}} ()
+\item 
+void \mbox{\hyperlink{class_cluster_a419e8a28be87406b5cac78ed41f32683}{imprimir\+\_\+procesador}} (string id\+\_\+procesador)
+\item 
+void \mbox{\hyperlink{class_cluster_ab8a628286f8a977063ea4395d9a422bf}{imprimir\+\_\+procesadores\+\_\+cluster}} ()
+\item 
+void \mbox{\hyperlink{class_cluster_a948d7075f9b30c2885ce804029e5ab25}{imprimir\+\_\+estructura\+\_\+cluster}} ()
+\item 
+void \mbox{\hyperlink{class_cluster_a4a776db08fb7d4542d0f073c6f94251d}{compactar\+\_\+memoria\+\_\+procesador}} (string id\+\_\+procesador)
+\item 
+void \mbox{\hyperlink{class_cluster_a7b9ae511df4a6465f4e191df6564fd77}{compactar\+\_\+memoria\+\_\+cluster}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Métodos públicos estáticos}
+\begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{class_cluster}{Cluster}} \mbox{\hyperlink{class_cluster_a55407a5d84b8a9f1d83fc17dd198e62d}{configurar\+\_\+cluster}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Métodos privados}
+\begin{DoxyCompactItemize}
+\item 
+vector$<$ \mbox{\hyperlink{class_procesador}{Procesador}} $>$ \mbox{\hyperlink{class_cluster_a40cd25533cac890b12933f214d90f2f6}{Clusters}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Atributos privados}
+\begin{DoxyCompactItemize}
+\item 
+vector$<$ vector$<$ bool $>$ $>$ \mbox{\hyperlink{class_cluster_a16419b53311b3ad41ca7b7bf16ff54ad}{conexiones}}
+\item 
+bool \mbox{\hyperlink{class_cluster_ac0586f57e4d793cc98a04867fbda9b78}{existe\+\_\+cluster}} = false
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Descripción detallada}
+
+
+Definición en la línea \mbox{\hyperlink{_cluster_8hh_source_l00010}{10}} del archivo \mbox{\hyperlink{_cluster_8hh_source}{Cluster.\+hh}}.
+
+
+
+\doxysubsection{Documentación de las funciones miembro}
+\mbox{\Hypertarget{class_cluster_a40cd25533cac890b12933f214d90f2f6}\label{class_cluster_a40cd25533cac890b12933f214d90f2f6}} 
+\index{Cluster@{Cluster}!Clusters@{Clusters}}
+\index{Clusters@{Clusters}!Cluster@{Cluster}}
+\doxysubsubsection{\texorpdfstring{Clusters()}{Clusters()}}
+{\footnotesize\ttfamily vector$<$ \mbox{\hyperlink{class_procesador}{Procesador}} $>$ Cluster\+::\+Clusters (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{class_cluster_a55407a5d84b8a9f1d83fc17dd198e62d}\label{class_cluster_a55407a5d84b8a9f1d83fc17dd198e62d}} 
+\index{Cluster@{Cluster}!configurar\_cluster@{configurar\_cluster}}
+\index{configurar\_cluster@{configurar\_cluster}!Cluster@{Cluster}}
+\doxysubsubsection{\texorpdfstring{configurar\_cluster()}{configurar\_cluster()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{class_cluster}{Cluster}} Cluster\+::configurar\+\_\+cluster (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\begin{DoxyPrecond}{Precondición}
+true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+devuelve un cluster completo con sus procesadores y su memoria si no hay un anterior, sino devuelve un cluster vacio 
+\end{DoxyPostcond}
+\mbox{\Hypertarget{class_cluster_a31fd3ea849b8bc18b8d59d0598930816}\label{class_cluster_a31fd3ea849b8bc18b8d59d0598930816}} 
+\index{Cluster@{Cluster}!modificar\_cluster@{modificar\_cluster}}
+\index{modificar\_cluster@{modificar\_cluster}!Cluster@{Cluster}}
+\doxysubsubsection{\texorpdfstring{modificar\_cluster()}{modificar\_cluster()}}
+{\footnotesize\ttfamily void Cluster\+::modificar\+\_\+cluster (\begin{DoxyParamCaption}\item[{string}]{id\+\_\+procesador,  }\item[{\mbox{\hyperlink{class_cluster}{Cluster}} \&}]{cluster }\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+coloca el cluster de la entrada de la funcion en el cluster original en el lugar del procesador con id\+\_\+procesador, si este no existe, o tiene procesos en ejecución, o tiene procesadores auxiliares, se imprime un mensaje de error 
+\end{DoxyPostcond}
+\mbox{\Hypertarget{class_cluster_a33d1d837ffecbfdaf44551d02fac54db}\label{class_cluster_a33d1d837ffecbfdaf44551d02fac54db}} 
+\index{Cluster@{Cluster}!alta\_proceso\_procesador@{alta\_proceso\_procesador}}
+\index{alta\_proceso\_procesador@{alta\_proceso\_procesador}!Cluster@{Cluster}}
+\doxysubsubsection{\texorpdfstring{alta\_proceso\_procesador()}{alta\_proceso\_procesador()}}
+{\footnotesize\ttfamily void Cluster\+::alta\+\_\+proceso\+\_\+procesador (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+el proceso pasa a ejecutarse en dicho procesador y la memoria que usa pasa a estar ocupada. Si no existe el procesador en el clúster o ya contiene un proceso con el mismo identificador o el proceso no se puede colocar en el procesador, se imprime un mensaje de error 
+\end{DoxyPostcond}
+\mbox{\Hypertarget{class_cluster_a14a15a9e71a36c859accba9bc24a35a5}\label{class_cluster_a14a15a9e71a36c859accba9bc24a35a5}} 
+\index{Cluster@{Cluster}!baja\_proceso\_procesador@{baja\_proceso\_procesador}}
+\index{baja\_proceso\_procesador@{baja\_proceso\_procesador}!Cluster@{Cluster}}
+\doxysubsubsection{\texorpdfstring{baja\_proceso\_procesador()}{baja\_proceso\_procesador()}}
+{\footnotesize\ttfamily void Cluster\+::baja\+\_\+proceso\+\_\+procesador (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+el proceso se elimina del procesador.\+Si no existe el procesador o el proceso no está en el procesador, se imprime un mensaje de error 
+\end{DoxyPostcond}
+\mbox{\Hypertarget{class_cluster_a004039bb5c853c42885e4588efa9459b}\label{class_cluster_a004039bb5c853c42885e4588efa9459b}} 
+\index{Cluster@{Cluster}!enviar\_procesos\_cluster@{enviar\_procesos\_cluster}}
+\index{enviar\_procesos\_cluster@{enviar\_procesos\_cluster}!Cluster@{Cluster}}
+\doxysubsubsection{\texorpdfstring{enviar\_procesos\_cluster()}{enviar\_procesos\_cluster()}}
+{\footnotesize\ttfamily void Cluster\+::enviar\+\_\+procesos\+\_\+cluster (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+\+: lee un entero no negativo n y se intentan enviar al clúster n procesos pendientes por orden de prioridad Si un proceso no se ha podido colocar,se considera que ha sido rechazado por el clúster. Los procesos rechazados por el clúster vuelven al área de espera como si fueran nuevos, con la misma prioridad. Si un proceso se puede colocar en más de un procesador, se elige el que disponga de un hueco más ajustado. En caso de empate entre varios procesadores, se designa el que quede con más memoria libre. Si persiste el empate, se escoge el más cercano a la raíz del árbol de procesadores y si todavía es necesario desempatar, el de más a la izquierda. 
+\end{DoxyPostcond}
+\mbox{\Hypertarget{class_cluster_a3b93301a46cfa8cadf8d0121e234c386}\label{class_cluster_a3b93301a46cfa8cadf8d0121e234c386}} 
+\index{Cluster@{Cluster}!avanzar\_tiempo@{avanzar\_tiempo}}
+\index{avanzar\_tiempo@{avanzar\_tiempo}!Cluster@{Cluster}}
+\doxysubsubsection{\texorpdfstring{avanzar\_tiempo()}{avanzar\_tiempo()}}
+{\footnotesize\ttfamily void Cluster\+::avanzar\+\_\+tiempo (\begin{DoxyParamCaption}\item[{int}]{t }\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+numero entero mayor que 0 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+se eliminan todos los procesos activos que hayan acabado en ese intervalo de tiempo en todos los procesadores 
+\end{DoxyPostcond}
+\mbox{\Hypertarget{class_cluster_a6627449c589353de2e81d599ca8732a0}\label{class_cluster_a6627449c589353de2e81d599ca8732a0}} 
+\index{Cluster@{Cluster}!auxiliares@{auxiliares}}
+\index{auxiliares@{auxiliares}!Cluster@{Cluster}}
+\doxysubsubsection{\texorpdfstring{auxiliares()}{auxiliares()}}
+{\footnotesize\ttfamily bool Cluster\+::auxiliares (\begin{DoxyParamCaption}\item[{string}]{id\+\_\+procesador }\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+devuelve un boleano diciendo si el procesador con id\+\_\+procesador tiene procesadores auxiliares 
+\end{DoxyPostcond}
+\mbox{\Hypertarget{class_cluster_a8aa5e3ca55f5a6cc637b948d5ab191b5}\label{class_cluster_a8aa5e3ca55f5a6cc637b948d5ab191b5}} 
+\index{Cluster@{Cluster}!existeix@{existeix}}
+\index{existeix@{existeix}!Cluster@{Cluster}}
+\doxysubsubsection{\texorpdfstring{existeix()}{existeix()}}
+{\footnotesize\ttfamily bool Cluster\+::existeix (\begin{DoxyParamCaption}\item[{string}]{id\+\_\+procesador }\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+devuelve un boleano diciendo si el procesador con id\+\_\+procesador se encuentra en el cluster 
+\end{DoxyPostcond}
+\mbox{\Hypertarget{class_cluster_af8fe1f9f5bd5f998c3f1941bd04550f4}\label{class_cluster_af8fe1f9f5bd5f998c3f1941bd04550f4}} 
+\index{Cluster@{Cluster}!leer\_procesadores@{leer\_procesadores}}
+\index{leer\_procesadores@{leer\_procesadores}!Cluster@{Cluster}}
+\doxysubsubsection{\texorpdfstring{leer\_procesadores()}{leer\_procesadores()}}
+{\footnotesize\ttfamily void Cluster\+::leer\+\_\+procesadores (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+devuelve un cluster con la lectura de sus procesadores y la memoria y procesos de cada uno de ellos 
+\end{DoxyPostcond}
+\mbox{\Hypertarget{class_cluster_a419e8a28be87406b5cac78ed41f32683}\label{class_cluster_a419e8a28be87406b5cac78ed41f32683}} 
+\index{Cluster@{Cluster}!imprimir\_procesador@{imprimir\_procesador}}
+\index{imprimir\_procesador@{imprimir\_procesador}!Cluster@{Cluster}}
+\doxysubsubsection{\texorpdfstring{imprimir\_procesador()}{imprimir\_procesador()}}
+{\footnotesize\ttfamily void Cluster\+::imprimir\+\_\+procesador (\begin{DoxyParamCaption}\item[{string}]{id\+\_\+procesador }\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+imprime por pantalla los procesos de dicho procesador por orden creciente de primera posición de memoria, incluyendo dicha posición y el resto de datos de cada proceso. Si no existe un procesador con el mismo identificador en el clúster se imprime un mensaje de error 
+\end{DoxyPostcond}
+\mbox{\Hypertarget{class_cluster_ab8a628286f8a977063ea4395d9a422bf}\label{class_cluster_ab8a628286f8a977063ea4395d9a422bf}} 
+\index{Cluster@{Cluster}!imprimir\_procesadores\_cluster@{imprimir\_procesadores\_cluster}}
+\index{imprimir\_procesadores\_cluster@{imprimir\_procesadores\_cluster}!Cluster@{Cluster}}
+\doxysubsubsection{\texorpdfstring{imprimir\_procesadores\_cluster()}{imprimir\_procesadores\_cluster()}}
+{\footnotesize\ttfamily void Cluster\+::imprimir\+\_\+procesadores\+\_\+cluster (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+imprime por pantalla de todos los procesadores del cluster por orden creciente de identificador, los procesos por orden creciente de primera posición de memoria, incluyendo dicha posición y el resto de datos de cada proceso 
+\end{DoxyPostcond}
+\mbox{\Hypertarget{class_cluster_a948d7075f9b30c2885ce804029e5ab25}\label{class_cluster_a948d7075f9b30c2885ce804029e5ab25}} 
+\index{Cluster@{Cluster}!imprimir\_estructura\_cluster@{imprimir\_estructura\_cluster}}
+\index{imprimir\_estructura\_cluster@{imprimir\_estructura\_cluster}!Cluster@{Cluster}}
+\doxysubsubsection{\texorpdfstring{imprimir\_estructura\_cluster()}{imprimir\_estructura\_cluster()}}
+{\footnotesize\ttfamily void Cluster\+::imprimir\+\_\+estructura\+\_\+cluster (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+imprime por pantalla la estrucura de los procesadores del cluster 
+\end{DoxyPostcond}
+\mbox{\Hypertarget{class_cluster_a4a776db08fb7d4542d0f073c6f94251d}\label{class_cluster_a4a776db08fb7d4542d0f073c6f94251d}} 
+\index{Cluster@{Cluster}!compactar\_memoria\_procesador@{compactar\_memoria\_procesador}}
+\index{compactar\_memoria\_procesador@{compactar\_memoria\_procesador}!Cluster@{Cluster}}
+\doxysubsubsection{\texorpdfstring{compactar\_memoria\_procesador()}{compactar\_memoria\_procesador()}}
+{\footnotesize\ttfamily void Cluster\+::compactar\+\_\+memoria\+\_\+procesador (\begin{DoxyParamCaption}\item[{string}]{id\+\_\+procesador }\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+se mueven todos los procesos hacia el principio de la memoria del procesador con id\+\_\+procesador, sin dejar huecos, sin solaparse y respetando el orden inicial. 
+\end{DoxyPostcond}
+\mbox{\Hypertarget{class_cluster_a7b9ae511df4a6465f4e191df6564fd77}\label{class_cluster_a7b9ae511df4a6465f4e191df6564fd77}} 
+\index{Cluster@{Cluster}!compactar\_memoria\_cluster@{compactar\_memoria\_cluster}}
+\index{compactar\_memoria\_cluster@{compactar\_memoria\_cluster}!Cluster@{Cluster}}
+\doxysubsubsection{\texorpdfstring{compactar\_memoria\_cluster()}{compactar\_memoria\_cluster()}}
+{\footnotesize\ttfamily void Cluster\+::compactar\+\_\+memoria\+\_\+cluster (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+en cada procesador del cluster,se mueven todos los procesos hacia el principio de la memoria, sin dejar huecos, sin solaparse y respetando el orden inicial 
+\end{DoxyPostcond}
+
+
+\doxysubsection{Documentación de los datos miembro}
+\mbox{\Hypertarget{class_cluster_a16419b53311b3ad41ca7b7bf16ff54ad}\label{class_cluster_a16419b53311b3ad41ca7b7bf16ff54ad}} 
+\index{Cluster@{Cluster}!conexiones@{conexiones}}
+\index{conexiones@{conexiones}!Cluster@{Cluster}}
+\doxysubsubsection{\texorpdfstring{conexiones}{conexiones}}
+{\footnotesize\ttfamily vector$<$vector$<$bool$>$ $>$ Cluster\+::conexiones\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definición en la línea \mbox{\hyperlink{_cluster_8hh_source_l00014}{14}} del archivo \mbox{\hyperlink{_cluster_8hh_source}{Cluster.\+hh}}.
+
+\mbox{\Hypertarget{class_cluster_ac0586f57e4d793cc98a04867fbda9b78}\label{class_cluster_ac0586f57e4d793cc98a04867fbda9b78}} 
+\index{Cluster@{Cluster}!existe\_cluster@{existe\_cluster}}
+\index{existe\_cluster@{existe\_cluster}!Cluster@{Cluster}}
+\doxysubsubsection{\texorpdfstring{existe\_cluster}{existe\_cluster}}
+{\footnotesize\ttfamily bool Cluster\+::existe\+\_\+cluster = false\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definición en la línea \mbox{\hyperlink{_cluster_8hh_source_l00015}{15}} del archivo \mbox{\hyperlink{_cluster_8hh_source}{Cluster.\+hh}}.
+
+
+
+La documentación para esta clase fue generada a partir del siguiente fichero\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_cluster_8hh}{Cluster.\+hh}}\end{DoxyCompactItemize}

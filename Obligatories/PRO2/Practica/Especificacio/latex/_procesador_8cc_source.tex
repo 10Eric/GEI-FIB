@@ -1,0 +1,42 @@
+\hypertarget{_procesador_8cc_source}{}\doxysection{Procesador.\+cc}
+\label{_procesador_8cc_source}\index{Procesador.cc@{Procesador.cc}}
+\mbox{\hyperlink{_procesador_8cc}{Ir a la documentación de este archivo.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_procesador_8cc_source_l00001}00001\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{\Hypertarget{_procesador_8cc_source_l00002}00002\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{\Hypertarget{_procesador_8cc_source_l00003}00003\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_procesador_8hh}{Procesador.hh}}"{}}}
+\DoxyCodeLine{\Hypertarget{_procesador_8cc_source_l00004}00004\ \textcolor{keyword}{using\ namespace\ }std;}
+\DoxyCodeLine{\Hypertarget{_procesador_8cc_source_l00005}00005\ }
+\DoxyCodeLine{\Hypertarget{_procesador_8cc_source_l00006}00006\ \ \textcolor{comment}{//constructoras}}
+\DoxyCodeLine{\Hypertarget{_procesador_8cc_source_l00009}\mbox{\hyperlink{_procesador_8cc_a5df0fe0dd026e7092b5acbbb1f45042f}{00009}}\ \textcolor{comment}{}\ \mbox{\hyperlink{class_procesador}{Procesador}}(\textcolor{keywordtype}{int}\ \textcolor{keywordtype}{id},\ \textcolor{keywordtype}{int}\ memoria);}
+\DoxyCodeLine{\Hypertarget{_procesador_8cc_source_l00010}00010\ }
+\DoxyCodeLine{\Hypertarget{_procesador_8cc_source_l00011}00011\ }
+\DoxyCodeLine{\Hypertarget{_procesador_8cc_source_l00012}00012\ \ \textcolor{comment}{//modificadoras}}
+\DoxyCodeLine{\Hypertarget{_procesador_8cc_source_l00015}\mbox{\hyperlink{_procesador_8cc_ab28acddc3dd143d971c96a09ddcdfbb9}{00015}}\ \textcolor{comment}{}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{_procesador_8cc_ab28acddc3dd143d971c96a09ddcdfbb9}{ejecutar\_proceso}}\ (\textcolor{keywordtype}{int}\ \mbox{\hyperlink{_procesador_8cc_a4275463a5b8707439866222683a2fd42}{hueco}},\ \mbox{\hyperlink{class_proceso}{Proceso}}\ fin);}
+\DoxyCodeLine{\Hypertarget{_procesador_8cc_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{_procesador_8cc_source_l00019}\mbox{\hyperlink{_procesador_8cc_afc4487cc7273d6ec7f45f8aa8bc49bd7}{00019}}\ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{_procesador_8cc_afc4487cc7273d6ec7f45f8aa8bc49bd7}{eliminar\_proceso}}\ (\textcolor{keywordtype}{string}\ id\_procesos);}
+\DoxyCodeLine{\Hypertarget{_procesador_8cc_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{_procesador_8cc_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{_procesador_8cc_source_l00022}00022\ \ \textcolor{comment}{//Consultores}}
+\DoxyCodeLine{\Hypertarget{_procesador_8cc_source_l00025}\mbox{\hyperlink{_procesador_8cc_a6ec615b948241263533ed5051c9b2162}{00025}}\ \textcolor{comment}{}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{_procesador_8cc_a6ec615b948241263533ed5051c9b2162}{existeix}}(\textcolor{keywordtype}{string}\ id\_procesos);}
+\DoxyCodeLine{\Hypertarget{_procesador_8cc_source_l00026}00026\ }
+\DoxyCodeLine{\Hypertarget{_procesador_8cc_source_l00029}\mbox{\hyperlink{_procesador_8cc_a940e8203f88f60be0817a9b84158e6e9}{00029}}\ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{_procesador_8cc_a940e8203f88f60be0817a9b84158e6e9}{espacio}}\ (\textcolor{keywordtype}{int}\ cant\_memoria);}
+\DoxyCodeLine{\Hypertarget{_procesador_8cc_source_l00030}00030\ }
+\DoxyCodeLine{\Hypertarget{_procesador_8cc_source_l00033}\mbox{\hyperlink{_procesador_8cc_a1f0b8f09abd10342468ce33a1da15557}{00033}}\ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{_procesador_8cc_a1f0b8f09abd10342468ce33a1da15557}{get\_id}}();}
+\DoxyCodeLine{\Hypertarget{_procesador_8cc_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{_procesador_8cc_source_l00037}\mbox{\hyperlink{_procesador_8cc_aed35251c271a0152e1a40ed8bfa0b71f}{00037}}\ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{_procesador_8cc_aed35251c271a0152e1a40ed8bfa0b71f}{get\_memoria}}();}
+\DoxyCodeLine{\Hypertarget{_procesador_8cc_source_l00038}00038\ }
+\DoxyCodeLine{\Hypertarget{_procesador_8cc_source_l00041}\mbox{\hyperlink{_procesador_8cc_ad6af42e1b88f8a81b19d75f90a7f5ab9}{00041}}\ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{_procesador_8cc_ad6af42e1b88f8a81b19d75f90a7f5ab9}{en\_ejecuccion}}\ (\textcolor{keywordtype}{string}\ id\_procesador);}
+\DoxyCodeLine{\Hypertarget{_procesador_8cc_source_l00042}00042\ }
+\DoxyCodeLine{\Hypertarget{_procesador_8cc_source_l00045}\mbox{\hyperlink{_procesador_8cc_a4275463a5b8707439866222683a2fd42}{00045}}\ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{_procesador_8cc_a4275463a5b8707439866222683a2fd42}{hueco}}\ (\textcolor{keywordtype}{int}\ cant\_memoria);}
+\DoxyCodeLine{\Hypertarget{_procesador_8cc_source_l00046}00046\ }
+\DoxyCodeLine{\Hypertarget{_procesador_8cc_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{_procesador_8cc_source_l00048}00048\ }
+\DoxyCodeLine{\Hypertarget{_procesador_8cc_source_l00049}00049\ \ \textcolor{comment}{//Lectura\ i\ escriptura}}
+\DoxyCodeLine{\Hypertarget{_procesador_8cc_source_l00052}\mbox{\hyperlink{_procesador_8cc_a5b9c864a66456efb29cde9ddda37c216}{00052}}\ \textcolor{comment}{}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{_procesador_8cc_a5b9c864a66456efb29cde9ddda37c216}{leer\_procesador}}\ (\textcolor{keywordtype}{string}\ id\_procesador,\textcolor{keywordtype}{int}\ memoria);}
+\DoxyCodeLine{\Hypertarget{_procesador_8cc_source_l00053}00053\ }
+\DoxyCodeLine{\Hypertarget{_procesador_8cc_source_l00054}00054\ }
+\DoxyCodeLine{\Hypertarget{_procesador_8cc_source_l00055}00055\ }
+\DoxyCodeLine{\Hypertarget{_procesador_8cc_source_l00056}00056\ \}}
+
+\end{DoxyCode}

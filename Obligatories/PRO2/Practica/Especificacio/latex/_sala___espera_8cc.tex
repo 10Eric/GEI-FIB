@@ -1,0 +1,155 @@
+\hypertarget{_sala___espera_8cc}{}\doxysection{Referencia del Archivo Sala\+\_\+\+Espera.\+cc}
+\label{_sala___espera_8cc}\index{Sala\_Espera.cc@{Sala\_Espera.cc}}
+Dependencia gráfica adjunta para Sala\+\_\+\+Espera.\+cc\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=282pt]{_sala___espera_8cc__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Funciones}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_sala___espera_8cc_ad8bff9b49e5b0fd54fb015c7496952be}{Sala\+\_\+\+Espera}} ()
+\item 
+\mbox{\hyperlink{class_sala___espera}{Sala\+\_\+\+Espera}} \mbox{\hyperlink{_sala___espera_8cc_a27013eeeb862b96a7147e5d6043b7a9d}{iniciar\+\_\+sala}} ()
+\item 
+void \mbox{\hyperlink{_sala___espera_8cc_af50463983e9bdb3ce6ddab9f61af1482}{alta\+\_\+prioridad}} (string id\+\_\+prioridad)
+\item 
+void \mbox{\hyperlink{_sala___espera_8cc_a49a8a28e7b0697eba0e5762c589e46c7}{baja\+\_\+prioridad}} (string id\+\_\+prioridad)
+\item 
+void \mbox{\hyperlink{_sala___espera_8cc_acaf329d6873293a8a386cca19d548989}{alta\+\_\+proceso\+\_\+espera}} ()
+\item 
+bool \mbox{\hyperlink{_sala___espera_8cc_ac0231123907c250000b063fffe4ac799}{existeix\+\_\+prioritat}} (string id\+\_\+prioridad)
+\item 
+bool \mbox{\hyperlink{_sala___espera_8cc_a4324e9c45872901a0f8ad2deff7e23ba}{procesos\+\_\+pendientes}} (string id\+\_\+prioridad)
+\item 
+void \mbox{\hyperlink{_sala___espera_8cc_a66da0ebe98770b863b764da880b14728}{consultar\+\_\+procesos\+\_\+pendientes}} (int n)
+\item 
+void \mbox{\hyperlink{_sala___espera_8cc_aab381cb21c5e6985cfa4b7a80cdf8fb6}{imprimir\+\_\+prioridad}} (string id\+\_\+prioridad)
+\item 
+void \mbox{\hyperlink{_sala___espera_8cc_ac2ab2891bb2dc13ae85c97083418fc9b}{imprimir\+\_\+area\+\_\+espera}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Documentación de las funciones}
+\mbox{\Hypertarget{_sala___espera_8cc_ad8bff9b49e5b0fd54fb015c7496952be}\label{_sala___espera_8cc_ad8bff9b49e5b0fd54fb015c7496952be}} 
+\index{Sala\_Espera.cc@{Sala\_Espera.cc}!Sala\_Espera@{Sala\_Espera}}
+\index{Sala\_Espera@{Sala\_Espera}!Sala\_Espera.cc@{Sala\_Espera.cc}}
+\doxysubsubsection{\texorpdfstring{Sala\_Espera()}{Sala\_Espera()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_sala___espera}{Sala\+\_\+\+Espera}} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+devuelve una sala de espera vacia 
+\end{DoxyPostcond}
+\mbox{\Hypertarget{_sala___espera_8cc_a27013eeeb862b96a7147e5d6043b7a9d}\label{_sala___espera_8cc_a27013eeeb862b96a7147e5d6043b7a9d}} 
+\index{Sala\_Espera.cc@{Sala\_Espera.cc}!iniciar\_sala@{iniciar\_sala}}
+\index{iniciar\_sala@{iniciar\_sala}!Sala\_Espera.cc@{Sala\_Espera.cc}}
+\doxysubsubsection{\texorpdfstring{iniciar\_sala()}{iniciar\_sala()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_sala___espera}{Sala\+\_\+\+Espera}} iniciar\+\_\+sala (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+devuelve una sala de espera con N prioridades y los identificadores de N prioridades. 
+\end{DoxyPostcond}
+\mbox{\Hypertarget{_sala___espera_8cc_af50463983e9bdb3ce6ddab9f61af1482}\label{_sala___espera_8cc_af50463983e9bdb3ce6ddab9f61af1482}} 
+\index{Sala\_Espera.cc@{Sala\_Espera.cc}!alta\_prioridad@{alta\_prioridad}}
+\index{alta\_prioridad@{alta\_prioridad}!Sala\_Espera.cc@{Sala\_Espera.cc}}
+\doxysubsubsection{\texorpdfstring{alta\_prioridad()}{alta\_prioridad()}}
+{\footnotesize\ttfamily void alta\+\_\+prioridad (\begin{DoxyParamCaption}\item[{string}]{id\+\_\+prioridad }\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+se añade esta prioridad a la sala de espera, sin procesos pendientes. Si ya existe en el área de espera, una prioridad con el mismo identificador, se imprime un mensaje de error 
+\end{DoxyPostcond}
+\mbox{\Hypertarget{_sala___espera_8cc_a49a8a28e7b0697eba0e5762c589e46c7}\label{_sala___espera_8cc_a49a8a28e7b0697eba0e5762c589e46c7}} 
+\index{Sala\_Espera.cc@{Sala\_Espera.cc}!baja\_prioridad@{baja\_prioridad}}
+\index{baja\_prioridad@{baja\_prioridad}!Sala\_Espera.cc@{Sala\_Espera.cc}}
+\doxysubsubsection{\texorpdfstring{baja\_prioridad()}{baja\_prioridad()}}
+{\footnotesize\ttfamily void baja\+\_\+prioridad (\begin{DoxyParamCaption}\item[{string}]{id\+\_\+prioridad }\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+se elimina esta prioridad de la sala de espera. Si no existe en el área de espera una prioridad con el mismo identificador o si tiene procesos pendientes, se imprime un mensaje de error 
+\end{DoxyPostcond}
+\mbox{\Hypertarget{_sala___espera_8cc_acaf329d6873293a8a386cca19d548989}\label{_sala___espera_8cc_acaf329d6873293a8a386cca19d548989}} 
+\index{Sala\_Espera.cc@{Sala\_Espera.cc}!alta\_proceso\_espera@{alta\_proceso\_espera}}
+\index{alta\_proceso\_espera@{alta\_proceso\_espera}!Sala\_Espera.cc@{Sala\_Espera.cc}}
+\doxysubsubsection{\texorpdfstring{alta\_proceso\_espera()}{alta\_proceso\_espera()}}
+{\footnotesize\ttfamily void alta\+\_\+proceso\+\_\+espera (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+el proceso pasa a la sala de espera con dicha prioridad.\+Si no existe la prioridad en el área de espera o si ya había un proceso con ese identificador y esa prioridad, se imprime un mensaje de error 
+\end{DoxyPostcond}
+\mbox{\Hypertarget{_sala___espera_8cc_ac0231123907c250000b063fffe4ac799}\label{_sala___espera_8cc_ac0231123907c250000b063fffe4ac799}} 
+\index{Sala\_Espera.cc@{Sala\_Espera.cc}!existeix\_prioritat@{existeix\_prioritat}}
+\index{existeix\_prioritat@{existeix\_prioritat}!Sala\_Espera.cc@{Sala\_Espera.cc}}
+\doxysubsubsection{\texorpdfstring{existeix\_prioritat()}{existeix\_prioritat()}}
+{\footnotesize\ttfamily bool existeix\+\_\+prioritat (\begin{DoxyParamCaption}\item[{string}]{id\+\_\+prioridad }\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+devuelve un booleano diciendo si existe una prioridad con el id\+\_\+prioridad en la sala de espera 
+\end{DoxyPostcond}
+\mbox{\Hypertarget{_sala___espera_8cc_a4324e9c45872901a0f8ad2deff7e23ba}\label{_sala___espera_8cc_a4324e9c45872901a0f8ad2deff7e23ba}} 
+\index{Sala\_Espera.cc@{Sala\_Espera.cc}!procesos\_pendientes@{procesos\_pendientes}}
+\index{procesos\_pendientes@{procesos\_pendientes}!Sala\_Espera.cc@{Sala\_Espera.cc}}
+\doxysubsubsection{\texorpdfstring{procesos\_pendientes()}{procesos\_pendientes()}}
+{\footnotesize\ttfamily bool procesos\+\_\+pendientes (\begin{DoxyParamCaption}\item[{string}]{id\+\_\+prioridad }\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+devuelve un booleano diciendo si hay procesos pendientes en la sala de espera 
+\end{DoxyPostcond}
+\mbox{\Hypertarget{_sala___espera_8cc_a66da0ebe98770b863b764da880b14728}\label{_sala___espera_8cc_a66da0ebe98770b863b764da880b14728}} 
+\index{Sala\_Espera.cc@{Sala\_Espera.cc}!consultar\_procesos\_pendientes@{consultar\_procesos\_pendientes}}
+\index{consultar\_procesos\_pendientes@{consultar\_procesos\_pendientes}!Sala\_Espera.cc@{Sala\_Espera.cc}}
+\doxysubsubsection{\texorpdfstring{consultar\_procesos\_pendientes()}{consultar\_procesos\_pendientes()}}
+{\footnotesize\ttfamily void consultar\+\_\+procesos\+\_\+pendientes (\begin{DoxyParamCaption}\item[{int}]{n }\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+consulta los n procesos pendientes de la sala de espera 
+\end{DoxyPostcond}
+\mbox{\Hypertarget{_sala___espera_8cc_aab381cb21c5e6985cfa4b7a80cdf8fb6}\label{_sala___espera_8cc_aab381cb21c5e6985cfa4b7a80cdf8fb6}} 
+\index{Sala\_Espera.cc@{Sala\_Espera.cc}!imprimir\_prioridad@{imprimir\_prioridad}}
+\index{imprimir\_prioridad@{imprimir\_prioridad}!Sala\_Espera.cc@{Sala\_Espera.cc}}
+\doxysubsubsection{\texorpdfstring{imprimir\_prioridad()}{imprimir\_prioridad()}}
+{\footnotesize\ttfamily void imprimir\+\_\+prioridad (\begin{DoxyParamCaption}\item[{string}]{id\+\_\+prioridad }\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+se escriben los procesos pendientes de dicha prioridad por orden decreciente de antigüedad,desde su última alta. Además, escribe el número de procesos de la prioridad colocados en el clúster por la operación enviar\+\_\+procesos\+\_\+a\+\_\+cluster y el número de rechazos. Si no existe una prioridad con el mismo identificador en el área de espera, se imprime un mensaje de error. 
+\end{DoxyPostcond}
+\mbox{\Hypertarget{_sala___espera_8cc_ac2ab2891bb2dc13ae85c97083418fc9b}\label{_sala___espera_8cc_ac2ab2891bb2dc13ae85c97083418fc9b}} 
+\index{Sala\_Espera.cc@{Sala\_Espera.cc}!imprimir\_area\_espera@{imprimir\_area\_espera}}
+\index{imprimir\_area\_espera@{imprimir\_area\_espera}!Sala\_Espera.cc@{Sala\_Espera.cc}}
+\doxysubsubsection{\texorpdfstring{imprimir\_area\_espera()}{imprimir\_area\_espera()}}
+{\footnotesize\ttfamily void imprimir\+\_\+area\+\_\+espera (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Escribe por pantalla los procesos pendientes de todas la prioridades del área de espera por orden creciente de prioridad. Además, se escriben los procesos pendientes de dicha prioridad por orden decreciente de antigüedad,desde su última alta. Tambien, escribe el número de procesos de la prioridad colocados en el clúster por la operación enviar\+\_\+procesos\+\_\+a\+\_\+cluster y el número de rechazos. 
+\end{DoxyPostcond}

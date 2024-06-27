@@ -1,0 +1,220 @@
+\hypertarget{class_procesador}{}\doxysection{Referencia de la Clase Procesador}
+\label{class_procesador}\index{Procesador@{Procesador}}
+
+
+{\ttfamily \#include $<$Procesador.\+hh$>$}
+
+\doxysubsection*{Métodos públicos}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_procesador_a71dbc93f54e32fa1a5c12fa8530a7f8c}{Procesador}} (int id, int \mbox{\hyperlink{class_procesador_a1e4273c6277d552963355a53a4285810}{memoria}})
+\item 
+void \mbox{\hyperlink{class_procesador_a4d0cc2184305d329f0b7740a6907d7a4}{ejecutar\+\_\+proceso}} (int \mbox{\hyperlink{class_procesador_a480911fd717866308261a6b9cf4c5e17}{hueco}}, \mbox{\hyperlink{class_proceso}{Proceso}} fin)
+\item 
+void \mbox{\hyperlink{class_procesador_a5dda38f6b90310926d05abf27c74ae25}{eliminar\+\_\+proceso}} (string id\+\_\+procesos)
+\item 
+bool \mbox{\hyperlink{class_procesador_af74a664983ca0291d735510e628323cf}{existeix}} (string id\+\_\+procesos)
+\item 
+bool \mbox{\hyperlink{class_procesador_a973cb2e850d649b98a887c6b6c597b4f}{espacio}} (int cant\+\_\+memoria)
+\item 
+int \mbox{\hyperlink{class_procesador_ae183223721ab79c1fee94b29711967da}{get\+\_\+id}} ()
+\item 
+int \mbox{\hyperlink{class_procesador_a97eac451684c6da844dcc9d0500391c6}{get\+\_\+memoria}} ()
+\item 
+bool \mbox{\hyperlink{class_procesador_a78e27a4f0819942d344b58b1aced501f}{en\+\_\+ejecuccion}} (string \mbox{\hyperlink{class_procesador_ae05c442efbe50ce6cfe5d02c7dc4a1f3}{id\+\_\+procesador}})
+\item 
+int \mbox{\hyperlink{class_procesador_a480911fd717866308261a6b9cf4c5e17}{hueco}} (int cant\+\_\+memoria)
+\item 
+void \mbox{\hyperlink{class_procesador_a4f7cca6a1093a99f19c5c53da259a1ed}{leer\+\_\+procesador}} (string \mbox{\hyperlink{class_procesador_ae05c442efbe50ce6cfe5d02c7dc4a1f3}{id\+\_\+procesador}}, int \mbox{\hyperlink{class_procesador_a1e4273c6277d552963355a53a4285810}{memoria}})
+\end{DoxyCompactItemize}
+\doxysubsection*{Métodos privados}
+\begin{DoxyCompactItemize}
+\item 
+vector$<$ int $>$ \mbox{\hyperlink{class_procesador_afd6f1176d81b945eccbf79fe8a5e5ed1}{mem}} (int \mbox{\hyperlink{class_procesador_a1e4273c6277d552963355a53a4285810}{memoria}})
+\end{DoxyCompactItemize}
+\doxysubsection*{Atributos privados}
+\begin{DoxyCompactItemize}
+\item 
+vector$<$ \mbox{\hyperlink{class_proceso}{Proceso}} $>$ \mbox{\hyperlink{class_procesador_a0e649333dafc1bbe1a812a6d19097f3d}{Procesad}}
+\item 
+string \mbox{\hyperlink{class_procesador_ae05c442efbe50ce6cfe5d02c7dc4a1f3}{id\+\_\+procesador}}
+\item 
+int \mbox{\hyperlink{class_procesador_a1e4273c6277d552963355a53a4285810}{memoria}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Descripción detallada}
+
+
+Definición en la línea \mbox{\hyperlink{_procesador_8hh_source_l00009}{9}} del archivo \mbox{\hyperlink{_procesador_8hh_source}{Procesador.\+hh}}.
+
+
+
+\doxysubsection{Documentación del constructor y destructor}
+\mbox{\Hypertarget{class_procesador_a71dbc93f54e32fa1a5c12fa8530a7f8c}\label{class_procesador_a71dbc93f54e32fa1a5c12fa8530a7f8c}} 
+\index{Procesador@{Procesador}!Procesador@{Procesador}}
+\index{Procesador@{Procesador}!Procesador@{Procesador}}
+\doxysubsubsection{\texorpdfstring{Procesador()}{Procesador()}}
+{\footnotesize\ttfamily Procesador\+::\+Procesador (\begin{DoxyParamCaption}\item[{int}]{id,  }\item[{int}]{memoria }\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+devuelve un procesador con el id y la cantidad de memoria de la entrada de la funcion 
+\end{DoxyPostcond}
+
+
+\doxysubsection{Documentación de las funciones miembro}
+\mbox{\Hypertarget{class_procesador_afd6f1176d81b945eccbf79fe8a5e5ed1}\label{class_procesador_afd6f1176d81b945eccbf79fe8a5e5ed1}} 
+\index{Procesador@{Procesador}!mem@{mem}}
+\index{mem@{mem}!Procesador@{Procesador}}
+\doxysubsubsection{\texorpdfstring{mem()}{mem()}}
+{\footnotesize\ttfamily vector$<$ int $>$ Procesador\+::mem (\begin{DoxyParamCaption}\item[{int}]{memoria }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{class_procesador_a4d0cc2184305d329f0b7740a6907d7a4}\label{class_procesador_a4d0cc2184305d329f0b7740a6907d7a4}} 
+\index{Procesador@{Procesador}!ejecutar\_proceso@{ejecutar\_proceso}}
+\index{ejecutar\_proceso@{ejecutar\_proceso}!Procesador@{Procesador}}
+\doxysubsubsection{\texorpdfstring{ejecutar\_proceso()}{ejecutar\_proceso()}}
+{\footnotesize\ttfamily void Procesador\+::ejecutar\+\_\+proceso (\begin{DoxyParamCaption}\item[{int}]{hueco,  }\item[{\mbox{\hyperlink{class_proceso}{Proceso}}}]{fin }\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+coloca el proceso en el procesador 
+\end{DoxyPostcond}
+\mbox{\Hypertarget{class_procesador_a5dda38f6b90310926d05abf27c74ae25}\label{class_procesador_a5dda38f6b90310926d05abf27c74ae25}} 
+\index{Procesador@{Procesador}!eliminar\_proceso@{eliminar\_proceso}}
+\index{eliminar\_proceso@{eliminar\_proceso}!Procesador@{Procesador}}
+\doxysubsubsection{\texorpdfstring{eliminar\_proceso()}{eliminar\_proceso()}}
+{\footnotesize\ttfamily void Procesador\+::eliminar\+\_\+proceso (\begin{DoxyParamCaption}\item[{string}]{id\+\_\+procesos }\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+elimina el proceso del procesador 
+\end{DoxyPostcond}
+\mbox{\Hypertarget{class_procesador_af74a664983ca0291d735510e628323cf}\label{class_procesador_af74a664983ca0291d735510e628323cf}} 
+\index{Procesador@{Procesador}!existeix@{existeix}}
+\index{existeix@{existeix}!Procesador@{Procesador}}
+\doxysubsubsection{\texorpdfstring{existeix()}{existeix()}}
+{\footnotesize\ttfamily bool Procesador\+::existeix (\begin{DoxyParamCaption}\item[{string}]{id\+\_\+procesos }\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+devuelve un booleano diciendo si existe ese proceso en el procesador 
+\end{DoxyPostcond}
+\mbox{\Hypertarget{class_procesador_a973cb2e850d649b98a887c6b6c597b4f}\label{class_procesador_a973cb2e850d649b98a887c6b6c597b4f}} 
+\index{Procesador@{Procesador}!espacio@{espacio}}
+\index{espacio@{espacio}!Procesador@{Procesador}}
+\doxysubsubsection{\texorpdfstring{espacio()}{espacio()}}
+{\footnotesize\ttfamily bool Procesador\+::espacio (\begin{DoxyParamCaption}\item[{int}]{cant\+\_\+memoria }\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+devuelve un booleano diciendo si hay suficiente espacio para la memoria de la entrada 
+\end{DoxyPostcond}
+\mbox{\Hypertarget{class_procesador_ae183223721ab79c1fee94b29711967da}\label{class_procesador_ae183223721ab79c1fee94b29711967da}} 
+\index{Procesador@{Procesador}!get\_id@{get\_id}}
+\index{get\_id@{get\_id}!Procesador@{Procesador}}
+\doxysubsubsection{\texorpdfstring{get\_id()}{get\_id()}}
+{\footnotesize\ttfamily int Procesador\+::get\+\_\+id (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+devuelve un entero con el id del procesador 
+\end{DoxyPostcond}
+\mbox{\Hypertarget{class_procesador_a97eac451684c6da844dcc9d0500391c6}\label{class_procesador_a97eac451684c6da844dcc9d0500391c6}} 
+\index{Procesador@{Procesador}!get\_memoria@{get\_memoria}}
+\index{get\_memoria@{get\_memoria}!Procesador@{Procesador}}
+\doxysubsubsection{\texorpdfstring{get\_memoria()}{get\_memoria()}}
+{\footnotesize\ttfamily int Procesador\+::get\+\_\+memoria (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+devuelve un entero con la cantidad de memoria del procesador 
+\end{DoxyPostcond}
+\mbox{\Hypertarget{class_procesador_a78e27a4f0819942d344b58b1aced501f}\label{class_procesador_a78e27a4f0819942d344b58b1aced501f}} 
+\index{Procesador@{Procesador}!en\_ejecuccion@{en\_ejecuccion}}
+\index{en\_ejecuccion@{en\_ejecuccion}!Procesador@{Procesador}}
+\doxysubsubsection{\texorpdfstring{en\_ejecuccion()}{en\_ejecuccion()}}
+{\footnotesize\ttfamily bool Procesador\+::en\+\_\+ejecuccion (\begin{DoxyParamCaption}\item[{string}]{id\+\_\+procesador }\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+devuelve un booleano diciendo si hay procesos en ejecuccion en el procesador 
+\end{DoxyPostcond}
+\mbox{\Hypertarget{class_procesador_a480911fd717866308261a6b9cf4c5e17}\label{class_procesador_a480911fd717866308261a6b9cf4c5e17}} 
+\index{Procesador@{Procesador}!hueco@{hueco}}
+\index{hueco@{hueco}!Procesador@{Procesador}}
+\doxysubsubsection{\texorpdfstring{hueco()}{hueco()}}
+{\footnotesize\ttfamily int Procesador\+::hueco (\begin{DoxyParamCaption}\item[{int}]{cant\+\_\+memoria }\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+devuelve un entero con la posicion mas pequeña y ajustada para meter el proceso en el procesador 
+\end{DoxyPostcond}
+\mbox{\Hypertarget{class_procesador_a4f7cca6a1093a99f19c5c53da259a1ed}\label{class_procesador_a4f7cca6a1093a99f19c5c53da259a1ed}} 
+\index{Procesador@{Procesador}!leer\_procesador@{leer\_procesador}}
+\index{leer\_procesador@{leer\_procesador}!Procesador@{Procesador}}
+\doxysubsubsection{\texorpdfstring{leer\_procesador()}{leer\_procesador()}}
+{\footnotesize\ttfamily void Procesador\+::leer\+\_\+procesador (\begin{DoxyParamCaption}\item[{string}]{id\+\_\+procesador,  }\item[{int}]{memoria }\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+le asigna un id\+\_\+procesador y una cantidad de memoria a un procesador 
+\end{DoxyPostcond}
+
+
+\doxysubsection{Documentación de los datos miembro}
+\mbox{\Hypertarget{class_procesador_a0e649333dafc1bbe1a812a6d19097f3d}\label{class_procesador_a0e649333dafc1bbe1a812a6d19097f3d}} 
+\index{Procesador@{Procesador}!Procesad@{Procesad}}
+\index{Procesad@{Procesad}!Procesador@{Procesador}}
+\doxysubsubsection{\texorpdfstring{Procesad}{Procesad}}
+{\footnotesize\ttfamily vector$<$\mbox{\hyperlink{class_proceso}{Proceso}}$>$ Procesador\+::\+Procesad\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definición en la línea \mbox{\hyperlink{_procesador_8hh_source_l00011}{11}} del archivo \mbox{\hyperlink{_procesador_8hh_source}{Procesador.\+hh}}.
+
+\mbox{\Hypertarget{class_procesador_ae05c442efbe50ce6cfe5d02c7dc4a1f3}\label{class_procesador_ae05c442efbe50ce6cfe5d02c7dc4a1f3}} 
+\index{Procesador@{Procesador}!id\_procesador@{id\_procesador}}
+\index{id\_procesador@{id\_procesador}!Procesador@{Procesador}}
+\doxysubsubsection{\texorpdfstring{id\_procesador}{id\_procesador}}
+{\footnotesize\ttfamily string Procesador\+::id\+\_\+procesador\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definición en la línea \mbox{\hyperlink{_procesador_8hh_source_l00012}{12}} del archivo \mbox{\hyperlink{_procesador_8hh_source}{Procesador.\+hh}}.
+
+\mbox{\Hypertarget{class_procesador_a1e4273c6277d552963355a53a4285810}\label{class_procesador_a1e4273c6277d552963355a53a4285810}} 
+\index{Procesador@{Procesador}!memoria@{memoria}}
+\index{memoria@{memoria}!Procesador@{Procesador}}
+\doxysubsubsection{\texorpdfstring{memoria}{memoria}}
+{\footnotesize\ttfamily int Procesador\+::memoria\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definición en la línea \mbox{\hyperlink{_procesador_8hh_source_l00013}{13}} del archivo \mbox{\hyperlink{_procesador_8hh_source}{Procesador.\+hh}}.
+
+
+
+La documentación para esta clase fue generada a partir del siguiente fichero\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_procesador_8hh}{Procesador.\+hh}}\end{DoxyCompactItemize}

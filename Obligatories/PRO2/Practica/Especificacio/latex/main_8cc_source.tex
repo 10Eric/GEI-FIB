@@ -1,0 +1,70 @@
+\hypertarget{main_8cc_source}{}\doxysection{main.\+cc}
+\label{main_8cc_source}\index{main.cc@{main.cc}}
+\mbox{\hyperlink{main_8cc}{Ir a la documentación de este archivo.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00001}00001\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00002}00002\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00003}00003\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_cluster_8hh}{Cluster.hh}}"{}}}
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00004}00004\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_sala___espera_8hh}{Sala\_Espera.hh}}"{}}}
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00005}00005\ }
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00006}00006\ \textcolor{keyword}{using\ namespace\ }std;}
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00008}\mbox{\hyperlink{main_8cc_ae66f6b31b5ad750f1fe042a706a4e3d4}{00008}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{main_8cc_ae66f6b31b5ad750f1fe042a706a4e3d4}{main}}()\ \{}
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00009}00009\ \ \ \ \ \mbox{\hyperlink{class_cluster}{Cluster}}\ c;}
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00010}00010\ \ \ \ \ \mbox{\hyperlink{class_sala___espera}{Sala\_Espera}}\ e;}
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00011}00011\ \ \ \ \ \textcolor{keywordtype}{string}\ op;}
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00012}00012\ \ \ \ \ \textcolor{keywordflow}{while}\ (cin\ >>\ op\ and\ op\ !=\ \textcolor{stringliteral}{"{}fin"{}})\ \{}
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00013}00013\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (op\ ==\ \textcolor{stringliteral}{"{}configurar\_cluster"{}}\ or\ op\ ==\ \textcolor{stringliteral}{"{}cc"{}})\ \{}
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00014}00014\ \ \ \ \ \ \ \ \ \ \ \ \ c.\mbox{\hyperlink{class_cluster_a55407a5d84b8a9f1d83fc17dd198e62d}{configurar\_cluster}}();}
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00015}00015\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (op\ ==\ \textcolor{stringliteral}{"{}modificar\_cluster"{}}\ or\ op\ ==\ \textcolor{stringliteral}{"{}mc"{}})\ \{}
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00016}00016\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ id;}
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00017}00017\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_cluster}{Cluster}}\ r;}
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00018}00018\ \ \ \ \ \ \ \ \ \ \ \ \ cin\ >>\ id;}
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00019}00019\ \ \ \ \ \ \ \ \ \ \ \ \ r.\mbox{\hyperlink{class_cluster_a55407a5d84b8a9f1d83fc17dd198e62d}{configurar\_cluster}}();}
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ c.\mbox{\hyperlink{class_cluster_a31fd3ea849b8bc18b8d59d0598930816}{modificar\_cluster}}(\textcolor{keywordtype}{id},r);}
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00021}00021\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (op\ ==\ \textcolor{stringliteral}{"{}alta\_prioridad"{}}\ or\ op\ ==\ \textcolor{stringliteral}{"{}ap"{}})\ \{}
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ id\_prioridad;}
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ cin\ >>\ id\_prioridad;}
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ e.\mbox{\hyperlink{class_sala___espera_ab95e09c2694cf63541a02507f5cc06e2}{alta\_prioridad}}(id\_prioridad);}
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00025}00025\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (op\ ==\ \textcolor{stringliteral}{"{}baja\_prioridad"{}}\ or\ op\ ==\ \textcolor{stringliteral}{"{}bp"{}})\ \{}
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ id1;}
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ cin\ >>id1;}
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ e.\mbox{\hyperlink{class_sala___espera_ab76b8c1b4b8a98a9d5f492c10fe27ea3}{baja\_prioridad}}(id1);}
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00029}00029\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (op\ ==\ \textcolor{stringliteral}{"{}alta\_proceso\_espera"{}}\ or\ op\ ==\ \textcolor{stringliteral}{"{}ape"{}})\ \{}
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ e.\mbox{\hyperlink{class_sala___espera_ae587e530529dc491ea61d8e93c706ffc}{alta\_proceso\_espera}}();}
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00031}00031\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (op\ ==\ \textcolor{stringliteral}{"{}alta\_proceso\_procesador"{}}\ or\ op\ ==\ \textcolor{stringliteral}{"{}app"{}})\ \{}
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00032}00032\ \ \ \ \ \ \ \ \ \ \ \ \ c.\mbox{\hyperlink{class_cluster_a33d1d837ffecbfdaf44551d02fac54db}{alta\_proceso\_procesador}}();}
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00033}00033\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (op\ ==\ \textcolor{stringliteral}{"{}baja\_proceso\_procesador"{}}\ or\ op\ ==\ \textcolor{stringliteral}{"{}bpp"{}})\ \{}
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00034}00034\ \ \ \ \ \ \ \ \ \ \ \ \ c.\mbox{\hyperlink{class_cluster_a14a15a9e71a36c859accba9bc24a35a5}{baja\_proceso\_procesador}}();}
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00035}00035\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (op\ ==\ \textcolor{stringliteral}{"{}enviar\_procesos\_cluster"{}}\ or\ op\ ==\ \textcolor{stringliteral}{"{}epc"{}})\ \{}
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ c.\mbox{\hyperlink{class_cluster_a004039bb5c853c42885e4588efa9459b}{enviar\_procesos\_cluster}}();}
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00037}00037\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (op\ ==\ \textcolor{stringliteral}{"{}avanzar\_tiempo"{}}\ or\ op\ ==\ \textcolor{stringliteral}{"{}at"{}})\ \{}
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ t;}
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ cin\ >>\ t;}
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ c.\mbox{\hyperlink{class_cluster_a3b93301a46cfa8cadf8d0121e234c386}{avanzar\_tiempo}}(t);}
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00041}00041\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (op\ ==\ \textcolor{stringliteral}{"{}imprimir\_prioridad"{}}\ or\ op\ ==\ \textcolor{stringliteral}{"{}ipri"{}})\ \{}
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ id2;}
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ cin\ >>\ id2;}
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ e.\mbox{\hyperlink{class_sala___espera_a7ae11794312fb62e51245f2de58aa1b9}{imprimir\_prioridad}}(id2);}
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00045}00045\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (op\ ==\ \textcolor{stringliteral}{"{}imprimir\_area\_espera"{}}\ or\ op\ ==\ \textcolor{stringliteral}{"{}iae"{}})\ \{}
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ e.\mbox{\hyperlink{class_sala___espera_a9c525035de9f1f1c6ed50bc52e7a1c87}{imprimir\_area\_espera}}();}
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00047}00047\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (op\ ==\ \textcolor{stringliteral}{"{}imprimir\_procesador"{}}\ or\ op\ ==\ \textcolor{stringliteral}{"{}ipro"{}})\ \{}
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ id3;}
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ cin\ >>\ id3;}
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ c.\mbox{\hyperlink{class_cluster_a419e8a28be87406b5cac78ed41f32683}{imprimir\_procesador}}(id3);}
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00051}00051\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (op\ ==\ \textcolor{stringliteral}{"{}imprimir\_procesadores\_cluster"{}}\ or\ op\ ==\ \textcolor{stringliteral}{"{}ipc"{}})\ \{}
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ c.\mbox{\hyperlink{class_cluster_ab8a628286f8a977063ea4395d9a422bf}{imprimir\_procesadores\_cluster}}();}
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00053}00053\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (op\ ==\ \textcolor{stringliteral}{"{}imprimir\_estructura\_cluster"{}}\ or\ op\ ==\ \textcolor{stringliteral}{"{}iec"{}})\ \{}
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ c.\mbox{\hyperlink{class_cluster_a948d7075f9b30c2885ce804029e5ab25}{imprimir\_estructura\_cluster}}();}
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00055}00055\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (op\ ==\ \textcolor{stringliteral}{"{}compactar\_memoria\_procesador"{}}\ or\ op\ ==\ \textcolor{stringliteral}{"{}cmp"{}})\ \{}
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ id4;}
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ cin\ >>\ id4;}
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ c.\mbox{\hyperlink{class_cluster_a4a776db08fb7d4542d0f073c6f94251d}{compactar\_memoria\_procesador}}(id4);}
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00059}00059\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (op\ ==\ \textcolor{stringliteral}{"{}compactar\_memoria\_cluster"{}}\ or\ op\ ==\ \textcolor{stringliteral}{"{}cmc"{}})\ \{}
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ c.\mbox{\hyperlink{class_cluster_a7b9ae511df4a6465f4e191df6564fd77}{compactar\_memoria\_cluster}}();}
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00061}00061\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00062}00062\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00063}00063\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{\Hypertarget{main_8cc_source_l00064}00064\ \}}
+
+\end{DoxyCode}

@@ -1,0 +1,55 @@
+\hypertarget{_procesador_8hh_source}{}\doxysection{Procesador.\+hh}
+\label{_procesador_8hh_source}\index{Procesador.hh@{Procesador.hh}}
+\mbox{\hyperlink{_procesador_8hh}{Ir a la documentación de este archivo.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_procesador_8hh_source_l00001}00001\ \textcolor{preprocessor}{\#ifndef\ Procesador\_HH}}
+\DoxyCodeLine{\Hypertarget{_procesador_8hh_source_l00002}00002\ \textcolor{preprocessor}{\#define\ Procesador\_HH}}
+\DoxyCodeLine{\Hypertarget{_procesador_8hh_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{_procesador_8hh_source_l00004}00004\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{\Hypertarget{_procesador_8hh_source_l00005}00005\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{\Hypertarget{_procesador_8hh_source_l00006}00006\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_proceso_8hh}{Proceso.hh}}"{}}}
+\DoxyCodeLine{\Hypertarget{_procesador_8hh_source_l00007}00007\ \textcolor{keyword}{using\ namespace\ }std;}
+\DoxyCodeLine{\Hypertarget{_procesador_8hh_source_l00008}00008\ }
+\DoxyCodeLine{\Hypertarget{_procesador_8hh_source_l00009}\mbox{\hyperlink{class_procesador}{00009}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_procesador}{Procesador}}\ \{}
+\DoxyCodeLine{\Hypertarget{_procesador_8hh_source_l00010}00010\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{_procesador_8hh_source_l00011}\mbox{\hyperlink{class_procesador_a0e649333dafc1bbe1a812a6d19097f3d}{00011}}\ \ vector<Proceso>\ \mbox{\hyperlink{class_procesador_a0e649333dafc1bbe1a812a6d19097f3d}{Procesad}};\ \textcolor{comment}{//\ pongo\ vector\ porque\ no\ me\ deja\ poner\ interrogante}}
+\DoxyCodeLine{\Hypertarget{_procesador_8hh_source_l00012}\mbox{\hyperlink{class_procesador_ae05c442efbe50ce6cfe5d02c7dc4a1f3}{00012}}\ \ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{class_procesador_ae05c442efbe50ce6cfe5d02c7dc4a1f3}{id\_procesador}};}
+\DoxyCodeLine{\Hypertarget{_procesador_8hh_source_l00013}\mbox{\hyperlink{class_procesador_a1e4273c6277d552963355a53a4285810}{00013}}\ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_procesador_a1e4273c6277d552963355a53a4285810}{memoria}};}
+\DoxyCodeLine{\Hypertarget{_procesador_8hh_source_l00014}\mbox{\hyperlink{class_procesador_afd6f1176d81b945eccbf79fe8a5e5ed1}{00014}}\ \ vector\ <int>\ \mbox{\hyperlink{class_procesador_afd6f1176d81b945eccbf79fe8a5e5ed1}{mem}}\ (\textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_procesador_a1e4273c6277d552963355a53a4285810}{memoria}});}
+\DoxyCodeLine{\Hypertarget{_procesador_8hh_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{_procesador_8hh_source_l00016}00016\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_procesador_8hh_source_l00017}00017\ \ \textcolor{comment}{//constructoras}}
+\DoxyCodeLine{\Hypertarget{_procesador_8hh_source_l00020}\mbox{\hyperlink{class_procesador_a71dbc93f54e32fa1a5c12fa8530a7f8c}{00020}}\ \textcolor{comment}{}\ \mbox{\hyperlink{class_procesador_a71dbc93f54e32fa1a5c12fa8530a7f8c}{Procesador}}(\textcolor{keywordtype}{int}\ \textcolor{keywordtype}{id},\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_procesador_a1e4273c6277d552963355a53a4285810}{memoria}});}
+\DoxyCodeLine{\Hypertarget{_procesador_8hh_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{_procesador_8hh_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{_procesador_8hh_source_l00023}00023\ \ \textcolor{comment}{//modificadoras}}
+\DoxyCodeLine{\Hypertarget{_procesador_8hh_source_l00026}\mbox{\hyperlink{class_procesador_a4d0cc2184305d329f0b7740a6907d7a4}{00026}}\ \textcolor{comment}{}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_procesador_a4d0cc2184305d329f0b7740a6907d7a4}{ejecutar\_proceso}}\ (\textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_procesador_a480911fd717866308261a6b9cf4c5e17}{hueco}},\ \mbox{\hyperlink{class_proceso}{Proceso}}\ fin);}
+\DoxyCodeLine{\Hypertarget{_procesador_8hh_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{_procesador_8hh_source_l00030}\mbox{\hyperlink{class_procesador_a5dda38f6b90310926d05abf27c74ae25}{00030}}\ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_procesador_a5dda38f6b90310926d05abf27c74ae25}{eliminar\_proceso}}\ (\textcolor{keywordtype}{string}\ id\_procesos);}
+\DoxyCodeLine{\Hypertarget{_procesador_8hh_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{_procesador_8hh_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{_procesador_8hh_source_l00033}00033\ \ \textcolor{comment}{//Consultores}}
+\DoxyCodeLine{\Hypertarget{_procesador_8hh_source_l00036}\mbox{\hyperlink{class_procesador_af74a664983ca0291d735510e628323cf}{00036}}\ \textcolor{comment}{}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_procesador_af74a664983ca0291d735510e628323cf}{existeix}}(\textcolor{keywordtype}{string}\ id\_procesos);}
+\DoxyCodeLine{\Hypertarget{_procesador_8hh_source_l00037}00037\ }
+\DoxyCodeLine{\Hypertarget{_procesador_8hh_source_l00040}\mbox{\hyperlink{class_procesador_a973cb2e850d649b98a887c6b6c597b4f}{00040}}\ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_procesador_a973cb2e850d649b98a887c6b6c597b4f}{espacio}}\ (\textcolor{keywordtype}{int}\ cant\_memoria);}
+\DoxyCodeLine{\Hypertarget{_procesador_8hh_source_l00041}00041\ }
+\DoxyCodeLine{\Hypertarget{_procesador_8hh_source_l00044}\mbox{\hyperlink{class_procesador_ae183223721ab79c1fee94b29711967da}{00044}}\ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_procesador_ae183223721ab79c1fee94b29711967da}{get\_id}}();}
+\DoxyCodeLine{\Hypertarget{_procesador_8hh_source_l00045}00045\ }
+\DoxyCodeLine{\Hypertarget{_procesador_8hh_source_l00048}\mbox{\hyperlink{class_procesador_a97eac451684c6da844dcc9d0500391c6}{00048}}\ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_procesador_a97eac451684c6da844dcc9d0500391c6}{get\_memoria}}();}
+\DoxyCodeLine{\Hypertarget{_procesador_8hh_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{_procesador_8hh_source_l00052}\mbox{\hyperlink{class_procesador_a78e27a4f0819942d344b58b1aced501f}{00052}}\ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_procesador_a78e27a4f0819942d344b58b1aced501f}{en\_ejecuccion}}\ (\textcolor{keywordtype}{string}\ \mbox{\hyperlink{class_procesador_ae05c442efbe50ce6cfe5d02c7dc4a1f3}{id\_procesador}});}
+\DoxyCodeLine{\Hypertarget{_procesador_8hh_source_l00053}00053\ }
+\DoxyCodeLine{\Hypertarget{_procesador_8hh_source_l00056}\mbox{\hyperlink{class_procesador_a480911fd717866308261a6b9cf4c5e17}{00056}}\ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_procesador_a480911fd717866308261a6b9cf4c5e17}{hueco}}\ (\textcolor{keywordtype}{int}\ cant\_memoria);}
+\DoxyCodeLine{\Hypertarget{_procesador_8hh_source_l00057}00057\ }
+\DoxyCodeLine{\Hypertarget{_procesador_8hh_source_l00058}00058\ }
+\DoxyCodeLine{\Hypertarget{_procesador_8hh_source_l00059}00059\ }
+\DoxyCodeLine{\Hypertarget{_procesador_8hh_source_l00060}00060\ \ \textcolor{comment}{//Lectura\ i\ escriptura}}
+\DoxyCodeLine{\Hypertarget{_procesador_8hh_source_l00063}\mbox{\hyperlink{class_procesador_a4f7cca6a1093a99f19c5c53da259a1ed}{00063}}\ \textcolor{comment}{}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_procesador_a4f7cca6a1093a99f19c5c53da259a1ed}{leer\_procesador}}\ (\textcolor{keywordtype}{string}\ \mbox{\hyperlink{class_procesador_ae05c442efbe50ce6cfe5d02c7dc4a1f3}{id\_procesador}},\textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_procesador_a1e4273c6277d552963355a53a4285810}{memoria}});}
+\DoxyCodeLine{\Hypertarget{_procesador_8hh_source_l00064}00064\ }
+\DoxyCodeLine{\Hypertarget{_procesador_8hh_source_l00065}00065\ }
+\DoxyCodeLine{\Hypertarget{_procesador_8hh_source_l00066}00066\ }
+\DoxyCodeLine{\Hypertarget{_procesador_8hh_source_l00067}00067\ }
+\DoxyCodeLine{\Hypertarget{_procesador_8hh_source_l00068}00068\ \};}
+\DoxyCodeLine{\Hypertarget{_procesador_8hh_source_l00069}00069\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

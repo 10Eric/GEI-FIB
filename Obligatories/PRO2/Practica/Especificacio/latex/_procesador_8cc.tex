@@ -1,0 +1,155 @@
+\hypertarget{_procesador_8cc}{}\doxysection{Referencia del Archivo Procesador.\+cc}
+\label{_procesador_8cc}\index{Procesador.cc@{Procesador.cc}}
+Dependencia gráfica adjunta para Procesador.\+cc\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=274pt]{_procesador_8cc__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Funciones}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_procesador_8cc_a5df0fe0dd026e7092b5acbbb1f45042f}{Procesador}} (int id, int memoria)
+\item 
+void \mbox{\hyperlink{_procesador_8cc_ab28acddc3dd143d971c96a09ddcdfbb9}{ejecutar\+\_\+proceso}} (int \mbox{\hyperlink{_procesador_8cc_a4275463a5b8707439866222683a2fd42}{hueco}}, \mbox{\hyperlink{class_proceso}{Proceso}} fin)
+\item 
+void \mbox{\hyperlink{_procesador_8cc_afc4487cc7273d6ec7f45f8aa8bc49bd7}{eliminar\+\_\+proceso}} (string id\+\_\+procesos)
+\item 
+bool \mbox{\hyperlink{_procesador_8cc_a6ec615b948241263533ed5051c9b2162}{existeix}} (string id\+\_\+procesos)
+\item 
+bool \mbox{\hyperlink{_procesador_8cc_a940e8203f88f60be0817a9b84158e6e9}{espacio}} (int cant\+\_\+memoria)
+\item 
+int \mbox{\hyperlink{_procesador_8cc_a1f0b8f09abd10342468ce33a1da15557}{get\+\_\+id}} ()
+\item 
+int \mbox{\hyperlink{_procesador_8cc_aed35251c271a0152e1a40ed8bfa0b71f}{get\+\_\+memoria}} ()
+\item 
+bool \mbox{\hyperlink{_procesador_8cc_ad6af42e1b88f8a81b19d75f90a7f5ab9}{en\+\_\+ejecuccion}} (string id\+\_\+procesador)
+\item 
+int \mbox{\hyperlink{_procesador_8cc_a4275463a5b8707439866222683a2fd42}{hueco}} (int cant\+\_\+memoria)
+\item 
+void \mbox{\hyperlink{_procesador_8cc_a5b9c864a66456efb29cde9ddda37c216}{leer\+\_\+procesador}} (string id\+\_\+procesador, int memoria)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Documentación de las funciones}
+\mbox{\Hypertarget{_procesador_8cc_a5df0fe0dd026e7092b5acbbb1f45042f}\label{_procesador_8cc_a5df0fe0dd026e7092b5acbbb1f45042f}} 
+\index{Procesador.cc@{Procesador.cc}!Procesador@{Procesador}}
+\index{Procesador@{Procesador}!Procesador.cc@{Procesador.cc}}
+\doxysubsubsection{\texorpdfstring{Procesador()}{Procesador()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_procesador}{Procesador}} (\begin{DoxyParamCaption}\item[{int}]{id,  }\item[{int}]{memoria }\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+devuelve un procesador con el id y la cantidad de memoria de la entrada de la funcion 
+\end{DoxyPostcond}
+\mbox{\Hypertarget{_procesador_8cc_ab28acddc3dd143d971c96a09ddcdfbb9}\label{_procesador_8cc_ab28acddc3dd143d971c96a09ddcdfbb9}} 
+\index{Procesador.cc@{Procesador.cc}!ejecutar\_proceso@{ejecutar\_proceso}}
+\index{ejecutar\_proceso@{ejecutar\_proceso}!Procesador.cc@{Procesador.cc}}
+\doxysubsubsection{\texorpdfstring{ejecutar\_proceso()}{ejecutar\_proceso()}}
+{\footnotesize\ttfamily void ejecutar\+\_\+proceso (\begin{DoxyParamCaption}\item[{int}]{hueco,  }\item[{\mbox{\hyperlink{class_proceso}{Proceso}}}]{fin }\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+coloca el proceso en el procesador 
+\end{DoxyPostcond}
+\mbox{\Hypertarget{_procesador_8cc_afc4487cc7273d6ec7f45f8aa8bc49bd7}\label{_procesador_8cc_afc4487cc7273d6ec7f45f8aa8bc49bd7}} 
+\index{Procesador.cc@{Procesador.cc}!eliminar\_proceso@{eliminar\_proceso}}
+\index{eliminar\_proceso@{eliminar\_proceso}!Procesador.cc@{Procesador.cc}}
+\doxysubsubsection{\texorpdfstring{eliminar\_proceso()}{eliminar\_proceso()}}
+{\footnotesize\ttfamily void eliminar\+\_\+proceso (\begin{DoxyParamCaption}\item[{string}]{id\+\_\+procesos }\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+elimina el proceso del procesador 
+\end{DoxyPostcond}
+\mbox{\Hypertarget{_procesador_8cc_a6ec615b948241263533ed5051c9b2162}\label{_procesador_8cc_a6ec615b948241263533ed5051c9b2162}} 
+\index{Procesador.cc@{Procesador.cc}!existeix@{existeix}}
+\index{existeix@{existeix}!Procesador.cc@{Procesador.cc}}
+\doxysubsubsection{\texorpdfstring{existeix()}{existeix()}}
+{\footnotesize\ttfamily bool existeix (\begin{DoxyParamCaption}\item[{string}]{id\+\_\+procesos }\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+devuelve un booleano diciendo si existe ese proceso en el procesador 
+\end{DoxyPostcond}
+\mbox{\Hypertarget{_procesador_8cc_a940e8203f88f60be0817a9b84158e6e9}\label{_procesador_8cc_a940e8203f88f60be0817a9b84158e6e9}} 
+\index{Procesador.cc@{Procesador.cc}!espacio@{espacio}}
+\index{espacio@{espacio}!Procesador.cc@{Procesador.cc}}
+\doxysubsubsection{\texorpdfstring{espacio()}{espacio()}}
+{\footnotesize\ttfamily bool espacio (\begin{DoxyParamCaption}\item[{int}]{cant\+\_\+memoria }\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+devuelve un booleano diciendo si hay suficiente espacio para la memoria de la entrada 
+\end{DoxyPostcond}
+\mbox{\Hypertarget{_procesador_8cc_a1f0b8f09abd10342468ce33a1da15557}\label{_procesador_8cc_a1f0b8f09abd10342468ce33a1da15557}} 
+\index{Procesador.cc@{Procesador.cc}!get\_id@{get\_id}}
+\index{get\_id@{get\_id}!Procesador.cc@{Procesador.cc}}
+\doxysubsubsection{\texorpdfstring{get\_id()}{get\_id()}}
+{\footnotesize\ttfamily int get\+\_\+id (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+devuelve un entero con el id del procesador 
+\end{DoxyPostcond}
+\mbox{\Hypertarget{_procesador_8cc_aed35251c271a0152e1a40ed8bfa0b71f}\label{_procesador_8cc_aed35251c271a0152e1a40ed8bfa0b71f}} 
+\index{Procesador.cc@{Procesador.cc}!get\_memoria@{get\_memoria}}
+\index{get\_memoria@{get\_memoria}!Procesador.cc@{Procesador.cc}}
+\doxysubsubsection{\texorpdfstring{get\_memoria()}{get\_memoria()}}
+{\footnotesize\ttfamily int get\+\_\+memoria (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+devuelve un entero con la cantidad de memoria del procesador 
+\end{DoxyPostcond}
+\mbox{\Hypertarget{_procesador_8cc_ad6af42e1b88f8a81b19d75f90a7f5ab9}\label{_procesador_8cc_ad6af42e1b88f8a81b19d75f90a7f5ab9}} 
+\index{Procesador.cc@{Procesador.cc}!en\_ejecuccion@{en\_ejecuccion}}
+\index{en\_ejecuccion@{en\_ejecuccion}!Procesador.cc@{Procesador.cc}}
+\doxysubsubsection{\texorpdfstring{en\_ejecuccion()}{en\_ejecuccion()}}
+{\footnotesize\ttfamily bool en\+\_\+ejecuccion (\begin{DoxyParamCaption}\item[{string}]{id\+\_\+procesador }\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+devuelve un booleano diciendo si hay procesos en ejecuccion en el procesador 
+\end{DoxyPostcond}
+\mbox{\Hypertarget{_procesador_8cc_a4275463a5b8707439866222683a2fd42}\label{_procesador_8cc_a4275463a5b8707439866222683a2fd42}} 
+\index{Procesador.cc@{Procesador.cc}!hueco@{hueco}}
+\index{hueco@{hueco}!Procesador.cc@{Procesador.cc}}
+\doxysubsubsection{\texorpdfstring{hueco()}{hueco()}}
+{\footnotesize\ttfamily int hueco (\begin{DoxyParamCaption}\item[{int}]{cant\+\_\+memoria }\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+devuelve un entero con la posicion mas pequeña y ajustada para meter el proceso en el procesador 
+\end{DoxyPostcond}
+\mbox{\Hypertarget{_procesador_8cc_a5b9c864a66456efb29cde9ddda37c216}\label{_procesador_8cc_a5b9c864a66456efb29cde9ddda37c216}} 
+\index{Procesador.cc@{Procesador.cc}!leer\_procesador@{leer\_procesador}}
+\index{leer\_procesador@{leer\_procesador}!Procesador.cc@{Procesador.cc}}
+\doxysubsubsection{\texorpdfstring{leer\_procesador()}{leer\_procesador()}}
+{\footnotesize\ttfamily void leer\+\_\+procesador (\begin{DoxyParamCaption}\item[{string}]{id\+\_\+procesador,  }\item[{int}]{memoria }\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+true 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+le asigna un id\+\_\+procesador y una cantidad de memoria a un procesador 
+\end{DoxyPostcond}

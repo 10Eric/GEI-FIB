@@ -1,0 +1,9 @@
+Las actividades de introducción al doxygen se llevan a cabo en las
+sesiones disseny_modular_doxygen y disseny_modular_doxygen2 . Los
+materiales necesarios están integrados en dichas sesiones.
+
+En la primera de ellas se emplea el doxygen para documentar programas
+principales y especificaciones de clases exclusivamente.
+
+En la segunda se emplea el doxygen para documentar proyectos
+completos, incluyendo implementaciones de clases.

@@ -1,0 +1,85 @@
+// Apartado 1.1
+
+void alliberar(int id) {
+  Node* p = primer;
+
+  while (p -> seg != NULL and p -> seg -> id != id)
+    p = p -> seg;
+
+  if (p -> seg != NULL) {
+    Node* to_kill = p -> seg;
+    p -> seg = p -> seg -> seg;
+    delete to_kill;
+  }
+}
+
+// Apartado 1.2  
+  int demanar(int b) {
+   Node* p = primer; // p != NULL
+   while (p -> seg != NULL and (p -> seg->adreca - (p -> adreca + p -> mida)) < b) {
+      p = p -> seg;
+    }	
+
+  // p -> seg == NULL or
+  //    p -> seg->adreca - (p -> adreca + p -> mida) >= b
+
+  if (p -> seg == NULL and p -> adreca + p -> mida + b > N)
+  return -1; // no hay sitio para un bloque de tamaño b
+  
+  Node* newblock = new Node;
+  ++darrer_id;
+  newblock -> id = darrer_id;
+  newblock -> adreca = p -> adreca + p -> mida;
+  newblock -> mida = b;
+  newblock -> seg = p -> seg;
+  p -> seg = newblock;
+  return darrer_id;
+}
+// Apartado 2.1
+
+// Pre: 'a' <= c <= 'z'
+int index(char c) {
+  return c-'a';
+}
+// Post: index(c)=rango de c en el alfabeto {'a',...,'z'}
+// es decir, index('a')==0, index('b')==1, ..., index('z')==25
+
+
+// Pre: m apunta a un nodo n tal que la secuencia de etiquetas en
+// el camino entre la raiz del p.i. en el que esta el nodo n y el nodo n
+// es igual al prefijo de longitud i
+// de la palabra p, 0 <= i <= p.length()
+static bool i_pertenece(Node* m, const string& p, int i) {
+  if (m == nullptr) return false;
+  if (i == p.length()) return m->info;
+  // m != nullptr and i < p.length()
+  return i_pertenece(m->seg[index(p[i])], p, i+1);
+}
+// Post: i_pertenece(m, p, i) devuelve cierto si y solo si el sufijo p[i..l-1]
+// pertenece al conjunto representado por el subarbol enraizado en m (l == p.lenght())
+// ==> p pertenece al conjunto representado por el p.i.
+
+bool pertenece(const string& p) const {
+  return i_pertenece(primer, p, 0);
+}
+// Apartado 2.2
+
+void todas(list<string>& v) const {
+  v.clear();
+  comienzan_prefijo(primer, "", v);
+}
+
+// Pre: 0 <= i < 26
+char letra(int i) {
+  return char('a'+ i);
+}
+// Post: letra(i) es la letra i-esima de {'a',..,'z'},
+// es decir index(letra(i))==i
+
+static void comienzan_prefijo(Node* m, const string& prefix,
+			      list<string>& v) {
+  if (m == nullptr) return;
+  if (m -> info) v.push_back(prefix);
+  for (int i = 0; i < N; ++i)
+    comienzan_prefijo(m -> seg[i], prefix+letra(i), v);
+}
