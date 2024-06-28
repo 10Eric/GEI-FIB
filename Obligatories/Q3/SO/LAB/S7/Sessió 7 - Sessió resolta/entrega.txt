@@ -1,0 +1,62 @@
+ - Apunta en el fichero “entrega.txt” los comandos que has utilizado en cada apartado. Además entrega el fichero “es1_v2.c” ¿Qué diferencias observas en las dos ejecuciones de strace? ¿Cuántas llamadas a sistema read ejecuta cada versión? ¿Qué influencia puede tener sobre el rendimiento de ambas versiones de código? ¿Por qué?
+    salida_v2 (correspondiente al es1_v2.c) es mucho mas corto que salida_v1 (correspondiente al es1.c). es1 ejecuta un read por cada carácter, por lo tanto es mucho mas ineficiente que es1_v2.c que que hace un read cada 256 carácteres.
+
+
+ - Explica las diferencias observadas en la salida del programa cuando el primer parámetro vale 0 o 1. ¿Para qué crees que sirve este parámetro?
+    Cuando el parámetro es 0, escribe los números en ASCII; si el parametro es 1 los escribe en formato interno (int).
+
+
+ - Explica el motivo de los resultados observados dependiendo del formato fichero de entrada.
+    El programa funciona de forma correcta si usamos la opción 1; si usamos la opción 0 la salida no será la esperada ya que en Linux los programas son los que se encargan de interpretar los datos que reciben. En este caso no reciben los datos en el formato adecuado así que los interpreta de forma incorrecta.
+
+
+ - Explica las diferencias observadas entre la salida del programa es3 y es4. ¿Por qué la salida es inteligible para uno de los ficheros de entrada y no para el otro?
+    El programa es4 necesita un fichero generado por el programa es2 con la opcion 0. Si le envias archivos en otro formato no los interpreta de forma correcta, los interpreta como si fueran ASCII.
+
+
+ - Escribe los valores que ha mostrado el script showCpuTime.sh para cada uno de los procesos y comenta las diferencias entre ellos en cuanto al consumo de cpu. ¿A qué se deben? Identifica las líneas de código de marcan la diferencia entre ellos
+    ./es1                        0.0 00:00:00
+    ./es5                       99.7 00:00:47
+
+    La diferencia se debe a que el es1 realiza una espera pasiva ya que espera a que esribas algo. En cambio el es5 realiza una espera activa mediante un while que consume tiempo de CPU.
+
+
+ - Anota en el fichero entrega.txt el resultado de ambas ejecuciones. Entrega el código programado en el fichero es6_v2.c
+    En el primer caso el programa escribe "read correcto". En cambio, en el segundo caso al pulsar Control+C el programa termina sin hacer nada ya que no hemos puesto el flag SA_RESTART.
+
+
+ - ¿Qué pasaría si usáramos el flag SA_RESTART en el sigaction? Repite las ejecuciones anteriores activando el flag SA_RESTART y anota el resultado en el fichero entrega.txt.
+    Si usáramos el flag SA_RESTART el programa escribiría "recibido" ya que recibe el signal y lo trata.
+
+
+ - ¿Estaba ya en uso el major especificado en el código? En caso afirmativo, ¿qué driver lo estaba utilizando?
+    Sí, el 249 está usado por "rtc" y el 250 por "dax".
+
+ - Apunta la línea de la salida de lsmod correspondiente a myDriver1 y myDriver2.
+    myDriver2              16384  0
+    myDriver1              16384  0
+
+ - Apunta la línea de comandos que has utilizado para crear el dispositivo.
+    mknod myDevice c 100 0
+
+
+ - Anota en el fichero “entrega.txt” el resultado de la ejecución y explica el resultado obtenido.
+    ................................................
+    Este programa escribe por la salida std todo lo que lee de la entrada std. Si no has redirigido la salida, lo que escribas en el teclado saldra por la pantalla
+    Para acabar CtrlD
+    ................................................
+    Driver 1 read operation
+    Sponsored by Laboratorios Gelocatas SL
+    fin ejecución
+
+
+ - Anota el resultado de la ejecución. Explica el motivo de las diferencias observadas comparando la salida de este ejercicio con la de la apartado 5.
+    ................................................
+    Este programa escribe por la salida std todo lo que lee de la entrada std. Si no has redirigido la salida, lo que escribas en el teclado saldra por la pantalla
+    Para acabar CtrlD
+    ................................................
+    DRIVER 2 READ OPERATION
+    SPONSORED BY LABORATORIOS GELOCATAS SL
+    fin ejecución
+
+    Los resultados son diferentes ya que las operaciones de read de los 2 drivers son diferentes.

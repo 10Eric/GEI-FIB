@@ -1,0 +1,36 @@
+ALARM 1 -> PREGUNTA 1:
+A los 5 segundos no se imprime nada, ya que en el codigo pone alarm(10) y no alarm(5); Entonces a los  10 segundos salta un mensaje en pantalla que pone: Temporizador.
+
+
+ALARM 1 -> PREGUNTA 2:
+No, no termina de ejecutarse el programa y no se recibe el mensaje de la alarma de reloj. Se recibe el siguiente mensaje en terminal: Terminado (killed)
+
+
+ALARM 1 -> PREGUNTA 3:
+El proceso padre. En el pseudo código de la shell no aparece nada que imprima. Esta recogerá el valor del "exit(valor)".
+
+
+ALARM 1 -> PREGUNTA 4:
+Sí, ya que es necesario para indicarle a la shell de un error. Se ejecuta en el caso de que se salga del sigsuspend por cualquier error.
+
+
+ALARM 2 -> PREGUNTA 1:
+No, el proceso escribe el mensaje de los 10 segundos aunque no hayan pasado 10 segundos. No ha funcionado.
+
+
+ALARM 2 -> PREGUNTA 2:
+No, se pueden modificar todos los tratamientos para cualquier signal menos SIGKILL y SIGSTOP.
+
+
+ALARM 2 -> PREGUNTA 3:
+Cambiando alarm(10) por if (alarm(10) > 0) error_y_exit("alarm", 1);
+
+
+ALARM 3 -> PREGUNTA 1:
+Los dos ya que si hago kill -ALRM pid a cada uno de ellos, en los dos funciona.
+
+
+ALARM 4 -> PREGUNTA 1:
+Solamente el proceso padre programa un SIGALRM aunque ambos se queden esperando uno. Entonces solo el padre lo recibe y por lo tanto es el único que imprime la salida.
+
+Lo he comprobado programando un SIGALRM al proceso hijo y entonces empieza a funcionar el contador. En caso contrario el hijo entra en bucle infinito en el sigsuspend.

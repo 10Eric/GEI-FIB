@@ -1,0 +1,96 @@
+ - ¿Qué variables aparecen en la salida del nm de mem1_dynamic? ¿Qué dirección ocupa cada una? Indica a que región pertenece cada variable según la salida del nm y el tipo de variable (local o global)
+	0000000000201040 B globalArray
+	Solo aparece la variable globalArray porque se trata de una variable global. Ésta se encuentra en el .bss ya que es una variable global no inicializada.
+
+
+ - Para los dos ejecutables, compilado estático y dinámico, observa su tamaño, la salida de los comandos nm y objdump ¿En qué se diferencian los dos ejecutables?
+	Tamaño del ejecutable estático: 844.888 bytes
+	Tamaño del ejecutable dinámico: 8.552 bytes
+
+	El tamaño del ejecutable estático es mucho mayor ya que, a diferencia del dinámico, contiene todas las librerías que usa. Por lo tanto, la salida nm del estático es mucho más larga que la salida del ejecutable dinámico. Con la salida del comando objdump pasa exactamente lo mismo.
+
+
+ - Observa el contenido del fichero maps del /proc para cada proceso y apunta para cada región la dirección inicial, dirección final y etiqueta asociada. ¿Qué diferencia hay entre el maps de cada proceso?
+	Ejecutable estático:
+	00400000-004b6000 r-xp 00000000 08:05 524444                             /home/FIBer/Desktop/s5/S5/mem1_static
+	006b6000-006bc000 rw-p 000b6000 08:05 524444                             /home/FIBer/Desktop/s5/S5/mem1_static
+	006bc000-006be000 rw-p 00000000 00:00 0
+	01052000-01075000 rw-p 00000000 00:00 0                                  [heap]
+	7ffda2385000-7ffda23a6000 rw-p 00000000 00:00 0                          [stack]
+	7ffda23fa000-7ffda23fd000 r--p 00000000 00:00 0                          [vvar]
+	7ffda23fd000-7ffda23ff000 r-xp 00000000 00:00 0                          [vdso]
+	ffffffffff600000-ffffffffff601000 r-xp 00000000 00:00 0                  [vsyscall]
+
+	Ejecutable dinámico:
+	55ff30525000-55ff30526000 r-xp 00000000 08:05 524442                     /home/FIBer/Desktop/s5/S5/mem1_dynamic
+	55ff30725000-55ff30726000 r--p 00000000 08:05 524442                     /home/FIBer/Desktop/s5/S5/mem1_dynamic
+	55ff30726000-55ff30727000 rw-p 00001000 08:05 524442                     /home/FIBer/Desktop/s5/S5/mem1_dynamic
+	55ff30727000-55ff30728000 rw-p 00000000 00:00 0
+	55ff31dad000-55ff31dce000 rw-p 00000000 00:00 0                          [heap]
+	7f2991abb000-7f2991ca2000 r-xp 00000000 08:05 143053                     /lib/x86_64-linux-gnu/libc-2.27.so
+	7f2991ca2000-7f2991ea2000 ---p 001e7000 08:05 143053                     /lib/x86_64-linux-gnu/libc-2.27.so
+	7f2991ea2000-7f2991ea6000 r--p 001e7000 08:05 143053                     /lib/x86_64-linux-gnu/libc-2.27.so
+	7f2991ea6000-7f2991ea8000 rw-p 001eb000 08:05 143053                     /lib/x86_64-linux-gnu/libc-2.27.so
+	7f2991ea8000-7f2991eac000 rw-p 00000000 00:00 0
+	7f2991eac000-7f2991ed3000 r-xp 00000000 08:05 141631                     /lib/x86_64-linux-gnu/ld-2.27.so
+	7f29920b9000-7f29920bb000 rw-p 00000000 00:00 0
+	7f29920d3000-7f29920d4000 r--p 00027000 08:05 141631                     /lib/x86_64-linux-gnu/ld-2.27.so
+	7f29920d4000-7f29920d5000 rw-p 00028000 08:05 141631                     /lib/x86_64-linux-gnu/ld-2.27.so
+	7f29920d5000-7f29920d6000 rw-p 00000000 00:00 0
+	7ffebe15b000-7ffebe17c000 rw-p 00000000 00:00 0                          [stack]
+	7ffebe195000-7ffebe198000 r--p 00000000 00:00 0                          [vvar]
+	7ffebe198000-7ffebe19a000 r-xp 00000000 00:00 0                          [vdso]
+	ffffffffff600000-ffffffffff601000 r-xp 00000000 00:00 0                  [vsyscall]
+
+	El ejecutable dinámico contiene un rango de direcciones que contienen rutinas para acceder a la librería ya que no están en el fichero.
+
+
+ - ¿A qué región de las descritas en el maps pertenece cada variable y cada zona reservada con malloc? Apunta la dirección inicial, dirección final y el nombre de la región
+	ejecutable estatico: globalArray --> 006b6000-006bc000 rw-p 000b6000 08:05 524444  /home/alumne/Desktop/s5/S5/mem1_static
+			             localArray  --> 7ffe3156f000-7ffe31590000 rw-p 00000000 00:00 0                          [stack]
+			             p           --> 009b6000-009d9000 rw-p 00000000 00:00 0                                  [heap]
+
+	ejecutable dinamico: globalArray --> 5597fec01000-5597fec02000 rw-p 00001000 08:05 524442 /home/alumne/Desktop/s5/S5/	mem1_dynamic
+			             localArray  --> 7ffe92f28000-7ffe92f49000 rw-p 00000000 00:00 0                          [stack]
+			             p           --> 5598001c1000-5598001e2000 rw-p 00000000 00:00 0                          [heap]
+
+
+  - Para cada ejecución apunta el número de mallocs hechos y la dirección inicial y final del heap que muestra el fichero maps del /proc. ¿Cambia el tamaño según el parámetro de entrada? ¿Por qué?
+	Parámetro 3:
+			numero de mallocs: 3
+			564157c99000-564157cba000 rw-p 00000000 00:00 0                          [heap]
+
+	Parámetro 5:
+			numero de mallocs: 5
+			55ffd5ae1000-55ffd5b02000 rw-p 00000000 00:00 0                          [heap]
+
+	Parámetro 100:
+			numero de mallocs: 100
+			55a65e1d9000-55a65e25d000 rw-p 00000000 00:00 0                          [heap]
+
+	El tamaño depende del parámetro de entrada ya que éste es el número de mallocs creados. Por lo tanto, la cantidad de memoria reservada cambia.
+
+
+ - ¿Cuál es el tamaño del heap en este caso? Explica los resultados.
+	558998ef4000-558998f15000 rw-p 00000000 00:00 0                          [heap]
+	El tamaño del heap se ha visto decrementado respecto a la versión dinámica inicial ya que la nueva versión libera el espacio de la memoria.
+
+
+ - Para cada ejecución apunta el número de mallocs hechos y la dirección inicial y final del heap que se muestra en el maps del /proc. ¿Cambia el tamaño del heap respecto al observado en la pregunta 6? ¿Por qué?
+	Parámetro 100:
+			numero de sbrk: 100
+			565243059000-5652430bd000 rw-p 00000000 00:00 0                          [heap]
+
+	Parámetro 5:
+			numero de sbrk: 5
+			563142611000-563142616000 rw-p 00000000 00:00 0                          [heap]
+
+	Parámetro 3:
+			numero de sbrk: 3
+			55d528729000-55d52872c000 rw-p 00000000 00:00 0                          [heap]
+
+	El tamaño del heap varia respecto a la antepenúltima pregunta ya que sbrk solo aumenta el límite del heap en el tamaño que le especificamos.
+
+
+¿Qué error contiene el código del programa? ¿Por qué el programa no falla en las primeras iteraciones? Propón una alternativa a este código que evite que se genere la excepción, detectando, antes de que pase, que vamos a hacer un acceso fuera del espacio de direcciones.
+	El programa falla cuando llegamos a la dirección máxima que puede tener el heap. No falla en las primeras iteraciones ya que aún no ha llenado todo el heap. Para arreglar el problema deberíamos comparar el límite del heap (con sbrk(0)) con el puntero p y parar en caso de que estos dos punteros sean iguales.

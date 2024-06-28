@@ -1,0 +1,127 @@
+Las direcciones asignadas son las que aparecen aquí a la izquierda, de todas las instrucciones del programa:
+       |
+       |
+       V
+                 U atoi@GLIBC_2.2.5
+0000000000004010 B __bss_start
+0000000000004010 b completed.0
+                 w __cxa_finalize@GLIBC_2.2.5
+0000000000004000 D __data_start
+0000000000004000 W data_start
+0000000000001110 t deregister_tm_clones
+0000000000001180 t __do_global_dtors_aux
+0000000000003da0 d __do_global_dtors_aux_fini_array_entry
+0000000000004008 D __dso_handle
+0000000000003da8 d _DYNAMIC
+0000000000004010 D _edata
+0000000000004018 B _end
+                 U exit@GLIBC_2.2.5
+00000000000012f8 T _fini
+00000000000011c0 t frame_dummy
+0000000000003d98 d __frame_dummy_init_array_entry
+0000000000002134 r __FRAME_END__
+0000000000003f98 d _GLOBAL_OFFSET_TABLE_
+                 w __gmon_start__
+0000000000002030 r __GNU_EH_FRAME_HDR
+0000000000001000 T _init
+0000000000002000 R _IO_stdin_used
+                 w _ITM_deregisterTMCloneTable
+                 w _ITM_registerTMCloneTable
+0000000000004014 B j
+                 U __libc_start_main@GLIBC_2.34
+00000000000011ec T main
+0000000000001140 t register_tm_clones
+                 U sprintf@GLIBC_2.2.5
+00000000000010e0 T _start
+                 U strlen@GLIBC_2.2.5
+00000000000011c9 T suma
+0000000000004010 D __TMC_END__
+                 U write@GLIBC_2.2.5
+
+Los tipos de símbolos que nos muestra son:
+
+U -> The symbol is undefined.
+
+B / b -> The symbol is in the uninitialized data section (known as BSS).
+
+D / d -> The symbol is in the uninitialized data section (known as BSS).
+
+W / w -> The symbol is a weak symbol that has not been specifically tagged as a weak object symbol.  When a weak defined symbol is linked with a normal defined symbol, the normal defined symbol is used with no error.  When a weak undefined symbol is linked and the symbol is not defined, the value of the symbol is determined in a system-specific manner without error.  On some systems, uppercase indicates that a default value has been specified.
+
+T / t -> The symbol is in the text (code) section.
+
+R / r -> The symbol is in a read only data section.
+
+Es posible saber la dirección de 'j' ya que es una variable global, pero no es posible saber la dirección de 'i' ya que es una variable local y se asignará cuando se ejecute el programa.
+
+La j está en el BSS y la i en un espacio de memoria reservado para la memoria dinámica.
+
+La dirección asignada de la función suma está en la sección de código.
+
+El comando que he usado es:
+gcc -o mem1_previo_v2 mem1_previo_v2.c -static
+
+mem2_previo:
+10:
+00400000-00401000 r--p 00000000 103:05 11818229                          /home/ericdiezapolo/Descargas/S5/mem2_previo
+00401000-00498000 r-xp 00001000 103:05 11818229                          /home/ericdiezapolo/Descargas/S5/mem2_previo
+00498000-004c1000 r--p 00098000 103:05 11818229                          /home/ericdiezapolo/Descargas/S5/mem2_previo
+004c2000-004c6000 r--p 000c1000 103:05 11818229                          /home/ericdiezapolo/Descargas/S5/mem2_previo
+004c6000-004c9000 rw-p 000c5000 103:05 11818229                          /home/ericdiezapolo/Descargas/S5/mem2_previo
+004c9000-004f6000 rw-p 00000000 00:00 0
+01d17000-01d39000 rw-p 00000000 00:00 0                                  [heap]
+7fff78d60000-7fff78d81000 rw-p 00000000 00:00 0                          [stack]
+7fff78db9000-7fff78dbd000 r--p 00000000 00:00 0                          [vvar]
+7fff78dbd000-7fff78dbf000 r-xp 00000000 00:00 0                          [vdso]
+ffffffffff600000-ffffffffff601000 --xp 00000000 00:00 0                  [vsyscall]
+
+HEAP -> 01d39000- 01d17000
+
+40.000:
+00400000-00401000 r--p 00000000 103:05 11818229                          /home/ericdiezapolo/Descargas/S5/mem2_previo
+00401000-00498000 r-xp 00001000 103:05 11818229                          /home/ericdiezapolo/Descargas/S5/mem2_previo
+00498000-004c1000 r--p 00098000 103:05 11818229                          /home/ericdiezapolo/Descargas/S5/mem2_previo
+004c2000-004c6000 r--p 000c1000 103:05 11818229                          /home/ericdiezapolo/Descargas/S5/mem2_previo
+004c6000-004c9000 rw-p 000c5000 103:05 11818229                          /home/ericdiezapolo/Descargas/S5/mem2_previo
+004c9000-004f6000 rw-p 00000000 00:00 0
+020e0000-02102000 rw-p 00000000 00:00 0                                  [heap]
+7ffc4908b000-7ffc490ac000 rw-p 00000000 00:00 0                          [stack]
+7ffc491ae000-7ffc491b2000 r--p 00000000 00:00 0                          [vvar]
+7ffc491b2000-7ffc491b4000 r-xp 00000000 00:00 0                          [vdso]
+ffffffffff600000-ffffffffff601000 --xp 00000000 00:00 0                  [vsyscall]
+
+HEAP -> 02102000 - 020e0000
+
+mem2_previo_v2:
+10:
+00400000-00401000 r--p 00000000 103:05 11818234                          /home/ericdiezapolo/Descargas/S5/mem2_previo_v2
+00401000-00498000 r-xp 00001000 103:05 11818234                          /home/ericdiezapolo/Descargas/S5/mem2_previo_v2
+00498000-004c1000 r--p 00098000 103:05 11818234                          /home/ericdiezapolo/Descargas/S5/mem2_previo_v2
+004c2000-004c6000 r--p 000c1000 103:05 11818234                          /home/ericdiezapolo/Descargas/S5/mem2_previo_v2
+004c6000-004c9000 rw-p 000c5000 103:05 11818234                          /home/ericdiezapolo/Descargas/S5/mem2_previo_v2
+004c9000-004ce000 rw-p 00000000 00:00 0
+011da000-011fd000 rw-p 00000000 00:00 0                                  [heap]
+7ffce5994000-7ffce59b5000 rw-p 00000000 00:00 0                          [stack]
+7ffce59c7000-7ffce59cb000 r--p 00000000 00:00 0                          [vvar]
+7ffce59cb000-7ffce59cd000 r-xp 00000000 00:00 0                          [vdso]
+ffffffffff600000-ffffffffff601000 --xp 00000000 00:00 0                  [vsyscall]
+
+HEAP -> 02102000 - 020e0000
+
+40.000:
+00400000-00401000 r--p 00000000 103:05 11818234                          /home/ericdiezapolo/Descargas/S5/mem2_previo_v2
+00401000-00498000 r-xp 00001000 103:05 11818234                          /home/ericdiezapolo/Descargas/S5/mem2_previo_v2
+00498000-004c1000 r--p 00098000 103:05 11818234                          /home/ericdiezapolo/Descargas/S5/mem2_previo_v2
+004c2000-004c6000 r--p 000c1000 103:05 11818234                          /home/ericdiezapolo/Descargas/S5/mem2_previo_v2
+004c6000-004c9000 rw-p 000c5000 103:05 11818234                          /home/ericdiezapolo/Descargas/S5/mem2_previo_v2
+004c9000-004ce000 rw-p 00000000 00:00 0
+0239b000-023e5000 rw-p 00000000 00:00 0                                  [heap]
+7ffced14f000-7ffced170000 rw-p 00000000 00:00 0                          [stack]
+7ffced1a1000-7ffced1a5000 r--p 00000000 00:00 0                          [vvar]
+7ffced1a5000-7ffced1a7000 r-xp 00000000 00:00 0                          [vdso]
+ffffffffff600000-ffffffffff601000 --xp 00000000 00:00 0                  [vsyscall]
+
+HEAP -> 023e5000 - 0239b000
+
+El programa con mem_previo_v2 como tiene reserva de memoria dinamica tiene unos valores diferentes en el heap mientras que el primero mantiene un valor constante debido a que la reserva de espacio es siempre la misma.
+

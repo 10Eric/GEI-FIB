@@ -1,0 +1,4 @@
+PREGUNTA 17:
+He tenido que añadidir la opción -c para poder hacer el archivo .o .
+He tenido que añadidir la opción -I . para hacer que busque headers en el current path.
+

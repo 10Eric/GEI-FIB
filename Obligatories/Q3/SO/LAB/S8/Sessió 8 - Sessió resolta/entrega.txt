@@ -1,0 +1,10 @@
+ - ¿Qué contiene el fichero al final de la ejecución?¿Contiene la salida del padre y del hijo, o sólo la del padre? ¿Cómo se explica ese contenido?
+	El fichero contiene 'Inicio Fin'. Contiene la salida del proceso padre y el hijo, el cual ha recibido por la pipe el mensaje de su padre.
+
+ - ¿Acaba el programa padre? ¿y el hijo? ¿Por qué?
+	Ninguno acaba. El hijo está bloqueado al tener al otro extremo de la pipe un escritor. Por tanto el padre, que espera a que acabe un hijo, también se queda bloqueado.
+
+ - Si quisiéramos que el lector también pudiera enviar un mensaje al escritor ¿podríamos utilizar la misma pipe con nombre o deberíamos crear otra? Razona la respuesta.
+	Deberíamos crear otra pipe ya que si usáramos la misma no podríamos garantizar que lo que escribe un proceso en la pipe sea exactamente lo que el otro leerá.
+
+	Por ejemplo, los dos procesos pueden escribir en la pipe y luego solo uno lee. El proceso que leerá lo que ha escrito el otro proceso pero también lo suyo.

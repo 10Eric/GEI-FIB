@@ -1,0 +1,1 @@
+cmd_/home/ericdiezapolo/Descargas/S7/deviceDrivers/modules.order := {   echo /home/ericdiezapolo/Descargas/S7/deviceDrivers/myDriver1.o;   echo /home/ericdiezapolo/Descargas/S7/deviceDrivers/myDriver2.o; :; } > /home/ericdiezapolo/Descargas/S7/deviceDrivers/modules.order

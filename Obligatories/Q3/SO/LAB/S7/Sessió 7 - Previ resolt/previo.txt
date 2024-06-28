@@ -1,0 +1,48 @@
+(c) FIBerHub, https://fiberhub.tk
+
+ - ¿Qué valor devuelve la llamada read después de pulsar el ^D?
+	Devuelve 0 en el caso de encontrar un EOF.
+
+
+ - Crea un fichero con un editor de texto cualquiera y lanza el programa ./es1 asociando mediante la shell su entrada estándar a ese fichero. Apunta el comando utilizado en el fichero “previo.txt”.
+	./es1 < entrada.txt
+
+
+  - ¿Cuál es el resultado? ¿Qué operación realiza el comando ‘grep es’?
+	-rwxrwxrwx 1 FIBer FIBer 16760 Nov 11 00:0 es1
+	-rwxrwxrwx 1 FIBer FIBer  1062 Apr 19  2013 es1.c
+	-rwxrwxrwx 1 FIBer FIBer 16944 Nov 11 00:0 es2
+	-rwxrwxrwx 1 FIBer FIBer  1418 Apr 19  2013 es2.c
+	-rwxrwxrwx 1 FIBer FIBer 16760 Nov 11 00:0 es3
+	-rwxrwxrwx 1 FIBer FIBer   880 Nov 13  2013 es3.c
+	-rwxrwxrwx 1 FIBer FIBer 16656 Nov 11 00:0 es4
+	-rwxrwxrwx 1 FIBer FIBer  1089 Apr 19  2013 es4.c
+	-rwxrwxrwx 1 FIBer FIBer 16456 Nov 11 00:0 es5
+	-rwxrwxrwx 1 FIBer FIBer    22 Jan 27  2012 es5.c
+	-rwxrwxrwx 1 FIBer FIBer 16656 Nov 11 00:00 es6
+	-rwxrwxrwx 1 FIBer FIBer    99 Jan 27  2012 es6.c
+	-rwxrwxrwx 1 FIBer FIBer 16608 Nov 11 00:00 es7
+	-rwxrwxrwx 1 FIBer FIBer    93 Jan 30  2012 es7.c
+	-rwxrwxrwx 1 FIBer FIBer 16712 Nov 11 00:00 es8
+	-rwxrwxrwx 1 FIBer FIBer   552 Jan 30  2012 es8.c
+
+    grep muestra las líneas de texto que contienen "es" de la salida generada por el comando "ls -l".
+
+
+ - Ejecuta un pipeline que muestre en la salida estándar el PID, el usuario y el nombre de todos los procesos bash que se están ejecutando en el sistema. Para ello utiliza los comandos ps y grep combinados con una pipe. Anota el comando en el fichero “previo.txt”.
+	ps -A | grep bash
+
+
+ - En el caso del dispositivo lógico terminal (o consola), el device driver que lo gestiona interpreta todos los bytes que se quieren escribir como códigos ASCII, mostrando el carácter correspondiente. El fichero es8.c contiene un programa que escribe dos veces un número por salida estándar: una usando la representación interna de la máquina y otra convirtiendo antes el número a string. Compílalo y ejecútalo. ¿Cuántos bytes se escriben en cada caso? ¿Qué diferencias observas en lo que aparece en pantalla?
+	En el primer caso se escriben 4 bytes y en el segundo se escriben 5 bytes. En el primer caso se interpreta el entero en hexadecimal como un string. En cambio, en el segundo se convierte el entero a string.
+
+
+ - ¿Qué función sirve para implementar el read específico del dispositivo gestionado por cada device driver?
+	En el caso de myDriver1 usamos la función read_driver_1. Para myDriver2 se usa read_driver_2.
+
+
+ - ¿Qué son el major y el minor? ¿Para qué sirven? ¿Qué major y minor utilizan los dos device drivers?
+	El major identifica el tipo de driver y el minor identifica la instancia concreta.
+	En este caso, myDriver1 y myDriver2 usan los siguientes valores:
+		myDriver1: Major 249, Minor 0
+		myDriver2: Major 250, Minor 0

@@ -1,0 +1,71 @@
+ejemplo_fork1 ->
+Soy el proceso 8351 (padre)
+Soy el proceso 8352 (hijo)
+
+Aparecen dos procesos porque el primer de ellos hace un fork, y se escriben los PID de cada proceso.
+
+
+ejemplo_fork2 ->
+Antes del fork: Soy el proceso 8952
+PADRE: Soy el proceso 8952
+Los DOS: Soy el proceso 8952
+HIJO: Soy el proceso 8953
+Los DOS: Soy el proceso 8953
+
+El proceso 8952 es el padre y el 8953 el hijo tal y como dice el programa y la parte de "Los DOS" se ejecuta en ambos procesos.
+
+
+ejemplo_fork3 ->
+Antes del fork: Soy el proceso 9303
+PADRE: Soy el proceso 9303
+Solo lo ejecuta el padre: Soy el proceso 9303
+HIJO: Soy el proceso 9304
+
+El proceso 9303 es el padre y el 9304 el hijo. El programa lo hacen los dos menos la parte de "Solo lo ejecuta el padre" que solo la hace el proceso padre porque cuando el hijo hace
+la parte de codigo de "HIJO" tiene un exit al final y acaba la ejecucion de este proceso hijo.
+
+
+ejemplo_fork4 ->
+Antes del fork: Soy el proceso 9426
+PADRE: Soy el proceso 9426
+Solo lo ejecuta el padre: Soy el proceso 9426
+HIJO: Soy el proceso 9427
+HIJO acaba: Soy el proceso 9427
+
+El padre acaba antes la ejecucion del programa.
+
+
+ejemplo_fork5 ->
+Antes del fork: Soy el proceso 9596
+PADRE: Soy el proceso 9596
+HIJO: Soy el proceso 9597
+HIJO:La variable_global vale A y la local a
+PADRE:La variable_global vale A y la local a
+Solo lo ejecuta el padre: Soy el proceso 9596
+
+Las primeras dos líneas las ejecuta el proceso padre, las dos siguientes, el proceso hijo. Las dos últimas líneas las ejecuta el padre.
+Cada uno tiene sus propias variables por lo que sus códigos no se interfieren entre si.
+
+ejemplo_fork6 ->
+El proceso padre ejecuta un fork, y crea un hijo. Entonces en la salida cada uno imprime 100.000 veces el estado de su variable_global.
+No, no podemos assegurar que sea igual ya que la CPU decide como va alternando los procesos y puede que alguna vez no ejecute los procesos en el mismo orden.
+
+
+¿Por qué no compila el programa ejemplo_fork7.c? ¿Tiene algo que ver con el hecho de crear procesos? ¿Cómo se puede modificar el código para que escriba
+el valor de la “variable_local”?
+No, no tiene nada que ver co crear procesos sino en el hecho que la variable_local esta definida en el main y  la funcion Escribe_variables no es capaz de leer ese valor.
+Se puede modificar el codigo pasando por valor en esta funcion el valor de variable_local.
+
+
+ejemplo_exec1 ->
+Soy el proceso: 10333
+El programa imprime Soy el proceso: 10333 y la misma salida que si hiciera el comando ls -l.
+Solo aparece el mensaje una sola vez, ya que despues de ejecutar la primera parte del codigo, se continua con el código del proceso llamado con execlp.
+
+
+ejemplo_exec2 ->
+Soy el proceso: 10688
+Soy el proceso 10688
+Soy el proceso 10689
+
+El programa ejecuta la primera parte del codigo, y despues se continua con el código del proceso llamado con execlp que es el codigo del programa ejemmplo_fork1. Este codigo solo lo ejecutan dos procesos el padre y el hijo, ya que al cambiar de programa el padre mantiene su estructura.

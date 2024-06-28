@@ -1,0 +1,1 @@
+cmd_/home/ericdiezapolo/Descargas/S7/deviceDrivers/myDriver1.mod := printf '%s\n'   myDriver1.o | awk '!x[$$0]++ { print("/home/ericdiezapolo/Descargas/S7/deviceDrivers/"$$0) }' > /home/ericdiezapolo/Descargas/S7/deviceDrivers/myDriver1.mod
