@@ -1,10 +1,10 @@
 # GEI-FIB
 Grau Enginyeria Informàtica FIB-UPC 2022-2026
 
-**Q1**- 2022-23 Q1
-**Q2**- 2022-23 Q2
-**Q3**- 2023-2024 Q1
-**Q4**- 2023-2024 Q2
+- **Q1**- 2022-23 Q1
+- **Q2**- 2022-23 Q2
+- **Q3**- 2023-2024 Q1
+- **Q4**- 2023-2024 Q2
 
 ## 📚 Assignatures
  - **Q1** [🟡PRO1](Obligatories/Q1/PRO1) - [🔵IC](Obligatories/Q1/IC) - [🟢FM](Obligatories/Q1/FM) - [🟠F](Obligatories/Q1/F)
