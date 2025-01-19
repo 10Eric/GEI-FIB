@@ -1,0 +1,112 @@
+package edu.upc.prop.clusterxx;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class CalculBackTracking implements EstrategiaCalculo {
+
+    public List<ProducteColocat> arrangeProductsBySimilarity(List<ProducteColocat> productes, int altura, boolean mantenerCambios) {
+        int medida;
+        if (productes.size() % altura == 0) {
+            medida = productes.size() / altura;
+        } else {
+            medida = productes.size() / altura + 1;
+        }
+        ProducteColocat[] arranged = new ProducteColocat[productes.size()];
+        int[] posicionesFijas = new int[productes.size()];
+
+        // Si hay cambios manuales, ubicar esos productos en su posición fija
+        if (mantenerCambios) {
+            for (ProducteColocat producte : productes) {
+                if (producte.isManualmenteModificado()) {
+                    int pos = producte.getPos() - 1;
+                    arranged[pos] = producte;
+                    posicionesFijas[pos] = 1;  // Marcar posición como fija
+                } else {
+                    arranged[producte.getPos() - 1] = null;
+                }
+            }
+        }
+
+        // Generar una lista de productos no modificados
+        ProducteColocat[] noModificados = new ProducteColocat[productes.size()];
+        int idxNoModificados = 0;
+        for (ProducteColocat producte : productes) {
+            if (!producte.isManualmenteModificado()) {
+                noModificados[idxNoModificados++] = producte;
+            }
+        }
+
+        // Generar permutaciones de productos no modificados manualmente
+        List<ProducteColocat[]> permutaciones = new ArrayList<>();
+        generarPermutaciones(noModificados, 0, idxNoModificados, permutaciones);
+
+        int maxSimilitud = -1;
+        ProducteColocat[] mejorDisposicion = new ProducteColocat[arranged.length];
+
+        for (ProducteColocat[] disposicion : permutaciones) {
+            int pos = 0;
+            ProducteColocat[] tempArranged = arranged.clone();
+
+            // Colocar productos no fijos en posiciones vacías de `tempArranged`
+            for (int i = 0; i < tempArranged.length; i++) {
+                if (posicionesFijas[i] == 0) {
+                    tempArranged[i] = disposicion[pos++];
+                }
+            }
+
+            int similitudTotal = 0;
+            for (int i = 0; i < tempArranged.length; i++) {
+                Producte p1 = tempArranged[i].getProducte();
+                Producte pLeft = tempArranged[(i - 1 + tempArranged.length) % tempArranged.length].getProducte();
+                Producte pRight = tempArranged[(i + 1) % tempArranged.length].getProducte();
+                similitudTotal += calculateSimilarity(p1, pLeft) + calculateSimilarity(p1, pRight);
+            }
+
+            // Si la disposición actual tiene mayor similitud, se guarda como la mejor
+            if (similitudTotal > maxSimilitud) {
+                maxSimilitud = similitudTotal;
+                System.arraycopy(tempArranged, 0, mejorDisposicion, 0, arranged.length);
+            }
+        }
+
+        // Ajustar posiciones y alturas en la disposición final
+        for (int i = 0; i < mejorDisposicion.length; i++) {
+            if (mejorDisposicion[i] != null) {
+                mejorDisposicion[i].setPos(i + 1);
+                mejorDisposicion[i].setAltura((i / medida) + 1);
+            }
+        }
+
+        // Convertir a una lista final compacta
+        return Arrays.asList(mejorDisposicion);
+    }
+
+
+    public void generarPermutaciones(ProducteColocat[] productos, int index, int size, List<ProducteColocat[]> permutaciones) {
+        if (index == size - 1) {
+            permutaciones.add(productos.clone());
+            return;
+        }
+
+        for (int i = index; i < size; i++) {
+            ProducteColocat temp = productos[i];
+            productos[i] = productos[index];
+            productos[index] = temp;
+
+            generarPermutaciones(productos, index + 1, size, permutaciones);
+
+            // Revertir intercambio
+            temp = productos[i];
+            productos[i] = productos[index];
+            productos[index] = temp;
+        }
+    }
+
+    public int calculateSimilarity(Producte p1, Producte p2) {
+        if (p1 == null || p2 == null) return 0;
+        return p1.getSimilitud(p2);
+    }
+}

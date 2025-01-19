@@ -1,0 +1,96 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group = 'edu.upc.prop.clusterxx'
+version = '1.0-SNAPSHOT'
+
+ext {
+    javaMainClass = 'edu.upc.prop.clusterxx.Main'
+}
+
+application {
+    mainClassName = javaMainClass
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': javaMainClass
+    }
+    destinationDirectory = file("$projectDir/EXE")
+}
+
+// Apply a specific Java toolchain to ease working on different environments.
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(22)
+    }
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['FONTS/src/main/java']
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'com.google.code.gson:gson:2.8.9'
+    testImplementation('junit:junit:4.13.1')
+}
+
+task compileAllClasses(type: JavaCompile) {
+    source = sourceSets.main.java
+    classpath = sourceSets.main.compileClasspath
+    destinationDir = file("$buildDir/classes/java/main")
+}
+
+
+task jarDriverPerfil(type: Jar) {
+    dependsOn compileAllClasses
+    archiveBaseName.set('DriverPerfil')
+    archiveVersion.set('')
+    from sourceSets.main.output
+    manifest {
+        attributes 'Main-Class': 'edu.upc.prop.clusterxx.drivers.DriverPerfil'
+    }
+    destinationDirectory = file("$projectDir/EXE")
+}
+
+task jarDriverDistribucio(type: Jar) {
+    dependsOn compileAllClasses
+    archiveBaseName.set('DriverDistribucio')
+    archiveVersion.set('')
+    from sourceSets.main.output
+    manifest {
+        attributes 'Main-Class': 'edu.upc.prop.clusterxx.drivers.DriverDistribucio'
+    }
+    destinationDirectory = file("$projectDir/EXE")
+}
+
+task jarDriverPrestatgeria(type: Jar) {
+    dependsOn compileAllClasses
+    archiveBaseName.set('DriverPrestatgeria')
+    archiveVersion.set('')
+    from sourceSets.main.output
+    manifest {
+        attributes 'Main-Class': 'edu.upc.prop.clusterxx.drivers.DriverPrestatgeria'
+    }
+    destinationDirectory = file("$projectDir/EXE")
+}
+
+task jarAllDrivers {
+    dependsOn jarDriverPerfil, jarDriverDistribucio, jarDriverPrestatgeria
+    group = 'build'
+    description = 'Generates JAR files for all drivers'
+}
+
+clean {
+    delete rootProject.buildDir
+}
