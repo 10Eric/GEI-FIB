@@ -14,4 +14,4 @@ Grau Enginyeria Informàtica FIB-UPC 2022-2026
  - **Q4** [🟡IDI](Obligatories/Q4/IDI) - [🔵AC](Obligatories/Q4/AC) - [🟤EEE](Obligatories/Q4/EEE) - [⚪IES](Obligatories/Q4/IES) - [🟣XC](Obligatories/Q4/XC)
 
 ### 📝 Especialitat: Sistemes D'Informacio (SI) / Software
- - **🍁Q5** [🟡PROP](Obligatories/Q5/PROP) - [⚪SIO](Obligatories/Q5/SIO) - [⚪ER](Obligatories/Q5/ER) - [⚪DSI](Obligatories/Q5/DSI)
+ - **Q5** [🟡PROP](Obligatories/Q5/PROP) - [⚪SIO](Obligatories/Q5/SIO) - [⚪ER](Obligatories/Q5/ER) - [⚪DSI](Obligatories/Q5/DSI)
