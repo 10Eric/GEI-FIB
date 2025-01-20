@@ -1,0 +1,5 @@
+edu.upc.prop.clusterxx.clases_dominio
+edu.upc.prop.clusterxx.controladores
+edu.upc.prop.clusterxx.controladores_persistencia
+edu.upc.prop.clusterxx.controladores_presentacion
+edu.upc.prop.clusterxx.estrategias_calculo

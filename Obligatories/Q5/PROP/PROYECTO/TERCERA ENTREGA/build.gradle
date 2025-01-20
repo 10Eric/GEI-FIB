@@ -1,0 +1,75 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group = 'edu.upc.prop.clusterxx'
+version = ''
+
+ext {
+    javaMainClass = 'edu.upc.prop.clusterxx.controladores_presentacion.Presentacion_Main'
+}
+
+application {
+    mainClassName = javaMainClass
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': javaMainClass
+    }
+    destinationDirectory = file("$projectDir/EXE")
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    from {
+        // Incluye el directorio de recursos en el JAR
+        fileTree(dir: 'src/main/resources', includes: ['**/*'])
+    }
+}
+
+// Java toolchain configuration
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(22)
+    }
+}
+
+// Source sets configuration
+sourceSets {
+    main {
+        java {
+            srcDirs = ['FONTS/src/main/java'] // Ruta al código fuente principal
+        }
+        resources {
+            srcDirs = ['FONTS/src/main/resources']
+        }
+    }
+    test {
+        java {
+            srcDirs = ['FONTS/src/test/java'] // Ruta al código de pruebas
+        }
+    }
+}
+
+// Repositories and dependencies
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'com.google.code.gson:gson:2.8.9' // Librería Gson
+    testImplementation 'junit:junit:4.13.2'          // Librería para pruebas JUnit
+}
+
+// Compile all classes (main and test)
+task compileAllClasses(type: JavaCompile) {
+    source = sourceSets.main.allSource + sourceSets.test.allSource
+    classpath = sourceSets.main.compileClasspath + sourceSets.test.compileClasspath
+    destinationDir = file("$projectDir/classes/java")
+}
+
+// Clean task
+clean {
+    delete rootProject.buildDir
+}

@@ -1,0 +1,23 @@
+[33mcommit dd15712fd60aff43e84ea65399a2360f668ff4f3[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: alicia.ageno <ageno@cs.upc.edu>
+Date:   Thu Jul 6 16:04:49 2023 +0000
+
+    Update README.md
+
+[33mcommit 7341c0a6cc0178a378147356d36170d2eb4e28d9[m
+Author: alicia.ageno <ageno@cs.upc.edu>
+Date:   Thu Jul 6 15:45:03 2023 +0000
+
+    Update build.gradle, adding comments for students
+
+[33mcommit 271079665dd1fb0ec1309a5c50b7587fd352a605[m
+Author: Juan Francisco Fernandez Carrasco <juan.fernandezc@adevinta.com>
+Date:   Thu Jun 1 23:19:54 2023 +0200
+
+    Added Junit testing examples, Junit changed from version 5 to version 4 minor fixes in gradle config files
+
+[33mcommit e278091a1ff3d2e8dc9473d4d1d3f818544d2e20[m
+Author: Juan Francisco Fernandez Carrasco <juan.fernandezc@adevinta.com>
+Date:   Fri May 26 11:24:18 2023 +0200
+
+    Initial commit
