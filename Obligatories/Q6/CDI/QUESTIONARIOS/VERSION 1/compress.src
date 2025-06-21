@@ -1,0 +1,256 @@
+import heapq
+import struct
+import sys
+import os
+import math
+import re
+from collections import defaultdict
+
+class HuffmanNode:
+    def __init__(self, value, freq):
+        self.value = value
+        self.freq = freq
+        self.left = None
+        self.right = None
+    
+    def __lt__(self, other):
+        return self.freq < other.freq
+
+def build_huffman_tree(frequencies):
+    heap = [HuffmanNode(value, freq) for value, freq in frequencies.items()]
+    heapq.heapify(heap)
+    
+    while len(heap) > 1:
+        left = heapq.heappop(heap)
+        right = heapq.heappop(heap)
+        internal = HuffmanNode(None, left.freq + right.freq)
+        internal.left = left
+        internal.right = right
+        heapq.heappush(heap, internal)
+    
+    return heap[0] if heap else None
+
+def generate_codes(node, prefix="", codes=None):
+    if codes is None:
+        codes = {}
+    if node:
+        if node.value is not None:
+            codes[node.value] = prefix or "0"
+        else:
+            generate_codes(node.left, prefix + "0", codes)
+            generate_codes(node.right, prefix + "1", codes)
+    return codes
+
+def serialize_tree(root):
+    if root is None:
+        return b''
+    if root.value is not None:
+        return b'1' + struct.pack('>i', root.value)
+    return b'0' + serialize_tree(root.left) + serialize_tree(root.right)
+
+def deserialize_tree(data, index=None):
+    if index is None:
+        index = [0]
+    if index[0] >= len(data):
+        return None
+    node_type = data[index[0]]
+    index[0] += 1
+    if node_type == ord('1'):
+        value = struct.unpack('>i', data[index[0]:index[0]+4])[0]
+        index[0] += 4
+        return HuffmanNode(value, 0)
+    node = HuffmanNode(None, 0)
+    node.left = deserialize_tree(data, index)
+    node.right = deserialize_tree(data, index)
+    return node
+
+def delta_encode(values):
+    if not values:
+        return []
+    result = [values[0]]
+    for i in range(1, len(values)):
+        result.append(values[i] - values[i-1])
+    return result
+
+def delta_decode(deltas):
+    if not deltas:
+        return []
+    result = [deltas[0]]
+    for i in range(1, len(deltas)):
+        result.append(result[-1] + deltas[i])
+    return result
+
+def rle_encode(values):
+    if not values:
+        return []
+    result = []
+    prev = values[0]
+    count = 1
+    for v in values[1:]:
+        if v == prev and count < 255:
+            count += 1
+        else:
+            result.append((prev, count))
+            prev = v
+            count = 1
+    result.append((prev, count))
+    return result
+
+def rle_decode(pairs):
+    result = []
+    for value, count in pairs:
+        result.extend([value] * count)
+    return result
+
+def compress(input_file, output_file):
+    try:
+        with open(input_file, 'r') as f:
+            original_text = f.read()
+        # Extrae números y posiciones de salto de línea
+        numbers = list(map(int, re.findall(r'-?\d+', original_text)))
+        # Encuentra los índices donde hay salto de línea después de un número
+        line_breaks = []
+        idx = 0
+        for match in re.finditer(r'-?\d+([^\d-]*)', original_text):
+            if '\n' in match.group(1):
+                line_breaks.append(idx)
+            idx += 1
+        # Compresión igual que antes
+        deltas = delta_encode(numbers)
+        rle = rle_encode(deltas)
+        frequencies = defaultdict(int)
+        for value, count in rle:
+            frequencies[(value, count)] += 1
+        huffman_tree = build_huffman_tree(frequencies)
+        huffman_codes = generate_codes(huffman_tree)
+        encoded_bits = ''.join(huffman_codes[(value, count)] for value, count in rle)
+        padding = (8 - len(encoded_bits) % 8) % 8
+        encoded_bits += '0' * padding
+        encoded_bytes = bytearray()
+        for i in range(0, len(encoded_bits), 8):
+            encoded_bytes.append(int(encoded_bits[i:i+8], 2))
+        tree_bytes = serialize_tree_pairs(huffman_tree)
+        # Guarda los saltos de línea como enteros (índices)
+        with open(output_file, 'wb') as f:
+            f.write(struct.pack('>I', len(numbers)))
+            f.write(struct.pack('>I', len(tree_bytes)))
+            f.write(struct.pack('>B', padding))
+            f.write(struct.pack('>I', len(line_breaks)))
+            for idx in line_breaks:
+                f.write(struct.pack('>I', idx))
+            f.write(tree_bytes)
+            f.write(encoded_bytes)
+        return True
+    except Exception as e:
+        print(f"Error en compress: {e}")
+        return False
+
+def serialize_tree_pairs(root):
+    if root is None:
+        return b''
+    if root.value is not None:
+        value, count = root.value
+        return b'1' + struct.pack('>iB', value, count)
+    return b'0' + serialize_tree_pairs(root.left) + serialize_tree_pairs(root.right)
+
+def deserialize_tree_pairs(data, index=None):
+    if index is None:
+        index = [0]
+    if index[0] >= len(data):
+        return None
+    node_type = data[index[0]]
+    index[0] += 1
+    if node_type == ord('1'):
+        value = struct.unpack('>iB', data[index[0]:index[0]+5])
+        index[0] += 5
+        return HuffmanNode((value[0], value[1]), 0)
+    node = HuffmanNode(None, 0)
+    node.left = deserialize_tree_pairs(data, index)
+    node.right = deserialize_tree_pairs(data, index)
+    return node
+
+def decompress(input_file, output_file):
+    try:
+        with open(input_file, 'rb') as f:
+            num_heights = struct.unpack('>I', f.read(4))[0]
+            tree_size = struct.unpack('>I', f.read(4))[0]
+            padding = struct.unpack('>B', f.read(1))[0]
+            n_breaks = struct.unpack('>I', f.read(4))[0]
+            line_breaks = [struct.unpack('>I', f.read(4))[0] for _ in range(n_breaks)]
+            tree_bytes = f.read(tree_size)
+            compressed_data = f.read()
+        huffman_tree = deserialize_tree_pairs(tree_bytes)
+        bit_string = ''.join(f"{byte:08b}" for byte in compressed_data)
+        if padding > 0:
+            bit_string = bit_string[:-padding]
+
+        # Construye el diccionario de códigos a valores
+        code_to_value = build_code_to_value_dict(huffman_tree)
+
+        # Decodificación rápida
+        decoded_pairs = []
+        i = 0
+        total_decoded = 0
+        max_code_len = max(len(code) for code in code_to_value)
+        min_code_len = min(len(code) for code in code_to_value)
+        while i < len(bit_string) and total_decoded < num_heights:
+            for l in range(min_code_len, max_code_len + 1):
+                if i + l > len(bit_string):
+                    break
+                code = bit_string[i:i+l]
+                if code in code_to_value:
+                    value = code_to_value[code]
+                    decoded_pairs.append(value)
+                    total_decoded += value[1]
+                    i += l
+                    break
+            else:
+                # No se encontró código válido, error de datos
+                break
+
+        deltas = rle_decode(decoded_pairs)
+        deltas = deltas[:num_heights]
+        heights = delta_decode(deltas)
+        with open(output_file, 'w') as f:
+            for idx, n in enumerate(heights):
+                f.write(str(n))
+                if idx in line_breaks:
+                    f.write('\n')
+                else:
+                    f.write(' ')
+        return True
+    except Exception as e:
+        print(f"Error en decompress: {e}")
+        return False
+
+# Añade esta función en tu archivo:
+def build_code_to_value_dict(node, prefix="", code_to_value=None):
+    if code_to_value is None:
+        code_to_value = {}
+    if node.value is not None:
+        code_to_value[prefix or "0"] = node.value
+    else:
+        build_code_to_value_dict(node.left, prefix + "0", code_to_value)
+        build_code_to_value_dict(node.right, prefix + "1", code_to_value)
+    return code_to_value
+
+if __name__ == "__main__":
+    if len(sys.argv) != 4 or sys.argv[1] not in ['-c', '-d']:
+        print("Uso: sea_level_compress.py -c/-d archivo_entrada archivo_salida")
+        sys.exit(1)
+    
+    input_file = sys.argv[2]
+    output_file = sys.argv[3]
+    
+    if sys.argv[1] == '-c':
+        if compress(input_file, output_file):
+            print(f"Archivo comprimido correctamente: {output_file}")
+        else:
+            print("Error al comprimir el archivo")
+            sys.exit(1)
+    else:
+        if decompress(input_file, output_file):
+            print(f"Archivo descomprimido correctamente: {output_file}")
+        else:
+            print("Error al descomprimir el archivo")
+            sys.exit(1)

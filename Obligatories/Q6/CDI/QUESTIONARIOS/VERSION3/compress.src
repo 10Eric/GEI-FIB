@@ -1,0 +1,182 @@
+#!/usr/bin/env python3
+
+import heapq
+import struct
+import sys
+import os
+import re
+from collections import Counter
+
+# ───────────── Huffman ─────────────
+
+class HuffmanNode:
+    def __init__(self, value=None, freq=0):
+        self.value = value
+        self.freq = freq
+        self.left = None
+        self.right = None
+    def __lt__(self, other): return self.freq < other.freq
+
+def build_huffman_tree(frequencies):
+    heap = [HuffmanNode(val, freq) for val, freq in frequencies.items()]
+    heapq.heapify(heap)
+    while len(heap) > 1:
+        l = heapq.heappop(heap)
+        r = heapq.heappop(heap)
+        node = HuffmanNode(freq=l.freq + r.freq)
+        node.left, node.right = l, r
+        heapq.heappush(heap, node)
+    return heap[0]
+
+def generate_codes(node, prefix='', codebook=None):
+    if codebook is None:
+        codebook = {}
+    if node.value is not None:
+        codebook[node.value] = prefix or '0'
+    else:
+        generate_codes(node.left, prefix + '0', codebook)
+        generate_codes(node.right, prefix + '1', codebook)
+    return codebook
+
+def encode_bitstring(bitstring):
+    padding = (8 - len(bitstring) % 8) % 8
+    bitstring += '0' * padding
+    return bytes([padding]) + bytes(int(bitstring[i:i+8], 2) for i in range(0, len(bitstring), 8))
+
+def decode_bitstring(data):
+    padding = data[0]
+    bits = ''.join(f"{b:08b}" for b in data[1:])
+    return bits[:-padding]
+
+# ───────────── Delta + RLE ─────────────
+
+def predictive_encode(values):
+    return [values[0]] + [values[i] - values[i - 1] for i in range(1, len(values))]
+
+def predictive_decode(deltas):
+    for i in range(1, len(deltas)):
+        deltas[i] += deltas[i - 1]
+    return deltas
+
+def rle_encode(deltas):
+    result = []
+    i = 0
+    while i < len(deltas):
+        v = deltas[i]
+        count = 1
+        while i + count < len(deltas) and deltas[i + count] == v and count < 65535:
+            count += 1
+        result.append((v, count))
+        i += count
+    return result
+
+def rle_decode(pairs):
+    output = []
+    for val, count in pairs:
+        output.extend([val] * count)
+    return output
+
+# ───────────── COMPRESSION ─────────────
+
+def compress(input_file, output_file):
+    try:
+        with open(input_file, 'r') as f:
+            text = f.read()
+
+        numbers = list(map(int, re.findall(r'-?\d+', text)))
+        deltas = predictive_encode(numbers)
+        rle = rle_encode(deltas)
+
+        # Corregido: 4 bytes signed int + 2 bytes unsigned short
+        packed = [struct.pack('>ih', v, c) for v, c in rle]
+        freq = Counter(packed)
+        tree = build_huffman_tree(freq)
+        codebook = generate_codes(tree)
+
+        # Codificamos
+        encoded_bits = ''.join(codebook[symbol] for symbol in packed)
+        encoded_data = encode_bitstring(encoded_bits)
+
+        with open(output_file, 'wb') as f:
+            f.write(struct.pack('>i', numbers[0]))  # valor inicial
+
+            f.write(struct.pack('>H', len(codebook)))  # tamaño tabla
+            for symbol, code in codebook.items():
+                f.write(struct.pack('B', len(code)))    # longitud del código
+                f.write(symbol)                         # símbolo: 6 bytes (4+2)
+                f.write(int(code, 2).to_bytes((len(code)+7)//8, 'big'))  # código en bits
+
+            f.write(encoded_data)
+
+        orig_size = os.path.getsize(input_file)
+        comp_size = os.path.getsize(output_file)
+        ratio = orig_size / comp_size if comp_size > 0 else 0
+        print(f"✅ Ratio de compresión: {ratio:.2f}x")
+        return True
+    except Exception as e:
+        print(f"❌ Error en compresión: {e}")
+        return False
+
+# ───────────── DECOMPRESSION ─────────────
+
+def decompress(input_file, output_file):
+    try:
+        with open(input_file, 'rb') as f:
+            first_val = struct.unpack('>i', f.read(4))[0]
+            table_size = struct.unpack('>H', f.read(2))[0]
+
+            rev_codebook = {}
+            for _ in range(table_size):
+                code_len = struct.unpack('B', f.read(1))[0]
+                symbol = f.read(6)  # 4 bytes valor + 2 bytes count
+                byte_len = (code_len + 7) // 8
+                code_bits = bin(int.from_bytes(f.read(byte_len), 'big'))[2:].zfill(code_len)
+                rev_codebook[code_bits] = symbol
+
+            bit_data = f.read()
+            bits = decode_bitstring(bit_data)
+
+            decoded = []
+            buffer = ''
+            for b in bits:
+                buffer += b
+                if buffer in rev_codebook:
+                    val, count = struct.unpack('>ih', rev_codebook[buffer])
+                    decoded.append((val, count))
+                    buffer = ''
+
+            deltas = rle_decode(decoded)
+            values = predictive_decode([first_val] + deltas[1:])
+
+        with open(output_file, 'w') as f:
+            for i, v in enumerate(values, 1):
+                if i % 35001 == 0:
+                    f.write(f"{v}\n")
+                else:
+                    f.write(f"{v} ")
+        return True
+    except Exception as e:
+        print(f"❌ Error en descompresión: {e}")
+        return False
+
+# ───────────── Main ─────────────
+
+if __name__ == "__main__":
+    if len(sys.argv) != 4 or sys.argv[1] not in ['-c', '-d']:
+        print("Uso: compress.src -c|-d input_file output_file")
+        sys.exit(1)
+
+    mode = sys.argv[1]
+    infile = sys.argv[2]
+    outfile = sys.argv[3]
+
+    if mode == '-c':
+        if compress(infile, outfile):
+            print("Archivo comprimido correctamente.")
+        else:
+            sys.exit(1)
+    else:
+        if decompress(infile, outfile):
+            print("Archivo descomprimido correctamente.")
+        else:
+            sys.exit(1)

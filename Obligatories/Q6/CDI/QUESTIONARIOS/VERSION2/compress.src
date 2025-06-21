@@ -1,0 +1,179 @@
+import heapq
+import struct
+import sys
+import os
+import math
+import re
+from collections import defaultdict, Counter
+
+class HuffmanNode:
+    def __init__(self, value, freq):
+        self.value = value
+        self.freq = freq
+        self.left = None
+        self.right = None
+    
+    def __lt__(self, other):
+        return self.freq < other.freq
+
+def build_huffman_tree(frequencies):
+    heap = [HuffmanNode(value, freq) for value, freq in frequencies.items()]
+    heapq.heapify(heap)
+    
+    while len(heap) > 1:
+        left = heapq.heappop(heap)
+        right = heapq.heappop(heap)
+        internal = HuffmanNode(None, left.freq + right.freq)
+        internal.left = left
+        internal.right = right
+        heapq.heappush(heap, internal)
+    
+    return heap[0] if heap else None
+
+def generate_codes(node, prefix="", codes=None):
+    if codes is None:
+        codes = {}
+    if node:
+        if node.value is not None:
+            codes[node.value] = prefix or "0"
+        else:
+            generate_codes(node.left, prefix + "0", codes)
+            generate_codes(node.right, prefix + "1", codes)
+    return codes
+
+def predictive_encode(values):
+    """Optimized predictive encoding"""
+    if not values:
+        return []
+    
+    result = [values[0]]  # First value remains the same
+    for i in range(1, len(values)):
+        prediction = values[i-1]
+        result.append(values[i] - prediction)
+    return result
+
+def advanced_rle_encode(values):
+    """Optimized RLE that detects repeated patterns"""
+    if not values:
+        return []
+    
+    result = []
+    i = 0
+    while i < len(values):
+        if values[i] == 0:
+            count = 1
+            while i + count < len(values) and values[i + count] == 0 and count < 255:
+                count += 1
+            result.append((0, count))
+            i += count
+        elif -5 <= values[i] <= 5:
+            value = values[i]
+            count = 1
+            while i + count < len(values) and values[i + count] == value and count < 255:
+                count += 1
+            result.append((value, count))
+            i += count
+        else:
+            result.append((values[i], 1))
+            i += 1
+    
+    return result
+
+def build_huffman_codes_from_rle(rle_values):
+    frequencies = Counter(rle_values)
+    huffman_tree = build_huffman_tree(frequencies)
+    return generate_codes(huffman_tree)
+
+def compress(input_file, output_file):
+    try:
+        with open(input_file, 'r') as f:
+            original_text = f.read()
+        
+        # Extract numbers
+        numbers = list(map(int, re.findall(r'-?\d+', original_text)))
+        
+        # Apply predictive encoding
+        deltas = predictive_encode(numbers)
+        
+        # Apply RLE
+        rle = advanced_rle_encode(deltas)
+        
+        # Huffman encode the RLE pairs
+        huffman_codes = build_huffman_codes_from_rle(rle)
+        
+        # Create the encoded bitstream
+        encoded_bits = ''.join(huffman_codes[pair] for pair in rle)
+        
+        # Padding
+        padding = (8 - len(encoded_bits) % 8) % 8
+        encoded_bits += '0' * padding
+        
+        # Convert to bytearray
+        encoded_bytes = bytearray()
+        for i in range(0, len(encoded_bits), 8):
+            encoded_bytes.append(int(encoded_bits[i:i+8], 2))
+        
+        # Write compressed data to file
+        with open(output_file, 'wb') as f:
+            f.write(encoded_bytes)
+        
+        # Calculate compression ratio
+        original_size = os.path.getsize(input_file)
+        compressed_size = os.path.getsize(output_file)
+        ratio = original_size / compressed_size if compressed_size > 0 else 0
+        print(f"Compression ratio: {ratio:.2f}x")
+        return True
+    except Exception as e:
+        print(f"Error in compress: {e}")
+        return False
+
+def decompress(input_file, output_file):
+    try:
+        with open(input_file, 'rb') as f:
+            compressed_data = f.read()
+        
+        # Reconstruct the bit string from bytearray
+        bit_string = ''.join(f"{byte:08b}" for byte in compressed_data)
+        
+        # Decode using Huffman decoding
+        huffman_tree = build_huffman_tree_from_encoded_data(bit_string)
+        
+        # Retrieve decoded data
+        decoded_rle = decode_huffman_bits(huffman_tree, bit_string)
+        
+        # Apply RLE decoding
+        decoded_deltas = advanced_rle_decode(decoded_rle)
+        
+        # Predictive decoding
+        values = predictive_decode(decoded_deltas)
+        
+        # Write decompressed data to file
+        with open(output_file, 'w') as f:
+            for value in values:
+                f.write(f"{value} ")
+        
+        return True
+    except Exception as e:
+        print(f"Error in decompress: {e}")
+        return False
+
+if __name__ == "__main__":
+    if len(sys.argv) != 4 or sys.argv[1] not in ['-c', '-d']:
+        print("Usage: compress.py -c/-d input_file output_file")
+        sys.exit(1)
+    
+    input_file = sys.argv[2]
+    output_file = sys.argv[3]
+    
+    if sys.argv[1] == '-c':
+        if compress(input_file, output_file):
+            print(f"File compressed successfully: {output_file}")
+        else:
+            print("Error compressing file")
+            sys.exit(1)
+    else:
+        if decompress(input_file, output_file):
+            print(f"File decompressed successfully: {output_file}")
+        else:
+            print("Error decompressing file")
+            sys.exit(1)

@@ -1,0 +1,42 @@
+#!/bin/bash
+
+# Script para comprimir/descomprimir archivos de alturas
+# Uso: ./compress.cdi [-c|-d] infile outfile
+
+if [ "$#" -ne 3 ]; then
+    echo "Uso: $0 [-c|-d] infile outfile"
+    exit 1
+fi
+
+mode=$1
+infile=$2
+outfile=$3
+
+# Verificar que el modo sea válido
+if [ "$mode" != "-c" ] && [ "$mode" != "-d" ]; then
+    echo "Error: El modo debe ser -c (comprimir) o -d (descomprimir)"
+    exit 1
+fi
+
+# Verificar que el archivo de entrada exista
+if [ ! -f "$infile" ]; then
+    echo "Error: El archivo '$infile' no existe"
+    exit 1
+fi
+
+# Ejecutar el script Python con los parámetros correctos
+python3 compress.src "$mode" "$infile" "$outfile"
+
+# Verificar que la operación fue exitosa
+if [ $? -eq 0 ]; then
+    if [ "$mode" == "-c" ]; then
+        echo "Compresión completada con éxito"
+    else
+        echo "Descompresión completada con éxito"
+    fi
+else
+    echo "Error durante la operación"
+    exit 1
+fi
+
+exit 0
