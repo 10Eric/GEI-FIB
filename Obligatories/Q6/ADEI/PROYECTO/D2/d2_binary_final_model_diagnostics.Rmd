@@ -1,0 +1,156 @@
+Load required libraries
+```{r}
+library(MASS) #used for Boxcox
+library(car) #used for BoxTidwell among others
+library(pROC) # per corba ROC i AUC
+```
+
+
+Data Import and Preparation
+
+```{r}
+setwd("/Users/ivanr/OneDrive/Documents/Uni/ADEI/D2")
+dd <- read.csv("/Users/ivanr/OneDrive/Documents/Uni/ADEI/D2/adult_def.csv")
+```
+
+Create binary target: income_bin = 1 if >50K, 0 otherwise
+Convert to factor with levels "0" and "1" for consistency
+
+```{r}
+income_bin <- ifelse(dd$income == ">50K", 1, 0)
+income_bin <- as.factor(income_bin)
+```
+
+Create initial model
+```{r}
+initial_model_b <- glm(income_bin ~ age + edu_num + cap_gain + cap_loss + hours_week, data = dd, family = binomial)
+summary(initial_model_b)
+par(mfrow=c(2,2))
+plot(initial_model_b)
+```
+
+
+We divide the sample into 80% training and 20% test 
+
+```{r}
+set.seed(123)
+total_n     <- nrow(dd)
+train_index <- sample(seq_len(total_n), size = floor(0.8 * total_n))
+train_data  <- dd[train_index, ]
+test_data   <- dd[-train_index, ]
+test_data$income_bin  <- factor(ifelse(test_data$income  == ">50K", "1", "0"), levels = c("0","1"))
+train_data$income_bin <- factor(ifelse(train_data$income == ">50K", "1", "0"), levels = c("0","1"))
+```
+Exploring Non-Linear Relationships
+Function to plot log-odds (linear predictor) vs each numeric predictor
+
+```{r}
+log_odds <- predict(initial_model_b, type = "link")
+graph_logodds <- function(x, name) {
+  plot(x, log_odds,
+       xlab = name, ylab = "Log-Odds",
+       main = paste("Log-Odds vs", name), pch = 20, cex = 0.5)
+  lines(lowess(x, log_odds, f = 0.5), col = "red", lwd = 2)}
+graph_logodds(train_data$age, "age")
+graph_logodds(train_data$edu_num, "edu_num")
+graph_logodds(train_data$cap_gain, "cap_gain")
+graph_logodds(train_data$cap_loss, "cap_loss")
+graph_logodds(train_data$hours_week,"hours_week")
+```
+
+
+Check cook's distance
+```{r}
+plot(cooks.distance(initial_model_b))
+```
+
+there are some influential observations that skew the data a little
+
+
+Exploring Non-Linear Relationship
+test for non-linearity in numeric predictors on logit scale
+suppressWarnings
+```{r}
+autoplot_res <- residualPlots(initial_model_b)
+```
+
+Incorporating Categorical Factors (Likelihood-Ratio Tests)
+Stepwise inclusion of each factor, comparing via Chi-square (deviance) tests
+```{r}
+m1 <- update(initial_model_b, . ~ . + workclass)
+anova(initial_model_b, m1, test = "Chisq")  # Δ-deviance per workclass
+
+m2 <- update(m1, . ~ . + marital)
+anova(m1, m2, test = "Chisq")           # Δ-deviance per marital_status
+
+m3 <- update(m2, . ~ . + occupation)
+anova(m2, m3, test = "Chisq")           # Δ-deviance per occupation
+
+m4 <- update(m3, . ~ . + relationship)
+anova(m3, m4, test = "Chisq")           # Δ-deviance per relationship
+
+m5 <- update(m4, . ~ . + race)
+anova(m4, m5, test = "Chisq")           # Δ-deviance per race
+
+m6 <- update(m5, . ~ . + sex)
+anova(m5, m6, test = "Chisq")           # Δ-deviance per sex
+
+m7 <- update(m6, . ~ . + native_country)
+anova(m6, m7, test = "Chisq")          # Δ-deviance per native_country
+
+# Assignar model amb factors i interacció per a la fase de diagnòstics finals
+final_model <- m7
+```
+
+
+Final Model Diagnostics and Test-Sample Evaluation
+Predictions on test set (probabilities)
+```{r}
+probs_test <- predict(final_model, newdata = test_data, type = "response")
+```
+
+Convert probabilities to class labels (threshold = 0.5)
+```{r}
+preds_test <- factor(ifelse(probs_test > 0.5, "1", "0"), levels=c("0","1"))
+```
+
+Confusion matrix and derived metrics
+```{r}
+conf_tab   <- table(Pred=preds_test, True=test_data$income_bin)
+TP <- conf_tab["1","1"]; TN <- conf_tab["0","0"]
+FP <- conf_tab["1","0"]; FN <- conf_tab["0","1"]
+accuracy    <- (TP + TN) / sum(conf_tab)
+sensitivity <- TP / (TP + FN)
+specificity <- TN / (TN + FP)
+cat("Accuracy=", round(accuracy,3), " Sensitivity=", round(sensitivity,3),
+    " Specificity=", round(specificity,3), "\n")
+```
+
+ROC curve and AUC
+```{r}
+test_roc <- roc(test_data$income_bin, probs_test)
+plot(test_roc, main="ROC Curve - Test set")
+cat("AUC=", round(auc(test_roc),3), "\n")
+```
+Influential observations (Cook's distance on training data)
+```{r}
+cooks_d <- cooks.distance(final_model)
+p <- length(coef(final_model))
+threshold <- 4 / (nrow(train_data) - p)
+inf_index <- which(cooks_d > threshold)
+cat("Cook's D threshold=", round(threshold,4), " Influential obs indices:", inf_index, "\n")
+plot(cooks_d, type="h", main="Cook's Distance for Final Model")
+abline(h=threshold, col="red", lty=2)
+```
+
+Odds ratios and 95% confidence intervals
+```{r}
+or_vals <- exp(coef(final_model))
+ci_vals <- exp(confint(final_model))
+or_table <- data.frame(Predictor=names(or_vals), OR=or_vals,
+                       CI_low=ci_vals[,1], CI_high=ci_vals[,2])
+print(or_table)
+```
+
+# Interpretar cada OR en llenguatge pla després d'aquest punt
+

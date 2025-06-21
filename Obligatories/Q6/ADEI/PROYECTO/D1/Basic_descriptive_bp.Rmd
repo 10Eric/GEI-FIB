@@ -1,0 +1,30 @@
+---
+title: "Basic descriptive (prior to preprocessing)"
+output:
+  pdf_document: default
+  word_document: default
+date: "2025-02-20"
+---
+
+```{r}
+setwd("/home/adpaoj/Documents/ADEI/Project")
+dd <- read.csv("~/Documents/ADEI/Project/adult.csv")
+library(RColorBrewer)
+
+#Numerical (prior to preprocessing)
+
+class(dd[,1])
+for ( i in 1:15){
+  if(is.numeric(dd[,i])){
+    hist(dd[,i],main=paste("hist of", names(dd)[i]), col = "steelblue", xlab=names(dd)[i])
+    boxplot(dd[,i],main=paste("boxplot of", names(dd)[i]), col = "steelblue")
+    cat("Summary of", names(dd)[i], ":\n")
+    print(summary(dd[,i]))
+  } else{
+    par(mar = c(8, 4, 4, 2))
+    barplot(table(dd[,i]),main=paste("barplot of", names(dd)[i]), col = "tomato", las = 2)
+    pie(table(dd[,i]),main=paste("pie of", names(dd)[i]), col = brewer.pal(min(length(table(dd[, i])), 8), "Set2"))
+  }
+}
+```
+

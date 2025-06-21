@@ -1,0 +1,410 @@
+---
+title: "Deliverable 2"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+  
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(MASS) #used for Boxcox
+library(car) #used for BoxTidwell among others
+library(effects)
+library(pROC) # per corba ROC i AUC
+```
+
+```{r cargar-datos}
+setwd("~/Escritorio/ADEI/D2")
+dd <- read.csv("adult_def.csv")
+```
+
+```{r modelo-inicial}
+initial_model <- lm(income_integer ~ age + edu_num + cap_gain + cap_loss + hours_week, data = dd)
+summary(initial_model)
+plot(initial_model)
+```
+
+```{r boxcox-inicial}
+#target variable transformation, so the normality assumption is met
+boxcox(income_integer ~ age + edu_num + cap_gain + cap_loss + hours_week, data = dd)
+```
+
+```{r modelo-transformado}
+#given lambda is aproximatedly -1 we do the inverse transformation
+y_trans <- 1 / dd$income_integer
+transformed_model <- lm(y_trans ~ age + edu_num + cap_gain + cap_loss + hours_week, data = dd)
+summary(transformed_model)
+plot(transformed_model) #we cannot accept the basic hypothesis yet
+boxcox(y_trans ~ age + edu_num + cap_gain + cap_loss + hours_week, data = dd) # lambda is now around 1 meaning no transformation is needed for the response variable
+```
+
+```{r box-tidwell}
+#As seen before, the basic hypothesis cannot be accepted, we need to perform transformation on the regressors
+boxTidwell(y_trans ~ age + edu_num + hours_week, data = dd)
+dd$agebt <- sqrt(dd$age)
+edu_num_bt <- sqrt(dd$edu_num)
+btmodel <- lm(y_trans ~ agebt + edu_num_bt + cap_gain + cap_loss + hours_week, data = dd)
+summary(btmodel)
+par(mfrow=c(2,2))
+plot(btmodel)
+```
+
+```{r cooks-distance}
+#Check cook's distance
+plot(cooks.distance(btmodel))
+```
+
+```{r modelo-polinomial}
+#Try adding polynomial terms
+age2 <- dd$agebt^2
+hours_week2 <- dd$hours_week^2
+model_poly <- lm(y_trans ~ agebt + age2 + edu_num + cap_gain + cap_loss + hours_week + hours_week2 , data = dd)
+
+#comparing model performance
+summary(model_poly)
+anova(initial_model, model_poly)
+par(mfrow=c(2,2))
+plot(model_poly)
+```
+
+
+```{r}
+# Análisis de residuos (modelo original)
+plot(initial_model$fitted.values, resid(initial_model),
+     xlab = "Valores predichos", ylab = "Residuos",
+     main = "Residuos vs Valores Predichos")
+abline(h = 0, col = "red")
+```
+
+```{r}
+hist(resid(initial_model), main = "Histograma de residuos", xlab = "Residuos")
+```
+
+```{r}
+qqnorm(resid(initial_model))
+qqline(resid(initial_model), col = "red")
+```
+
+
+
+```{r}
+# Análisis de residuos (bt_model transformado)
+plot(btmodel$fitted.values, resid(btmodel),
+     xlab = "Valores predichos", ylab = "Residuos",
+     main = "Residuos vs Valores Predichos")
+abline(h = 0, col = "red")
+```
+
+```{r}
+hist(resid(btmodel), main = "Histograma de residuos", xlab = "Residuos")
+```
+
+```{r}
+qqnorm(resid(btmodel))
+qqline(resid(btmodel), col = "red")
+```
+
+
+```{r}
+# Multicolinealidad (initial_model original)
+vif(initial_model)
+```
+
+
+
+```{r}
+# Multicolinealidad (bt_model transformado)
+vif(btmodel)
+```
+
+
+```{r factores-categoricos}
+#Incorporating Factors
+#Add Occupation
+modelo_occ <- update(btmodel, . ~ . + occupation)
+anova(btmodel, modelo_occ)  # p < 2.2e-16 ***
+
+# Add estado civil (7 categories)
+modelo_marital <- update(modelo_occ, . ~ . + marital)
+anova(modelo_occ, modelo_marital)  # p = < 2.2e-16 
+
+# Add género (2 categories)
+modelo_gender <- update(modelo_marital, . ~ . + sex)
+anova(modelo_marital, modelo_gender)  # p = 0.009058 ***
+
+# Add clase trabajadora (9 categories)
+modelo_workclass <- update(modelo_gender, . ~ . + workclass)
+anova(modelo_gender, modelo_workclass)  # p = < 2.2e-16
+
+# Add relación familiar (6 categories)
+modelo_relat <- update(modelo_workclass, . ~ . + relationship)
+anova(modelo_workclass, modelo_relat)  # p = < 2.2e-16
+
+# Add raza (5 categories)
+modelo_race <- update(modelo_relat, . ~ . + race) 
+anova(modelo_relat, modelo_race)  # p = 0.0008009
+
+# Add país origen (42 categorías)
+modelo_country <- update(modelo_race, . ~ . + native_country)
+anova(modelo_race, modelo_country)  # p = < 2.2e-16
+
+#Add income (2 categorias)
+modelo_income <- update(modelo_country,. ~ . + income)
+anova(modelo_country,modelo_income)
+```
+
+```{r modelo-final}
+#Model with all significant variables including categorical variables
+catmodel <- lm(y_trans ~ agebt + edu_num_bt + cap_gain + cap_loss + hours_week + occupation + marital + sex + workclass + relationship + race + native_country + income, data = dd)
+stepmodel <- stepAIC(catmodel, direction = "back")
+
+vif(catmodel)
+summary(catmodel)
+anova(catmodel)
+anova(transformed_model, catmodel)
+plot(catmodel)
+```
+```{r model with interactions}
+full_model <- lm(y_trans ~ agebt + edu_num_bt + cap_gain + cap_loss + hours_week +
+                   occupation + marital + sex + workclass + relationship + race +
+                   native_country + income + sex:occupation + edu_num:marital, data = dd)
+
+summary(full_model)
+
+reduced_model <- step(full_model)
+
+summary(reduced_model)
+```
+
+```{r conclusiones}
+#Possible Conclusio
+avPlots(btmodel,id=list(method=hatvalues(catmodel),n=5))
+plot(allEffects(catmodel))
+```
+
+```{r BINARY}
+income_bin <- ifelse(dd$income == ">50K", 1, 0)
+income_bin <- as.factor(income_bin)
+set.seed(123)
+total_n     <- nrow(dd)
+train_index <- sample(seq_len(total_n), size = floor(0.8 * total_n))
+train_data  <- dd[train_index, ]
+test_data   <- dd[-train_index, ]
+test_data$income_bin  <- factor(ifelse(test_data$income  == ">50K", "1", "0"), levels = c("0","1"))
+train_data$income_bin <- factor(ifelse(train_data$income == ">50K", "1", "0"), levels = c("0","1"))
+```
+
+
+```{r Fit_basic_logistic_regression_model}
+## Build the Initial Logistic Regression Model
+initial_model_b <- glm(income_bin ~ age + edu_num + cap_gain + cap_loss + hours_week, data = dd, family = binomial)
+summary(initial_model_b)
+```
+
+
+```{r Plot_residuals_and_Cooks_distance}
+## Check Model Diagnostics
+plot(initial_model_b) #the basic hypothesis are met, beware of Homoscedasticity
+#Check cook's distance
+plot(cooks.distance(initial_model_b)) #there are some influential observations that skew the data a little
+```
+
+```{r EXPLORING NON-LINEAR RELATIONSHIPS}
+setwd("~/Escritorio/ADEI/D2")
+df<- read.csv("adult_def.csv")
+
+df$income <- ifelse(df$income == ">50K", 1, 0)
+
+#GRAFICAS QUE APORTAN DE MÁS
+marginalModelPlots(initial_model_b)
+avPlots(initial_model_b)
+crPlots(initial_model_b)
+
+
+#PLOT LOGS 
+
+library(dplyr)
+library(ggplot2)
+
+plot_log_odds <- function(df, var, response = "income") {
+  df %>%
+    mutate(bin = ntile(.data[[var]], 20)) %>%  # agrupa la variable numérica en 20 grupos
+    group_by(bin) %>%
+    summarise(
+      x = mean(.data[[var]], na.rm = TRUE),
+      p = mean(.data[[response]], na.rm = TRUE),
+      logit = log(p / (1 - p))
+    ) %>%
+    ggplot(aes(x = x, y = logit)) +
+    geom_point() +
+    geom_smooth(method = "loess", se = FALSE, color = "blue") +
+    labs(
+      title = paste("Log-odds vs", var),
+      x = var,
+      y = "Log-odds"
+    ) +
+    theme_minimal()
+}
+
+plot_log_odds(df, "age")
+plot_log_odds(df, "edu_num")
+plot_log_odds(df, "hours_week")
+
+library(splines)
+df$hours_week_spline <- ns(df$hours_week, df = 4)
+plot_log_odds(df, "hours_week")
+
+
+# Función robusta para log-odds con suavizado controlado
+
+plot_log_odds <- function(df, var, response = "income") {
+  df %>%
+    mutate(bin = ntile(.data[[var]], 20)) %>%
+    group_by(bin) %>%
+    summarise(
+      x = mean(.data[[var]], na.rm = TRUE),
+      p = mean(.data[[response]], na.rm = TRUE),
+      p = ifelse(p == 0, 0.001, ifelse(p == 1, 0.999, p)),  # evita log(0) y log(1)
+      logit = log(p / (1 - p))
+    ) %>%
+    ggplot(aes(x = x, y = logit)) +
+    geom_point(color = "darkred") +
+    geom_line(color = "steelblue", linewidth = 1) +  # sin loess
+    labs(
+      title = paste("Log-odds vs", var),
+      x = var,
+      y = "Log-odds"
+    ) +
+    theme_minimal()
+}
+
+# Ejecutar para cap_gain y cap_loss
+plot_log_odds(df, "cap_gain")
+plot_log_odds(df, "cap_loss")
+
+dd$cap_gain <- log1p(df$cap_gain)
+dd$cap_loss <- log1p(df$cap_loss)
+
+df$cap_gain <- log1p(df$cap_gain)
+df$cap_loss <- log1p(df$cap_loss)
+
+plot_log_odds(df, "cap_gain")
+plot_log_odds(df, "cap_loss")
+```
+
+## Add Categorical Variables Step by Step
+
+```{r Add_workclass_and_test_with_Chi_squared}
+##Add_workclass_and_test_with_Chi_squared
+initial_model_b <- glm(income_bin ~ age + edu_num + cap_gain + cap_loss + hours_week, data = dd, family = binomial)
+model_workclass <- update(initial_model_b, . ~ . + workclass)
+anova(initial_model_b, model_workclass, test = "Chisq")
+```
+
+```{r Add_marital_and_test_with_Chi_squared}
+##Add_marital_and_test_with_Chi_squared
+model_marital <- update(model_workclass, . ~ . + marital)
+anova(model_workclass, model_marital, test = "Chisq")
+```
+
+```{r Add_occupation_and_test_with_Chi_squared}
+##Add_occupation_and_test_with_Chi_squared
+model_occupation <- update(model_marital, . ~ . + occupation)
+anova(model_marital, model_occupation, test = "Chisq")
+```
+
+```{r Add_relationship_and_test_with_Chi_squared}
+##Add_relationship_and_test_with_Chi_squared
+model_relationship <- update(model_occupation, . ~ . + relationship)
+anova(model_occupation, model_relationship, test = "Chisq")
+```
+
+```{r Add_race_and_test_with_Chi_squared}
+##Add_race_and_test_with_Chi_squared
+model_race <- update(model_relationship, . ~ . + race)
+anova(model_relationship, model_race, test = "Chisq")
+```
+
+```{r Add_sex_and_test_with_Chi_squared}
+##Add_sex_and_test_with_Chi_squared
+model_sex <- update(model_race, . ~ . + sex)
+anova(model_race, model_sex, test = "Chisq")
+```
+
+```{r Add_native_country_and_test_with_Chi_squared}
+##Add_native_country_and_test_with_Chi_squared
+model_country <- update(model_sex, . ~ . + native_country)
+anova(model_sex, model_country, test = "Chisq")
+```
+
+
+```{r Final_model_after_adding_significant_variables}
+## Define the Final Model
+final_model <- model_country
+```
+
+
+
+```{r Stepwise_selection_and_final_model_diagnostics}
+## Perform Stepwise Selection and Final Diagnostics
+stepmodel <- stepAIC(final_model, direction = "back")
+vif(final_model)
+summary(final_model)
+anova(final_model, test="LR")
+anova(initial_model_b, final_model)
+AIC(initial_model_b, final_model)
+plot(allEffects(final_model))
+```
+
+
+```{r Final Model Diagnostics and Test-Sample Evaluation}
+##Final Model Diagnostics and Test-Sample Evaluation
+##Predictions on test set (probabilities)
+probs_test <- predict(final_model, newdata = test_data, type = "response")
+```
+
+
+```{r Convert probabilities to class labels}
+##Convert probabilities to class labels (threshold = 0.5)
+preds_test <- factor(ifelse(probs_test > 0.5, "1", "0"), levels=c("0","1"))
+```
+
+
+```{r Confusion matrix and derived metrics}
+##Confusion matrix and derived metrics
+conf_tab   <- table(Pred=preds_test, True=test_data$income_bin)
+TP <- conf_tab["1","1"]; TN <- conf_tab["0","0"]
+FP <- conf_tab["1","0"]; FN <- conf_tab["0","1"]
+accuracy    <- (TP + TN) / sum(conf_tab)
+sensitivity <- TP / (TP + FN)
+specificity <- TN / (TN + FP)
+cat("Accuracy=", round(accuracy,3), " Sensitivity=", round(sensitivity,3),
+    " Specificity=", round(specificity,3), "\n")
+```
+
+
+```{r ROC curve and AUC}
+##ROC curve and AUC
+test_roc <- roc(test_data$income_bin, probs_test)
+plot(test_roc, main="ROC Curve - Test set")
+cat("AUC=", round(auc(test_roc),3), "\n")
+```
+```{r}
+##Influential observations (Cook's distance on training data)
+cooks_d <- cooks.distance(final_model)
+p <- length(coef(final_model))
+threshold <- 4 / (nrow(train_data) - p)
+inf_index <- which(cooks_d > threshold)
+cat("Cook's D threshold=", round(threshold,4), " Influential obs indices:", inf_index, "\n")
+plot(cooks_d, type="h", main="Cook's Distance for Final Model")
+abline(h=threshold, col="red", lty=2)
+```
+
+
+```{r Odds ratios and 95% confidence intervals}
+##Odds ratios and 95% confidence intervals
+or_vals <- exp(coef(final_model))
+ci_vals <- exp(confint(final_model))
+or_table <- data.frame(Predictor=names(or_vals), OR=or_vals,
+                       CI_low=ci_vals[,1], CI_high=ci_vals[,2])
+print(or_table)
+```

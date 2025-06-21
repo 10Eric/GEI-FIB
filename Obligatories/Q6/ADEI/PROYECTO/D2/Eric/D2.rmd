@@ -1,0 +1,208 @@
+---
+title: "Deliverable 2"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+  
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(MASS) #used for Boxcox
+library(car) #used for BoxTidwell among others
+library(effects)
+```
+
+```{r cargar-datos}
+setwd("~/Escritorio/ADEI/D2")
+dd <- read.csv("adult_def.csv")
+```
+
+```{r modelo-inicial}
+initial_model <- lm(income_integer ~ age + edu_num + cap_gain + cap_loss + hours_week, data = dd)
+summary(initial_model)
+plot(initial_model)
+```
+
+```{r boxcox-inicial}
+#target variable transformation, so the normality assumption is met
+boxcox(income_integer ~ age + edu_num + cap_gain + cap_loss + hours_week, data = dd)
+```
+
+```{r modelo-transformado}
+#given lambda is aproximatedly -1 we do the inverse transformation
+y_trans <- 1 / dd$income_integer
+transformed_model <- lm(y_trans ~ age + edu_num + cap_gain + cap_loss + hours_week, data = dd)
+summary(transformed_model)
+plot(transformed_model) #we cannot accept the basic hypothesis yet
+boxcox(y_trans ~ age + edu_num + cap_gain + cap_loss + hours_week, data = dd) # lambda is now around 1 meaning no transformation is needed for the response variable
+```
+
+```{r box-tidwell}
+#As seen before, the basic hypothesis cannot be accepted, we need to perform transformation on the regressors
+boxTidwell(income_integer ~ age + edu_num + hours_week, data = dd)
+agebt <- 1 / sqrt(dd$age)
+edu_num_bt <- sqrt(dd$edu_num)
+btmodel <- lm(income_integer ~ agebt + edu_num_bt + cap_gain + cap_loss + hours_week, data = dd)
+summary(btmodel)
+plot(btmodel)
+```
+
+```{r cooks-distance}
+#Check cook's distance
+plot(cooks.distance(btmodel))
+```
+
+```{r modelo-polinomial}
+#Try adding polynomial terms
+age2 <- dd$age^2
+hours_week2 <- dd$hours_week^2
+model_poly <- lm(income_integer ~ age + age2 + edu_num + cap_gain + cap_loss + hours_week + hours_week2 , data = dd)
+
+#comparing model performance
+summary(model_poly)
+anova(initial_model, model_poly)
+plot(model_poly)
+```
+
+```{r factores-categoricos}
+#Incorporating Factors
+#Add Occupation
+modelo_occ <- update(transformed_model, . ~ . + occupation)
+anova(transformed_model, modelo_occ)  # p < 2.2e-16 ***
+
+# Add estado civil (7 categories)
+modelo_marital <- update(modelo_occ, . ~ . + marital)
+anova(modelo_occ, modelo_marital)  # p = < 2.2e-16 
+
+# Add género (2 categories)
+modelo_gender <- update(modelo_marital, . ~ . + sex)
+anova(modelo_marital, modelo_gender)  # p = 4.18e-05 ***
+
+# Add clase trabajadora (9 categories)
+modelo_workclass <- update(modelo_gender, . ~ . + workclass)
+anova(modelo_gender, modelo_workclass)  # p = < 2.2e-16
+
+# Add relación familiar (6 categories)
+modelo_relat <- update(modelo_workclass, . ~ . + relationship)
+anova(modelo_workclass, modelo_relat)  # p = < 2.2e-16
+
+# Add raza (5 categories)
+modelo_race <- update(modelo_relat, . ~ . + race) 
+anova(modelo_relat, modelo_race)  # p = 3.471e-06
+
+# Add país origen (42 categorías)
+modelo_country <- update(modelo_race, . ~ . + native_country)
+anova(modelo_race, modelo_country)  # p = < 2.2e-16
+
+#Add income (2 categorias)
+modelo_income <- update(modelo_country,. ~ . + income)
+anova(modelo_country,modelo_income)
+```
+
+```{r modelo-final}
+#Model with all significant variables including categorical variables
+catmodel <- lm(y_trans ~ age + edu_num + cap_gain + cap_loss + hours_week + occupation + marital + sex + workclass + relationship + race + native_country + income, data = dd)
+stepmodel <- stepAIC(catmodel, direction = "back")
+
+vif(catmodel)
+summary(catmodel)
+anova(catmodel)
+anova(transformed_model, catmodel)
+plot(catmodel)
+```
+
+```{r conclusiones}
+#Possible Conclusio
+avPlots(transformed_model,id=list(method=hatvalues(catmodel),n=5))
+plot(allEffects(catmodel))
+```
+
+```{r BINARY, fig.height=10, fig.width=12}
+#using this line will transform our income variable into a binary response variable we can use for our logistic-regression model
+dd$income_bin <- ifelse(dd$income == ">50K", 1, 0)
+#transforming variable into factor
+dd$income_bin <- as.factor(dd$income_bin)
+```
+
+## Build the Initial Logistic Regression Model
+
+```{r Fit_basic_logistic_regression_model}
+## Build the Initial Logistic Regression Model
+initial_model_b <- glm(income_bin ~ age + edu_num + cap_gain + cap_loss + hours_week, data = dd, family = binomial)
+summary(initial_model_b)
+```
+
+## Check Model Diagnostics
+
+```{r Plot_residuals_and_Cooks_distance, fig.height=5, fig.width=7}
+## Check Model Diagnostics
+plot(initial_model_b) #the basic hypothesis are met, beware of Homoscedasticity
+#Check cook's distance
+plot(cooks.distance(initial_model_b)) #there are some influential observations that skew the data a little
+```
+
+
+## Add Categorical Variables Step by Step
+
+```{r Add_workclass_and_test_with_Chi_squared}
+##Add_workclass_and_test_with_Chi_squared
+model_workclass <- update(initial_model_b, . ~ . + workclass)
+anova(initial_model_b, model_workclass, test = "Chisq")
+```
+
+```{r Add_marital_and_test_with_Chi_squared}
+##Add_marital_and_test_with_Chi_squared
+model_marital <- update(model_workclass, . ~ . + marital)
+anova(model_workclass, model_marital, test = "Chisq")
+```
+
+```{r Add_occupation_and_test_with_Chi_squared}
+##Add_occupation_and_test_with_Chi_squared
+model_occupation <- update(model_marital, . ~ . + occupation)
+anova(model_marital, model_occupation, test = "Chisq")
+```
+
+```{r Add_relationship_and_test_with_Chi_squared}
+##Add_relationship_and_test_with_Chi_squared
+model_relationship <- update(model_occupation, . ~ . + relationship)
+anova(model_occupation, model_relationship, test = "Chisq")
+```
+
+```{r Add_race_and_test_with_Chi_squared}
+##Add_race_and_test_with_Chi_squared
+model_race <- update(model_relationship, . ~ . + race)
+anova(model_relationship, model_race, test = "Chisq")
+```
+
+```{r Add_sex_and_test_with_Chi_squared}
+##Add_sex_and_test_with_Chi_squared
+model_sex <- update(model_race, . ~ . + sex)
+anova(model_race, model_sex, test = "Chisq")
+```
+
+```{r Add_native_country_and_test_with_Chi_squared}
+##Add_native_country_and_test_with_Chi_squared
+model_country <- update(model_sex, . ~ . + native_country)
+anova(model_sex, model_country, test = "Chisq")
+```
+
+## Define the Final Model
+
+```{r Final_model_after_adding_significant_variables}
+## Define the Final Model
+final_model <- model_country
+```
+
+
+## Perform Stepwise Selection and Final Diagnostics
+
+```{r Stepwise_selection_and_final_model_diagnostics}
+## Perform Stepwise Selection and Final Diagnostics
+stepmodel <- stepAIC(final_model, direction = "back")
+vif(final_model)
+summary(final_model)
+anova(final_model, test="LR")
+anova(initial_model_b, final_model)
+AIC(initial_model_b, final_model)
+plot(allEffects(final_model))
+```
+

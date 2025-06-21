@@ -1,0 +1,758 @@
+---
+title: "Analisis Variables"
+author: "Joan Marc"
+date: "2024-09-20"
+output:
+  html_document:
+    df_print: paged
+  word_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE, echo=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+#Leemos csv de datos
+datos <- read.csv("Database.csv", sep = ";")
+dd <- datos
+
+
+```
+
+```{r}
+
+
+
+for (col in names(datos)) {
+  cat("### Resumen 5-números para la variable:", col, "\n")
+  # Resumen 5-números
+  summary_stats <- summary(datos[[col]])
+  summary_table <- data.frame(Estadístico = names(summary_stats), Valor = as.numeric(summary_stats))
+  print(knitr::kable(summary_table, col.names = c("Estadístico", "Valor")))
+}
+
+#Convertimos todas las columans de tipo character a factor
+#  !!Deberiamos revisar si alguna de las columnas es realmente de characters, en lugar de clases
+columnas_a_convertir <- c("website", "url", "reference", "country", "title", "description", "dealer_url", "location", "dealer")
+
+
+for (col in names(datos)) {
+  if (is.character(datos[[col]])) {
+    datos[[col]] <- as.factor(datos[[col]])
+  }
+}
+
+for(col in names(datos)) {
+  #Volvemos a pasar a char las columnas que no sean
+  #categoricas
+  if (col %in% columnas_a_convertir && is.factor(datos[[col]])) {
+    datos[[col]] <- as.character(datos[[col]])
+  }
+}
+
+# Recorremos todas las columnas del data frame
+for (col in names(datos)) {
+  cat("## Columna:", col, "\n")
+  
+  if (is.integer(datos[[col]])) {
+    cat("### Histograma\n")
+    # Histograma con bins unitarios
+    unique_values <- sort(unique(datos[[col]]))  # Valores únicos ordenados
+    hist(datos[[col]], 
+         breaks = seq(min(unique_values) - 0.5, max(unique_values) + 0.5, by = 1), 
+         main = paste("Histograma de", col), 
+         xlab = col, 
+         col = "blue", 
+         border = "black")
+    
+    cat("### Resumen 5-números\n")
+    # Resumen 5-números
+    summary_stats <- summary(datos[[col]])
+    summary_table <- data.frame(Estadístico = names(summary_stats), Valor = as.numeric(summary_stats))
+    print(knitr::kable(summary_table, col.names = c("Estadístico", "Valor")))
+    
+  } else if (is.factor(datos[[col]])) {
+    cat("### Barplot\n")
+    # Barplot
+    barplot(table(datos[[col]]), main = paste("Barplot de", col), las = 2, col = "blue")
+    
+    cat("### Frecuencia Absoluta\n")
+    # Frecuencia Absoluta
+    freq_abs <- table(datos[[col]])
+    print(knitr::kable(as.data.frame(freq_abs), col.names = c("Clase", "Frecuencia Absoluta")))
+    
+    cat("### Frecuencia Relativa\n")
+    # Frecuencia Relativa
+    freq_rel <- round(prop.table(freq_abs), 2)
+    print(knitr::kable(as.data.frame(freq_rel), col.names = c("Clase", "Frecuencia Relativa")))
+    
+    cat("### Piechart\n")
+    # Piechart
+    pie_labels <- paste(names(freq_abs), "(", round(100 * freq_abs / sum(freq_abs), 1), "%)", sep = "")
+    pie(freq_abs, labels = pie_labels, main = paste("Piechart de", col))
+  }
+}
+```
+
+```{r}
+
+
+#Renombrar datos 
+dd$operation[dd$operation == "venta"] <- "BUY"
+dd$operation[dd$operation == "alquiler"] <- "RENT"
+
+dd$property_type[dd$property_type == "pisos"] <- "FLAT"
+dd$property_type[dd$property_type == "terrenos"] <- "LAND"
+dd$property_type[dd$property_type == "NEW_CONSTRUCTION"] <- "N.C."
+dd$property_type[dd$property_type == "locales"] <- "PREMISES"
+dd$property_type[dd$property_type == "naves"] <- "I.U."
+dd$property_type[dd$property_type == "garajes"] <- "GARAGE"
+
+dd$province[dd$province == "alava"] <- "VI"
+dd$province[dd$province == "albacete"] <- "AB"
+dd$province[dd$province == "barcelona"] <- "B"
+dd$province[dd$province == "caceres"] <- "CC"
+dd$province[dd$province == "lugo"] <- "LU"
+dd$province[dd$province == "malaga"] <- "MA"
+dd$province[dd$province == "navarra"] <- "NA"
+dd$province[dd$province == "navarra_nafarroa"] <- "NA"
+dd$province[dd$province == "pontevedra"] <- "PO"
+dd$province[dd$province == "santa-cruz-de-tenerife"] <- "TF"
+dd$province[dd$province == "tarragona"] <- "T"
+dd$province[dd$province == "valencia"] <- "V"
+```
+
+```{r}
+#Tratamiento de nulls (numerical variables)
+#Eliminamos aquellas columnas que no aportan al estudio
+dd$elevator <- NULL # 100% de N/A values
+dd$outside <- NULL # 100% de N/A values
+dd$floor <- NULL # 94,7% de N/A values
+dd$floor.1 <- NULL # copia de la columna floor
+
+#Si el valor de dd$rooms es N/A para un FLAT, es un STUDIO
+dd$property_type <- ifelse(dd$property_type == "FLAT" & is.na(dd$rooms),"STUDIO",dd$property_type)
+
+#missings estructurales
+property_types_rooms <- c("I.U.", "LAND", "PREMISES", "STUDIO", "GARAGE", "N.C.")
+property_types_baths <- c("I.U.", "LAND", "GARAGE", "N.C.")
+
+for (type in property_types_rooms) {
+  dd$rooms <- ifelse(dd$property_type == type & is.na(dd$rooms), 0, dd$rooms)
+}
+
+for (type in property_types_baths) {
+  dd$baths <- ifelse(dd$property_type == type & is.na(dd$baths), 0, dd$baths)
+}
+
+dd$rooms <- as.integer(dd$rooms)
+dd$baths <- as.integer(dd$baths)
+dd$price <- as.integer(dd$price)
+
+#missings random
+library(VIM)
+
+# Filtrar solo las filas donde property_type es "PREMISES"
+premises_data <- dd[dd$property_type == "PREMISES", ]
+
+# Aplicar KNN para imputar los valores NA en la columna baths
+# Se imputan solo los NAs en baths, las otras columnas ayudan al KNN pero no son modificadas
+premises_data_imputed <- kNN(premises_data, variable = "baths", k = 5)
+
+# Reemplazar los valores imputados en la columna original dd
+dd$baths[dd$property_type == "PREMISES"] <- premises_data_imputed$baths
+
+# Obtener los diferentes tipos de propiedad
+property_types <- unique(dd$property_type)
+
+# Aplicar KNN para cada tipo de propiedad
+for (type in property_types) {
+  # Filtrar los datos por el tipo de propiedad actual
+  property_data <- dd[dd$property_type == type, ]
+  
+  # Verificar si hay valores NA en 'area'
+  if (any(is.na(property_data$area))) {
+    # Aplicar KNN para imputar los valores NA en la columna area
+    property_data_imputed <- kNN(property_data, variable = "area", k = 5)
+    
+    # Reemplazar los valores imputados en el dataset original
+    dd$area[dd$property_type == type] <- property_data_imputed$area
+  }
+}
+
+operations <- unique(dd$operation)
+
+# Aplicar KNN para cada combinación de property_type y operation
+for (op in operations) {
+  for (type in property_types) {
+    # Filtrar los datos por el valor de operation y property_type
+    subset_data <- dd[dd$operation == op & dd$property_type == type, ]
+    
+    # Verificar si hay valores NA en 'price'
+    if (any(is.na(subset_data$price))) {
+      # Aplicar KNN para imputar los valores NA en la columna price
+      subset_data_imputed <- kNN(subset_data, variable = "price", k = 5)
+      
+      # Reemplazar los valores imputados en el dataset original
+      dd$price[dd$operation == op & dd$property_type == type] <- subset_data_imputed$price
+    }
+  }
+}
+```
+
+```{r}
+for (col in names(dd)) {
+  if (is.character(dd[[col]])) {
+    dd[[col]] <- as.factor(dd[[col]])
+  }
+}
+
+for(col in names(dd)) {
+  #Volvemos a pasar a char las columnas que no sean
+  #categoricas
+  if (col %in% columnas_a_convertir && is.factor(dd[[col]])) {
+    dd[[col]] <- as.character(dd[[col]])
+  }
+}
+```
+
+```{r}
+#Vemos que los cambios se han ejecutado correctamente
+sapply(dd, class)
+```
+
+```{r}
+# Recorremos todas las columnas del data frame
+for (col in names(dd)) {
+  cat("## Columna:", col, "\n")
+  
+  if (is.integer(dd[[col]])) {
+    cat("### Histograma\n")
+    # Histograma con bins unitarios
+    unique_values <- sort(unique(dd[[col]]))  # Valores únicos ordenados
+    hist(dd[[col]], 
+         breaks = seq(min(unique_values) - 0.5, max(unique_values) + 0.5, by = 1), 
+         main = paste("Histograma de", col), 
+         xlab = col, 
+         col = "blue", 
+         border = "black")
+    
+    cat("### Resumen 5-números\n")
+    # Resumen 5-números
+    summary_stats <- summary(dd[[col]])
+    summary_table <- data.frame(Estadístico = names(summary_stats), Valor = as.numeric(summary_stats))
+    print(knitr::kable(summary_table, col.names = c("Estadístico", "Valor")))
+    
+  } else if (is.factor(dd[[col]])) {
+    cat("### Barplot\n")
+    # Barplot
+    barplot(table(dd[[col]]), main = paste("Barplot de", col), las = 2, col = "blue")
+    
+    cat("### Frecuencia Absoluta\n")
+    # Frecuencia Absoluta
+    freq_abs <- table(dd[[col]])
+    print(knitr::kable(as.data.frame(freq_abs), col.names = c("Clase", "Frecuencia Absoluta")))
+    
+    cat("### Frecuencia Relativa\n")
+    # Frecuencia Relativa
+    freq_rel <- round(prop.table(freq_abs), 2)
+    print(knitr::kable(as.data.frame(freq_rel), col.names = c("Clase", "Frecuencia Relativa")))
+    
+    cat("### Piechart\n")
+    # Piechart
+    pie_labels <- paste(names(freq_abs), "(", round(100 * freq_abs / sum(freq_abs), 1), "%)", sep = "")
+    pie(freq_abs, labels = pie_labels, main = paste("Piechart de", col))
+  }
+}
+```
+
+```{r}
+#Creamos el nullModel de nuestra variable objetivo
+#Obtenemos el Residual error del nullModel y lo comparamos con el residual error de los diferentes modelos, el que sea menor, es el mas apropiado
+library(car)
+library(lmtest)
+
+dd_1 <- subset(dd, operation == "RENT") 
+dd_3 <- subset(dd_1, property_type == "FLAT")
+
+# Verifica que 'dd' está correctamente definido
+if (!exists("dd") || !"price" %in% names(dd)) {
+  stop("El dataframe 'dd' no está correctamente definido o no contiene una columna llamada 'price'.")
+}
+
+# Crear el modelo nulo
+m0 <- lm(price ~ 1, data = dd_3)
+summary(m0)
+residual_error_m0 <- deviance(m0)
+
+m1 <- lm(price ~ rooms, data = dd_3)
+summary(m1)
+residual_error_m1 <- deviance(m1)
+
+m2 <- lm(price ~ baths, data = dd_3)
+summary(m2)
+residual_error_m2 <- deviance(m2)
+
+m3 <- lm(price ~ area, data = dd_3)
+summary(m3)
+residual_error_m3 <- deviance(m3)
+
+m4 <- lm(price ~ area + rooms + baths, data = dd_3)
+summary(m4)
+residual_error_m4 <- deviance(m4)
+
+print(residual_error_m0)
+print(residual_error_m1)
+print(residual_error_m2)
+print(residual_error_m3)
+print(residual_error_m4)
+
+anova(m0,m1)
+anova(m0,m2)
+anova(m0,m3)
+anova(m0,m4)
+
+residualPlots(m0)
+residualPlots(m4)
+```
+
+```{r}
+summary(dd)
+#One-way Anova
+dd_BUY <- subset(dd, operation == "BUY")
+dd_RENT <- subset(dd, operation == "RENT")
+dd_AUX <- subset(dd_RENT, property_type == "I.U." | property_type == "LAND" | property_type == "PREMISES")
+dd_AUX$property_type <- droplevels(dd_AUX$property_type)
+
+boxplot(price ~ property_type, data = dd_AUX, 
+        main = "Boxplot Price vs Property Type",
+        xlab = "Property Type",
+        ylab = "Price",
+        col = "lightgreen",
+        border = "darkgreen")
+
+tapply(dd_AUX$price,dd_AUX$property_type,summary)
+oneway.test(dd_AUX$price~dd_AUX$property_type)
+oneway.test(dd_AUX$price~dd_AUX$property_type, var=TRUE)
+kruskal.test(dd_AUX$price~dd_AUX$property_type)
+```
+```{r}
+#Two-way Anova
+dd_AUX_2 <- subset(dd, property_type == "I.U." | property_type == "LAND" | property_type == "PREMISES")
+dd_AUX_2$property_type <- droplevels(dd_AUX_2$property_type)
+m00 <- lm(price ~ 1, data = dd_AUX)
+m11 <- lm(price ~ property_type, data = dd_AUX)
+m55 <- lm(price ~ property_type*area, data = dd_AUX)
+m66 <- lm(price ~ property_type+area, data = dd_AUX)
+m77 <- lm(price ~ area, data = dd_AUX)
+
+anova(m55,m66) #Ancova
+
+anova(m11,m66) #Net area-covariate effect
+anova(m77,m66) #NET type effect
+
+anova(m00,m11) #Gross area-covariate effect
+anova(m00,m77) #Gross type effect
+
+#Mediante el test de Ancova vemos que property_type y area no tienen interacción entre ellas, pero gracias al NET type effect, vemos que ambas variables influyen en el precio.
+```
+
+```{r}
+#Clustering
+names(dd)
+
+#Escollim un llistat de variables numériques
+dcon <- data.frame(dd$baths,dd$area,dd$price,dd$rooms)
+dim(dcon)
+```
+```{r}
+#PCA
+objects()
+attributes(dd)
+
+#
+# VISUALISATION OF DATA
+#
+# PRINCIPAL COMPONENT ANALYSIS OF CONTINcUOUS VARIABLES, WITH Dictamen PROJECTED AS ILLUSTRATIVE
+#
+
+# CREATION OF THE DATA FRAME OF CONTINUOUS VARIABLES
+
+attach(dd)
+names(dd)
+
+#is R understanding well my factor variables?
+sapply(dd,class)
+
+#set a list of numerical variables (with no missing values)
+numeriques<-which(sapply(dd,is.numeric))
+numeriques
+
+dcon <- dd[,numeriques]
+dim(dcon)
+sapply(dcon,class)
+
+# PRINCIPAL COMPONENT ANALYSIS OF dcon
+
+pc1 <- prcomp(dcon, scale=TRUE)
+class(pc1)
+attributes(pc1)
+
+print(pc1)
+
+str(pc1)
+
+
+# WHICH PERCENTAGE OF THE TOTAL INERTIA IS REPRESENTED IN SUBSPACES?
+
+pc1$sdev
+inerProj<- pc1$sdev^2 
+inerProj
+totalIner<- sum(inerProj)
+totalIner
+pinerEix<- 100*inerProj/totalIner
+pinerEix
+barplot(pinerEix) 
+
+#Cummulated Inertia in subspaces, from first principal component to the 11th dimension subspace
+barplot(100*cumsum(pc1$sdev[1:dim(dcon)[2]]^2)/dim(dcon)[2])
+percInerAccum<-100*cumsum(pc1$sdev[1:dim(dcon)[2]]^2)/dim(dcon)[2]
+percInerAccum #el 80% de la inercia es troba en 4 dimensions
+
+# SELECTION OF THE SINGIFICNT DIMENSIONS (keep 80% of total inertia)
+
+nd = 4 
+
+print(pc1)
+attributes(pc1)
+pc1$rotation
+
+# STORAGE OF THE EIGENVALUES, EIGENVECTORS AND PROJECTIONS IN THE nd DIMENSIONS
+View(pc1$x)
+dim(pc1$x)
+dim(dcon)
+dcon[1000,]
+pc1$x[1000,]
+
+Psi = pc1$x[,1:nd]
+dim(Psi)
+Psi[1000]
+
+# STORAGE OF LABELS FOR INDIVIDUALS AND VARIABLES
+
+iden = row.names(dcon)
+etiq = names(dcon)
+ze = rep(0,length(etiq)) # WE WILL NEED THIS VECTOR AFTERWARDS FOR THE GRAPHICS
+
+# PLOT OF INDIVIDUALS
+
+#select your axis
+#eje1<-2
+eje1<-1
+#eje2<-3
+eje2<-2
+
+
+#library(rgl)
+#plot3d(Psi[,1],Psi[,2],Psi[,3])
+
+#Projection of variables
+
+Phi = cor(dcon,Psi)
+View(Phi)
+
+#select your axis
+
+X<-Phi[,eje1]
+Y<-Phi[,eje2]
+
+# PROJECTION OF ILLUSTRATIVE qualitative variables on individuals' map
+# PROJECCI? OF INDIVIDUALS DIFFERENTIATING THE Dictamen
+# (we need a numeric Dictamen to color)
+
+
+varcat=factor(dd[,1])
+plot(Psi[,1],Psi[,2],col=varcat)
+axis(side=1, pos= 0, labels = F, col="darkgray")
+axis(side=3, pos= 0, labels = F, col="darkgray")
+axis(side=2, pos= 0, labels = F, col="darkgray")
+axis(side=4, pos= 0, labels = F, col="darkgray")
+legend("bottomleft",levels(factor(varcat)),pch=1,col=c(1,2), cex=0.6)
+
+#select your qualitative variable
+k<-1 #We select the variable web
+
+varcat<-factor(dd[,k])
+fdic1 = tapply(Psi[,eje1],varcat,mean)
+fdic2 = tapply(Psi[,eje2],varcat,mean) 
+#points(fdic1,fdic2,pch=16,col="blue", labels=levels(varcat))
+text(fdic1,fdic2,labels=levels(varcat),col="yellow", cex=0.7)
+
+
+#Now we project both cdgs of levels of a selected qualitative variable without
+#representing the individual anymore
+
+#select your qualitative variable
+k<-1 #dictamen in credsco
+
+#varcat<-dd[,k]
+#fdic1 = tapply(Psi[,eje1],varcat,mean)
+#fdic2 = tapply(Psi[,eje2],varcat,mean) 
+
+#points(fdic1,fdic2,pch=16,col="blue", labels=levels(varcat))
+text(fdic1,fdic2,labels=levels(varcat),col="blue", cex=0.7)
+
+#nominal qualitative variables
+
+dcat<-c(1,5,10,11) #Escoger variables categoricas
+#divide categoricals in several graphs if joint representation saturates
+
+#build a palette with as much colors as qualitative variables 
+
+#colors<-c("blue","red","green","orange","darkgreen")
+#alternative
+colors<-rainbow(length(dcat))
+
+c<-1
+for(k in dcat){
+  seguentColor<-colors[c]
+fdic1 = tapply(Psi[,eje1],dd[,k],mean)
+fdic2 = tapply(Psi[,eje2],dd[,k],mean) 
+
+text(fdic1,fdic2,labels=levels(factor(dd[,k])),col=seguentColor, cex=0.6)
+c<-c+1
+}
+legend("bottomleft",names(dd)[dcat],pch=1,col=colors, cex=0.6)
+
+#determine zoom level
+#use the scale factor or not depending on the position of centroids
+# ES UN FACTOR D'ESCALA PER DIBUIXAR LES FLETXES MES VISIBLES EN EL GRAFIC
+#fm = round(max(abs(Psi[,1]))) 
+fm=20
+
+#scale the projected variables
+#X<-fm*U[,eje1]
+#Y<-fm*U[,eje2]
+
+#add projections of numerical variables in background
+arrows(ze, ze, X, Y, length = 0.07,col="lightgray")
+text(X,Y,labels=etiq,col="gray", cex=0.7)
+
+#add centroids
+c<-1
+for(k in dcat){
+  seguentColor<-colors[c]
+  
+  fdic1 = tapply(Psi[,eje1],dd[,k],mean)
+  fdic2 = tapply(Psi[,eje2],dd[,k],mean) 
+  
+  #points(fdic1,fdic2,pch=16,col=seguentColor, labels=levels(dd[,k]))
+  text(fdic1,fdic2,labels=levels(factor(dd[,k])),col=seguentColor, cex=0.6)
+  c<-c+1
+}
+legend("bottomleft",names(dd)[dcat],pch=1,col=colors, cex=0.6)
+
+#using our own colors palette
+# search palettes in internet. One might be https://r-charts.com/es/colores/
+
+colors<-c("red", "blue", "darkgreen", "orange", "violet", "magenta", "pink")
+
+#represent numerical variables in background
+plot(Psi[,eje1],Psi[,eje2],type="n",xlim=c(-3,3), ylim=c(-1,1))
+#plot(X,Y,type="none",xlim=c(min(X,0),max(X,0)))
+axis(side=1, pos= 0, labels = F, col="cyan")
+axis(side=3, pos= 0, labels = F, col="cyan")
+axis(side=2, pos= 0, labels = F, col="cyan")
+axis(side=4, pos= 0, labels = F, col="cyan")
+
+#add projections of numerical variables in background
+arrows(ze, ze, X, Y, length = 0.07,col="lightgray")
+text(X,Y,labels=etiq,col="gray", cex=0.7)
+
+#add centroids
+c<-1
+for(k in dcat){
+  seguentColor<-colors[c]
+  
+  fdic1 = tapply(Psi[,eje1],dd[,k],mean)
+  fdic2 = tapply(Psi[,eje2],dd[,k],mean) 
+  
+  #points(fdic1,fdic2,pch=16,col=seguentColor, labels=levels(dd[,k]))
+  text(fdic1,fdic2,labels=levels(factor(dd[,k])),col=seguentColor, cex=0.6)
+  c<-c+1
+}
+legend("bottomleft",names(dd)[dcat],pch=19,col=colors, cex=0.6)
+
+#Make two complementary factorial maps
+
+colors<-c("red", "blue", "darkgreen", "orange", "violet", "magenta", "pink")
+
+#represent numerical variables in background
+#plot(Psi[,eje1],Psi[,eje2],type="p",xlim=c(-1,1), ylim=c(-3,1), col="lightgray")
+plot(Psi[,eje1],Psi[,eje2],type="n",xlim=c(-3,3), ylim=c(-1,1))
+#plot(X,Y,type="none",xlim=c(min(X,0),max(X,0)))
+axis(side=1, pos= 0, labels = F, col="cyan")
+axis(side=3, pos= 0, labels = F, col="cyan")
+axis(side=2, pos= 0, labels = F, col="cyan")
+axis(side=4, pos= 0, labels = F, col="cyan")
+
+#add projections of numerical variables in background
+arrows(ze, ze, X, Y, length = 0.07,col="lightgray")
+text(X,Y,labels=etiq,col="gray", cex=0.7)
+
+#numerical variables of financial situation
+
+seleccio<-c(4:7,7)
+dconMapa1<-dcon[,seleccio]
+
+#referencia general comu a tots els mapes
+arrows(ze, ze, X, Y, length = 0.07,col="lightgray")
+text(X,Y,labels=etiq,col="gray", cex=0.7)
+
+#represent in the map1
+XMapa1<-Phi[seleccio,eje1]
+YMapa1<-Phi[seleccio,eje2]
+
+arrows(ze, ze, XMapa1, YMapa1, length = 0.07,col="green")
+text(XMapa1,YMapa1,labels=names(dconMapa1),col="green", cex=0.7)
+
+
+#add centroids
+dcatMapa1<-c(1)
+
+c<-1
+for(k in dcatMapa1){
+  seguentColor<-colors[c]
+  
+  fdic1 = tapply(Psi[,eje1],dd[,k],mean)
+  fdic2 = tapply(Psi[,eje2],dd[,k],mean) 
+  
+  #points(fdic1,fdic2,pch=16,col=seguentColor, labels=levels(dd[,k]))
+  text(fdic1,fdic2,labels=levels(factor(dd[,k])),col=seguentColor, cex=0.6)
+  c<-c+1
+}
+legend("bottomleft",names(dd)[dcatMapa1],pch=19,col=colors, cex=0.6)
+
+# PROJECTION OF ILLUSTRATIVE qualitative variables on individuals' map
+# PROJECCI? OF INDIVIDUALS DIFFERENTIATING THE Dictamen
+# (we need a numeric Dictamen to color)
+
+varcat=factor(dd[,1])
+plot(Psi[,1],Psi[,2],col=varcat)
+axis(side=1, pos= 0, labels = F, col="darkgray")
+axis(side=3, pos= 0, labels = F, col="darkgray")
+axis(side=2, pos= 0, labels = F, col="darkgray")
+axis(side=4, pos= 0, labels = F, col="darkgray")
+legend("bottomleft",levels(varcat),pch=1,col=c(1,2), cex=0.6)
+
+
+# Overproject THE CDG OF  LEVELS OF varcat
+fdic1 = tapply(Psi[,1],varcat,mean)
+fdic2 = tapply(Psi[,2],varcat,mean) 
+
+text(fdic1,fdic2,labels=levels(factor(varcat)),col="cyan", cex=0.75)
+```
+
+# Clustering Analysis and Profiling
+
+## Data Preparation for Clustering
+
+```{r}
+# ATTACH THE DATAFRAME AND PREPARE NUMERICAL VARIABLES
+attach(dd)
+names(dd)
+
+# Select relevant numerical variables for clustering
+dcon <- data.frame(rooms, baths, area, latitude, longitude, price)
+dim(dcon)
+
+# Ensure there are no missing values
+dcon <- na.omit(dcon)
+
+#
+# KMEANS CLUSTERING
+#
+
+# K-Means with K=5
+set.seed(123) # For reproducibility
+k1 <- kmeans(dcon, centers = 5)
+print(k1)
+
+# Decomposition of Inertia
+Bss <- sum(rowSums(k1$centers^2) * k1$size)  # Between-cluster sum of squares
+Wss <- sum(k1$withinss)                     # Within-cluster sum of squares
+Tss <- k1$totss                             # Total sum of squares
+Ib1 <- 100 * Bss / (Bss + Wss)              # Explained inertia percentage
+print(paste("Explained Inertia (%):", Ib1))
+
+# Visualize cluster centers
+plot(k1$centers[, 2], k1$centers[, 3], main="Cluster Centers", xlab="baths", ylab="area", col="blue")
+points(k1$centers, col=1:5, pch=19)
+
+# Repeat K-Means for K=8
+k2 <- kmeans(dcon, centers = 8)
+Ib2 <- 100 * sum(rowSums(k2$centers^2) * k2$size) / (sum(k2$withinss) + sum(rowSums(k2$centers^2) * k2$size))
+print(paste("Explained Inertia (K=8):", Ib2))
+
+#
+# HIERARCHICAL CLUSTERING
+#
+
+# Compute the dissimilarity matrix
+d <- dist(dcon)  # Euclidean distance
+h1 <- hclust(d, method = "ward.D")  # Ward's method
+
+# Plot dendrogram
+plot(h1, main = "Hierarchical Clustering Dendrogram", sub = "", xlab = "")
+
+# Cut the tree into clusters
+nc <- 4  # Number of clusters
+c1 <- cutree(h1, nc)
+table(c1)
+
+# Visualize Clusters
+pairs(dcon[, 1:4], col = c1, main = "Hierarchical Clustering Visualization")
+
+# Compute group means (centroids)
+cdg <- aggregate(dcon, list(c1), mean)
+print("Cluster Centroids:")
+print(cdg)
+
+# Scatter plots for selected variables
+plot(price, area, col = c1, main = "Price vs Area Clustering", xlab = "Price", ylab = "Area")
+legend("topright", legend = paste("Class", 1:nc), col = 1:nc, pch = 19)
+
+#
+# GOWER DISTANCE FOR MIXED DATA
+#
+
+library(cluster)
+
+# Compute Gower's distance for mixed numerical/categorical data
+actives <- c("rooms", "baths", "area", "latitude", "longitude", "price", "operation", "property_type")
+dissimMatrix <- daisy(dd[, actives], metric = "gower", stand = TRUE)
+distMatrix <- dissimMatrix^2
+
+# Perform hierarchical clustering
+h2 <- hclust(distMatrix, method = "ward.D")
+plot(h2, main = "Hierarchical Clustering with Gower's Distance", sub = "", xlab = "")
+
+# Cut the tree into clusters
+c2 <- cutree(h2, 4)
+table(c2)
+
+# Compare cluster memberships
+table(c1, c2)
+
+# Boxplots for cluster comparison
+boxplot(dd$price ~ c2, horizontal = TRUE, main = "Price Distribution by Cluster", col = "lightblue")
+
+# Visualize Clusters with Selected Variables
+plot(dd$rooms, dd$price, col = c2, main = "Rooms vs Price Clustering", xlab = "Rooms", ylab = "Price")
+legend("topright", legend = paste("Cluster", 1:4), col = 1:4, pch = 19)
+
+
+```
+
