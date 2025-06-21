@@ -6,6 +6,7 @@ Grau Enginyeria Informàtica FIB-UPC 2022-2026
 - **Q3**- 2023-2024 Q1
 - **Q4**- 2023-2024 Q2
 - **Q5**- 2024-2025 Q1
+- **Q6**- 2024-2025 Q2
 
 ## 📚 Assignatures
  - **Q1** [🟡PRO1](Obligatories/Q1/PRO1) - [🔵IC](Obligatories/Q1/IC) - [🟢FM](Obligatories/Q1/FM) - [🟠Fisica](Obligatories/Q1/Fisica)
